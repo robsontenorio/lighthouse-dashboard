@@ -1,4 +1,4 @@
-# Analytics dashboard for Laravel Lighthouse GraphQL Server
+# Analytics dashboard for Laravel Lighthouse GraphQL
 
 **WARNING: WORK IN PROGRESS!**
 

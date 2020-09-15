@@ -1,7 +1,7 @@
 {
     "name": "robsontenorio/lighthouse-dashboard",
-    "description": "Analytics dashboard for Laravel Lighthouse GraphQL Server.",
-    "license": "license",
+    "description": "Analytics dashboard for Laravel Lighthouse GraphQL.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Robson Tenório",
