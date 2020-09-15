@@ -1,16 +1,24 @@
+<p align="center">
+  <img src="dashboard.png">  
+</p>
+<p align="center">
+    <img src="https://img.shields.io/packagist/v/robsontenorio/lighthouse-dashboard.svg" />
+    <img src="https://img.shields.io/packagist/dt/robsontenorio/lighthouse-dashboard.svg" />
+</p>
+
 # Analytics dashboard for Laravel Lighthouse GraphQL
 
 **WARNING: WORK IN PROGRESS!**
 
 This package adds a standalone analytics dasbhoard with metrics collected from  [Laravel Lighthouse GraphQL Server](https://lighthouse-php.com/).
 
-<img src="readme.png">
-
-<br><br>
+<kbd>
+    <img src="readme.png">
+</kbd>
 
 # Install 
 
-On target app enable the `Tracing` feature, by adding the service provider to your `config/app.php`, as described on oficial Laravel Lighthouse documentation.  
+Enable the `Tracing` extension, by adding the service provider to your `config/app.php`, as described on oficial Laravel Lighthouse documentation. Note this is not a feature from this package.
 
 ```php
 'providers' => [
@@ -23,19 +31,43 @@ Require the package.
 ```
 composer require robsontenorio/lighthouse-dashboard
 ```
-Run migrations and publish assets
 
-> TODO: replace this two steps with `php artisan lighthouse-dashboard:install` 
-
-```
-php artisan migrate
-```
+Run install command.
 
 ```
-php artisan vendor:publish
+php artisan lighthouse-dashboard:install
 ```
 
-Now point to http://your-app/lighthouse-dashboard
+Open dashboard.
+
+```
+http://your-app/lighthouse-dashboard
+```
+
+### Optional, but important
+
+To keep the assets up-to-date and avoid issues in future updates, we highly recommend adding the command to the post-autoload-dump section in your `composer.json` file:
+
+```json
+{
+    ...
+    "scripts": {
+        "post-autoload-dump": [
+            ...
+            "@php artisan lighthouse-dashboard:install --ansi"
+        ]
+    }
+}
+```
+
+# How does it works?
+
+By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
+
+- GraphQL request is made.
+- Dashboard listen to `ManipulateResult` event and collect metrics from current operation.
+- Metrics are stored on dashboard.
+
 
 # Local development
 
@@ -70,24 +102,22 @@ On target app add to `composer.json`
     }
 ```
 
-Require the package again.
+Require local package version.
 
 ```sh
-composer require robsontenorio/lighthouse-dashboard
+composer require robsontenorio/lighthouse-dashboard @dev
 ```
 
 Create symlink from target app `/public` assets to this package assets.
 
 ```sh
-cd /path/to/app/public
-
-ln -s ../vendor/robsontenorio/lighthouse-dashboard/public/vendor/ vendor
+ln -s vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard public/vendor/lighthouse-dashboard
 ```
 
 From target app enter to package vendor folder.
 
 ```sh
-cd /path/to/app/vendor/robsontenorio/lighthouse-dashboard
+cd vendor/robsontenorio/lighthouse-dashboard
 ```
 
 Install composer dependencies.
