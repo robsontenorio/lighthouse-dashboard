@@ -1,0 +1,17 @@
+{
+	"name": "lighthouse-dashboard",
+	"dockerComposeFile": "../.docker/docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/var/www/app",
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	// Add the IDs of extensions you want installed when the container is created in the array below.
+	"extensions": [
+		"bmewburn.vscode-intelephense-client",
+		"prisma.vscode-graphql",
+		"octref.vetur"
+	],
+	// Comment out if you want to use root
+	"remoteUser": "appuser"
+}

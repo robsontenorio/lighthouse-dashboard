@@ -1,0 +1,55 @@
+{
+    "name": "robsontenorio/lighthouse-dashboard",
+    "description": "Analytics dashboard for Laravel Lighthouse GraphQL Server.",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Robson Tenório",
+            "email": "rrtenorio@gmail.com",
+            "homepage": "http://github.com/robsontenorio"
+        }
+    ],
+    "homepage": "https://github.com/robsontenorio/lighthouse-dashboard",
+    "keywords": [
+        "Laravel",
+        "lighthouse-dashboard"
+    ],
+    "require": {
+        "illuminate/support": "~5|~6|~7",
+        "inertiajs/inertia-laravel": "^0.2.11",
+        "nuwave/lighthouse": "v5.0-alpha.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3|~4",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LighthouseDashboard\\": "src/",
+            "LighthouseDashboard\\Database\\Seeds\\": "database/seeds/"
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LighthouseDashboard\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LighthouseDashboard\\Providers\\LighthouseDashboardServiceProvider"
+            ],
+            "aliases": {
+                "LighthouseDashboard": "LighthouseDashboard\\Facades\\LighthouseDashboard"
+            }
+        }
+    }
+}
