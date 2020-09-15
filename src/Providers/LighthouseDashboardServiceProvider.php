@@ -4,6 +4,7 @@ namespace LighthouseDashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use LighthouseDashboard\Console\Commands\InstallCommand;
 use LighthouseDashboard\LighthouseDashboard;
 
 class LighthouseDashboardServiceProvider extends ServiceProvider
@@ -58,6 +59,10 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
             __DIR__ . '/../../public/vendor/lighthouse-dashboard' => public_path('vendor/lighthouse-dashboard'),
         ], 'lighthouse-dashboard.assets');
 
+        // Registering package commands.
+        $this->commands([
+            InstallCommand::class
+        ]);
 
         // Publishing the views.
         /*$this->publishes([
@@ -69,8 +74,5 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
         /*$this->publishes([
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/robsontenorio'),
         ], 'lighthouse-dashboard.views');*/
-
-        // Registering package commands.
-        // $this->commands([]);
     }
 }
