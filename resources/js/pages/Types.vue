@@ -3,7 +3,9 @@
     <v-app-bar app color="white" elevation="1" class="pt-2">
       <v-row align="center" class="mb-5">
         <v-col>
-          <h2>Types</h2>
+          <h2>
+            <v-icon left color="black">mdi-shape-outline</v-icon>Types
+          </h2>
         </v-col>
         <v-col cols="3" class="text-right">
           <v-text-field
@@ -41,7 +43,6 @@
           <div class="text-caption grey--text">{{ type.description }}</div>
         </div>
       </template>
-      <template #header.statistics_count>Requests {{ filters.form.start_date }}</template>
       <template #item.name="{item}">
         <div class="py-4">
           <field :field="item" :highlight="search" />
@@ -63,43 +64,7 @@
       width="380"
       class="pa-5"
     >
-      <v-card flat>
-        <v-card-title>
-          <h3>Filters</h3>
-          <v-btn text small outlined color="primary" @click="reset()" class="ml-3">reset</v-btn>
-          <v-spacer />
-          <v-btn icon @click="hideFilters()">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="mt-5">
-          <div class="font-weight-black text-caption">STARTING FROM</div>
-          <v-radio-group v-model="filters.form.start_date" @change="filter()">
-            <v-radio
-              v-for="option in filters.options"
-              :label="option.label"
-              :value="option.value"
-              :key="option.value"
-            />
-          </v-radio-group>
-
-          <div v-if="isCustomRange">
-            <v-date-picker
-              v-model="filters.form.range"
-              :max="new Date().toISOString()"
-              :show-current="false"
-              @change="filter()"
-              no-title
-              range
-              class="elevation-2"
-            />
-            <div class="py-3 font-weight-bold">
-              <v-icon small class="mb-1" v-if="dateRangeText" left>mdi-selection-drag</v-icon>
-              {{ dateRangeText }}
-            </div>
-          </div>
-        </v-card-text>
-      </v-card>
+      <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
     </v-navigation-drawer>
     <v-navigation-drawer
       v-model="display.sumary"
@@ -120,12 +85,13 @@
 import _ from "lodash";
 import { normalizeText } from "normalize-text";
 import TextHighlight from "vue-text-highlight";
+import Filters from "../components/Filters";
 import Field from "../components/Field";
 import FieldSumary from "../components/FieldSumary";
 
 export default {
   props: ["types", "start_date", "range"],
-  components: { TextHighlight, FieldSumary, Field },
+  components: { TextHighlight, FieldSumary, Field, Filters },
   data() {
     return {
       loading: false,
@@ -140,13 +106,6 @@ export default {
           start_date: this.start_date || "today",
           range: this.range || [],
         },
-        options: [
-          { value: "today", label: "Today" },
-          { value: "yesterday", label: "Yesterday" },
-          { value: "last week", label: "Last week" },
-          { value: "last month", label: "Last Month" },
-          { value: "in custom range", label: "In custom range" },
-        ],
       },
       table: {
         headers: [
@@ -173,23 +132,9 @@ export default {
         .filter((item) => this.containsText(item, this.search))
         .value();
     },
-    dateRangeText() {
-      return this.filters.form.range.join(" ~ ");
-    },
-    isCustomRange() {
-      return this.filters.form.start_date === "in custom range";
-    },
   },
   methods: {
     async filter() {
-      if (this.isCustomRange && this.filters.form.range.length < 2) {
-        return;
-      }
-
-      if (!this.isCustomRange) {
-        this.filters.form.range = [];
-      }
-
       this.loading = true;
 
       await this.$inertia.replace(`/lighthouse-dashboard/types`, {
@@ -212,7 +157,7 @@ export default {
         normalizeText(fields).includes(normalizeText(text))
       );
     },
-    async displaySumary() {
+    displaySumary() {
       this.hideFilters();
       this.display.sumary = true;
     },
@@ -225,11 +170,6 @@ export default {
     },
     hideFilters() {
       this.display.filters = false;
-    },
-    reset() {
-      this.filters.form.start_date = "today";
-      this.hideFilters();
-      this.filter();
     },
   },
 };

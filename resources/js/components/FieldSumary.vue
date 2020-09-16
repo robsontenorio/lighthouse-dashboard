@@ -24,15 +24,10 @@
         :items="sumary"
         :loading="loading"
         hide-default-footer
-      >
-        <template #header.statistics_count>Requests {{ filters.form.start_date }}</template>
-      </v-data-table>
+      />
 
       <div v-if="!sumary.length && !loading">
-        <v-alert icon="mdi-alert" text dense>
-          No operations
-          <strong>{{ filters.form.start_date }}</strong>.
-        </v-alert>
+        <v-alert icon="mdi-alert" text dense>No operations on selected range.</v-alert>
       </div>
     </v-card-text>
   </v-card>

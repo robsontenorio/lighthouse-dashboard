@@ -21,7 +21,7 @@
       <v-list>
         <v-list-item @click="$inertia.visit('/lighthouse-dashboard')">
           <v-list-item-icon>
-            <v-icon>mdi-sitemap</v-icon>
+            <v-icon>mdi-graphql</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Schema</v-list-item-title>
         </v-list-item>
@@ -33,7 +33,7 @@
         </v-list-item>
         <v-list-item @click="$inertia.visit('/lighthouse-dashboard/types')">
           <v-list-item-icon>
-            <v-icon>mdi-package-variant-closed</v-icon>
+            <v-icon>mdi-shape-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Types</v-list-item-title>
         </v-list-item>
