@@ -77,7 +77,7 @@ While developing locally this approach allows you to get UI instant refresh if y
 
 ## Uninstall  
 
-If you previous installed this package, first uninstall it from target app.
+If you previous installed this package, first uninstall it **from target app**.
 
 Remove this entry from `composer.json`.
 
@@ -91,6 +91,12 @@ Remove this entry from `composer.json`.
         ]
     }
 }
+```
+
+Remove installed package assets folder.
+
+```
+rm -rf /path/to/app/public/vendor/lighthouse-dashboard
 ```
 
 Remove package.
@@ -127,7 +133,7 @@ composer require robsontenorio/lighthouse-dashboard @dev
 Create symlink from target app `/public` assets to this package assets.
 
 ```sh
-ln -s /var/www/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor /var/www/app/public/vendor
+ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor /path/to/app/public/vendor
 ```
 
 From target app enter to package vendor folder.
@@ -145,7 +151,7 @@ composer install
 Install frontend dependencies and start it on dev mode.
 
 ```sh
-yarn install && yarn dev
+yarn dev
 ```
 
 Then point to http://127.0.0.1:3000/lighthouse-dashboard/
