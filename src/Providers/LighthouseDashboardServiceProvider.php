@@ -50,12 +50,12 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
         // Publishing the configuration file.
         $this->publishes([
             __DIR__ . '/../../config/lighthouse-dashboard.php' => config_path('lighthouse-dashboard.php'),
-        ], 'lighthouse-dashboard.config');
+        ], 'lighthouse-dashboard');
 
         // Publishing assets.
         $this->publishes([
             __DIR__ . '/../../public/vendor/lighthouse-dashboard' => public_path('vendor/lighthouse-dashboard'),
-        ], 'lighthouse-dashboard.assets');
+        ], 'lighthouse-dashboard');
 
         // Registering package commands.
         $this->commands([
