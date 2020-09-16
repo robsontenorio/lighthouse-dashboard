@@ -11,8 +11,8 @@
             <v-icon>mdi-graphql</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">Laravel Lighthouse</v-list-item-title>
-            <v-list-item-subtitle>Dashboard</v-list-item-subtitle>
+            <v-list-item-title class="font-weight-bold">Lighthouse Dashboard</v-list-item-title>
+            <v-list-item-subtitle>Analytics</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
