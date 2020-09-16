@@ -40,15 +40,10 @@ class StoreMetrics implements ShouldQueue
     {
         $operationName = $this->getOperationName();
 
-        $operation = Operation::firstOrNew([
+        $operation = Operation::firstOrCreate([
             'schema_id' => $this->schema->id,
             'name' => $operationName
         ]);
-
-        $operation->total_requests++;
-        $operation->latest_duration = $this->tracing['duration'];
-        $operation->average_duration = $operation->tracings()->avg('duration');
-        $operation->save();
 
         Tracing::create([
             'operation_id' => $operation->id,

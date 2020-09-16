@@ -17,9 +17,6 @@ class CreateOperationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('schema_id');
             $table->string('name');
-            $table->unsignedBigInteger('average_duration')->nullable();
-            $table->unsignedBigInteger('latest_duration')->nullable();
-            $table->unsignedBigInteger('total_requests')->default(0);
             $table->timestamps();
 
             $table->foreign('schema_id')->references('id')->on('ld_schemas');
