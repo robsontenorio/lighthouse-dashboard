@@ -11,13 +11,8 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Inertia::version(function () {
-            return md5_file(public_path('vendor/lighthouse-dashboard/mix-manifest.json'));
-        });
+        $this->setupInertia();
 
-        Inertia::setRootView('lighthouse-dashboard::app');
-
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'robsontenorio');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'lighthouse-dashboard');
         $this->loadFactoriesFrom(__DIR__ . '/../../database/factories');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
@@ -63,16 +58,14 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class
         ]);
+    }
 
-        // Publishing the views.
-        /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/robsontenorio'),
-        ], 'lighthouse-dashboard.views');*/
+    private function setupInertia()
+    {
+        Inertia::version(function () {
+            return md5_file(public_path('vendor/lighthouse-dashboard/mix-manifest.json'));
+        });
 
-
-        // Publishing the translation files.
-        /*$this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/robsontenorio'),
-        ], 'lighthouse-dashboard.views');*/
+        Inertia::setRootView('lighthouse-dashboard::app');
     }
 }
