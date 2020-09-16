@@ -3,7 +3,7 @@ let mix = require('laravel-mix');
 mix.setPublicPath('public/vendor/lighthouse-dashboard')
     .js('resources/js/app.js', 'js/')
     .sass('resources/css/app.scss', 'css/')
-    .browserSync('localhost:8080')
+    .browserSync('localhost:8080')   // change this while developing in different host/port
     .webpackConfig({
         output: {
             publicPath: '/vendor/lighthouse-dashboard/',
@@ -16,13 +16,5 @@ mix.setPublicPath('public/vendor/lighthouse-dashboard')
             },
         },
     })
-    .babelConfig({
-        plugins: ['@babel/plugin-syntax-dynamic-import']
-    })
     .sourceMaps()
-
-// browserSync not working without version?
-// if (mix.inProduction()) {
-mix.version()
-// }
-
+    .version()
