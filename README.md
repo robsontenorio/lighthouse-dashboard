@@ -79,11 +79,27 @@ While developing locally this approach allows you to get UI instant refresh if y
 
 If you previous installed this package, first uninstall it from target app.
 
+Remove this entry from `composer.json`.
+
+```json
+{
+    ...
+    "scripts": {
+        "post-autoload-dump": [
+            ...
+            "@php artisan lighthouse-dashboard:install --ansi"
+        ]
+    }
+}
+```
+
+Remove package.
+
 ```
 composer remove robsontenorio/lighthouse-dashboard
 ```
 
-Then remove its public assets from target app.
+Then package public assets from target app.
 
 ```
 rm -rf /path/to/app/public/vendor/lighthouse-dashboard
@@ -111,7 +127,7 @@ composer require robsontenorio/lighthouse-dashboard @dev
 Create symlink from target app `/public` assets to this package assets.
 
 ```sh
-ln -s vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard public/vendor/lighthouse-dashboard
+ln -s /var/www/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor /var/www/app/public/vendor
 ```
 
 From target app enter to package vendor folder.
