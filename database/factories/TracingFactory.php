@@ -11,8 +11,8 @@ class TracingFactory extends Factory
     {
         return [
             'operation_id' => Operation::factory(),
-            'start_time' => $this->faker->dateTime(),
-            'end_time' => $this->faker->dateTime(),
+            'start_time' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'end_time' => $this->faker->dateTimeBetween('-1 month', 'now'),
             'duration' => $this->faker->randomNumber(),
             'request' => $this->faker->sentence(),
             'execution' => $this->faker->sentence(),
