@@ -1,15 +1,18 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
 use App\Models\Schema;
-use App\Models\Type;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Type::class, function (Faker $faker) {
-    return [
-        'schema_id' => factory(Schema::class),
-        'name' => $faker->name,
-        'description' => $faker->sentence
-    ];
-});
+class TypeFactory extends Factory
+{
+    public function definition()
+    {
+        return [
+            'schema_id' => Schema::factory(),
+            'name' => $this->faker->name,
+            'description' => $this->faker->sentence
+        ];
+    }
+}

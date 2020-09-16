@@ -1,16 +1,15 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
-use App\Models\Field;
-use App\Models\Type;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Field::class, function (Faker $faker) {
-    return [
-        'type_id' => factory(Type::class),
-        'name' => $faker->name,
-        'description' => $faker->sentence,
-        'type_def' => $faker->name
-    ];
-});
+class ClientFactory extends Factory
+{
+    public function definition()
+    {
+        return [
+            'username' => $this->faker->userName,
+        ];
+    }
+}
