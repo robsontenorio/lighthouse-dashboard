@@ -18,14 +18,19 @@ trait ParsesRangeFilter
             $end_date = $range[1];
         }
 
-        $start_date = Carbon::parse($start_date)->startOfDay();
-        $end_date = Carbon::parse($end_date)->endOfDay();
+        $start_date = Carbon::parse($start_date);
+        $end_date = Carbon::parse($end_date);
 
+        // Fix date order
         if ($start_date > $end_date) {
             $start_date_temp = $start_date;
             $start_date  = $end_date;
             $end_date = $start_date_temp;
         }
+
+        // Assure we get entire day range
+        $start_date = $start_date->startOfDay();
+        $end_date = $end_date->endOfDay();
 
         return [
             'start_date' => $start_date,
