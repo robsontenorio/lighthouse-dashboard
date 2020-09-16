@@ -5,7 +5,7 @@ namespace LighthouseDashboard\Listeners;
 use LighthouseDashboard\Actions\StoreMetrics;
 use Nuwave\Lighthouse\Events\ManipulateResult;
 
-class QueryExecutedListener
+class ManipulateResultListener
 {
     public function handle(ManipulateResult $result)
     {
