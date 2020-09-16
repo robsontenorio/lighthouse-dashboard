@@ -1,8 +1,8 @@
 <?php
 
-namespace LighthouseDashboard\Listeners;
+namespace App\Listeners;
 
-use LighthouseDashboard\Actions\StoreMetrics;
+use App\Actions\StoreMetrics;
 use Nuwave\Lighthouse\Events\ManipulateResult;
 
 class ManipulateResultListener

@@ -3,8 +3,8 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use Faker\Generator as Faker;
-use LighthouseDashboard\Models\Operation;
-use LighthouseDashboard\Models\Tracing;
+use App\Models\Operation;
+use App\Models\Tracing;
 
 $factory->define(Tracing::class, function (Faker $faker) {
     return [

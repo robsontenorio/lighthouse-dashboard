@@ -11,33 +11,30 @@
     ],
     "homepage": "https://github.com/robsontenorio/lighthouse-dashboard",
     "keywords": [
-        "Laravel",
-        "lighthouse-dashboard"
+        "laravel",
+        "graphql",
+        "lighthouse"
     ],
     "require": {
-        "illuminate/support": "~5|~6|~7",
+        "illuminate/support": "^8.3",
         "inertiajs/inertia-laravel": "^0.2.11",
-        "nuwave/lighthouse": "v5.0-alpha.3"
+        "nuwave/lighthouse": "v5.0-alpha.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0",
-        "mockery/mockery": "^1.1",
-        "orchestra/testbench": "~3|~4",
-        "sempro/phpunit-pretty-print": "^1.0"
+        "phpunit/phpunit": "^9.3",
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^6.0"
     },
     "autoload": {
         "psr-4": {
-            "LighthouseDashboard\\": "src/",
-            "LighthouseDashboard\\Database\\Seeds\\": "database/seeds/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "src/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "LighthouseDashboard\\Tests\\": "tests"
+            "Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -45,11 +42,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LighthouseDashboard\\Providers\\LighthouseDashboardServiceProvider"
-            ],
-            "aliases": {
-                "LighthouseDashboard": "LighthouseDashboard\\Facades\\LighthouseDashboard"
-            }
+                "App\\Providers\\LighthouseDashboardServiceProvider"
+            ]
         }
     }
 }

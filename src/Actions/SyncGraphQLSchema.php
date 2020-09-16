@@ -1,10 +1,10 @@
 <?php
 
-namespace LighthouseDashboard\Actions;
+namespace App\Actions;
 
-use LighthouseDashboard\Models\Schema;
-use LighthouseDashboard\Models\Field;
-use LighthouseDashboard\Models\Type;
+use App\Models\Schema;
+use App\Models\Field;
+use App\Models\Type;
 use Nuwave\Lighthouse\GraphQL;
 use GraphQL\Type\Schema as GraphQLSchema;
 use GraphQL\Type\Definition\ObjectType;

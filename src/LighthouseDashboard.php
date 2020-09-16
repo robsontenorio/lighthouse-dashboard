@@ -1,6 +1,6 @@
 <?php
 
-namespace LighthouseDashboard;
+namespace App;
 
 class LighthouseDashboard
 {

@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateFieldsOperationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('ld_fields_operations', function (Blueprint $table) {
@@ -25,12 +20,7 @@ class CreateFieldsOperationsTable extends Migration
             $table->index(['field_id', 'requested_at']);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('ld_fields_operations');

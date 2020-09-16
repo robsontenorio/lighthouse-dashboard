@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTracingSTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('ld_tracings', function (Blueprint $table) {
@@ -27,11 +22,6 @@ class CreateTracingSTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('ld_tracings');

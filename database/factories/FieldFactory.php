@@ -3,8 +3,8 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use Faker\Generator as Faker;
-use LighthouseDashboard\Models\Field;
-use LighthouseDashboard\Models\Type;
+use App\Models\Field;
+use App\Models\Type;
 
 $factory->define(Field::class, function (Faker $faker) {
     return [

@@ -1,6 +1,6 @@
 <?php
 
-namespace LighthouseDashboard\Traits;
+namespace App\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

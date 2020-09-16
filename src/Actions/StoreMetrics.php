@@ -1,17 +1,17 @@
 <?php
 
-namespace LighthouseDashboard\Actions;
+namespace App\Actions;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use LighthouseDashboard\Models\Field;
-use LighthouseDashboard\Models\FieldsOperations;
-use LighthouseDashboard\Models\Operation;
-use LighthouseDashboard\Models\Schema;
-use LighthouseDashboard\Models\Tracing;
-use LighthouseDashboard\Models\Type;
+use App\Models\Field;
+use App\Models\FieldsOperations;
+use App\Models\Operation;
+use App\Models\Schema;
+use App\Models\Tracing;
+use App\Models\Type;
 
 class StoreMetrics implements ShouldQueue
 {

@@ -9,7 +9,6 @@
 	// Add the IDs of extensions you want installed when the container is created in the array below.
 	"extensions": [
 		"bmewburn.vscode-intelephense-client",
-		"prisma.vscode-graphql",
 		"octref.vetur"
 	],
 	// Comment out if you want to use root

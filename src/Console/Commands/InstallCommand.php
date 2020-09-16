@@ -1,6 +1,6 @@
 <?php
 
-namespace LighthouseDashboard\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 

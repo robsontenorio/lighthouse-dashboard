@@ -1,14 +1,20 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
-use LighthouseDashboard\Models\Operation;
-use LighthouseDashboard\Models\Schema;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Operation;
+use App\Models\Schema;
 
-$factory->define(Operation::class, function (Faker $faker) {
-    return [
-        'schema_id' => factory(Schema::class),
-        'name' => $faker->userName
-    ];
-});
+class OperationFactory extends Factory
+{
+    // protected $model = Operation::class;
+
+    public function definition()
+    {
+        return [
+            'schema_id' => Schema::factory(),
+            'name' => $this->faker->userName
+        ];
+    }
+}

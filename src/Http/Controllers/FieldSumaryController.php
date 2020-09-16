@@ -1,13 +1,12 @@
 <?php
 
-namespace LighthouseDashboard\Http\Controllers;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use LighthouseDashboard\Models\Field;
-use LighthouseDashboard\Models\Operation;
-use LighthouseDashboard\Traits\ParsesRangeFilter;
+use App\Models\Field;
+use App\Models\Operation;
+use App\Traits\ParsesRangeFilter;
 
 class FieldSumaryController
 {

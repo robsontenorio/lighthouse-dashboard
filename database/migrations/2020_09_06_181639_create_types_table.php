@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTypesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('ld_types', function (Blueprint $table) {
@@ -26,11 +21,6 @@ class CreateTypesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('ld_types');

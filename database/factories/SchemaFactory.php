@@ -1,12 +1,15 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
-use LighthouseDashboard\Models\Schema;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Schema::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name
-    ];
-});
+class SchemaFactory extends Factory
+{
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name
+        ];
+    }
+}

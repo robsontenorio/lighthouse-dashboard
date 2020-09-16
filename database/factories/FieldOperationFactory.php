@@ -3,9 +3,9 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use Faker\Generator as Faker;
-use LighthouseDashboard\Models\Field;
-use LighthouseDashboard\Models\FieldsOperations;
-use LighthouseDashboard\Models\Operation;
+use App\Models\Field;
+use App\Models\FieldsOperations;
+use App\Models\Operation;
 
 $factory->define(FieldsOperations::class, function (Faker $faker) {
     return [

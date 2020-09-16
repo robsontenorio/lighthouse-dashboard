@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'lighthouse-dashboard', 'middleware' => 'bindings', 'namespace' => 'LighthouseDashboard\Http\Controllers'], function () {
+Route::group(['prefix' => 'lighthouse-dashboard', 'middleware' => 'bindings', 'namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/', 'WelcomeController@index');
 

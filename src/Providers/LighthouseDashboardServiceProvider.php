@@ -1,11 +1,14 @@
 <?php
 
-namespace LighthouseDashboard\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
-use LighthouseDashboard\Console\Commands\InstallCommand;
-use LighthouseDashboard\LighthouseDashboard;
+use App\Console\Commands\InstallCommand;
+use App\LighthouseDashboard;
+use App\Listeners\ManipulateResultListener;
+use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Events\ManipulateResult;
 
 class LighthouseDashboardServiceProvider extends ServiceProvider
 {
@@ -33,8 +36,8 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
             return new LighthouseDashboard;
         });
 
-        // Event service provider
-        $this->app->register(EventServiceProvider::class);
+        // Register Event listener
+        Event::listen(ManipulateResult::class, ManipulateResultListener::class);
     }
 
     public function provides()
