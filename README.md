@@ -67,7 +67,8 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 
 By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
 
-<details><summary>See more ...</summary>
+<details>
+<summary>See more ...<br><br></summary>
 
 - GraphQL request is made.
 - Dashboard listen to `ManipulateResult` event and collect metrics from current operation.
