@@ -38,13 +38,13 @@ Run install command.
 php artisan lighthouse-dashboard:install
 ```
 
-Open dashboard.
+Open the dashboard.
 
 ```
 http://your-app/lighthouse-dashboard
 ```
 
-### Optional, but important
+Optional, but important.
 
 To keep the assets up-to-date and avoid issues in future updates, we highly recommend adding the command to the post-autoload-dump section in your `composer.json` file:
 

@@ -22,13 +22,15 @@ class ManipulateResultListener
         StoreMetrics::dispatchAfterResponse($schema, $request, $tracing);
     }
 
+    private function isIntrospectionRequest($result)
+    {
+        $resolvers = $this->getTracing($result)['execution']['resolvers'];
+
+        return count($resolvers) == 0;
+    }
+
     private function getTracing($result)
     {
         return $result->result->extensions['tracing'];
-    }
-
-    private function isIntrospectionRequest($result)
-    {
-        return count($this->getTracing($result)['execution']['resolvers']) == 0;
     }
 }
