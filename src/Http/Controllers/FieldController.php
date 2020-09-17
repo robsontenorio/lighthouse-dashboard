@@ -8,11 +8,11 @@ use App\Models\Field;
 use App\Models\Operation;
 use App\Traits\ParsesRangeFilter;
 
-class FieldSumaryController
+class FieldController
 {
     use ParsesRangeFilter;
 
-    public function index(Field $field, Request $request)
+    public function sumary(Field $field, Request $request)
     {
         $range = $this->parseRange($request);
 

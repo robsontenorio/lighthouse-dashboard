@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Models\Type;
 use App\Traits\ParsesRangeFilter;
 
-class TypeStatisticController
+class TypeController
 {
     use ParsesRangeFilter;
 
