@@ -12,74 +12,83 @@ use App\Models\Operation;
 use App\Models\Schema;
 use App\Models\Tracing;
 use App\Models\Type;
+use Illuminate\Queue\SerializesModels;
 
 class StoreMetrics implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Schema $schema;
-    private array $tracing;
     private array $request;
+    private array $tracing;
+    private Operation $operation;
 
-    public function __construct(array $request, array $tracing)
+    public function __construct(Schema $schema, array $request, array $tracing)
     {
-        $this->tracing = $tracing;
+        $this->schema = $schema;
         $this->request = $request;
+        $this->tracing = $tracing;
     }
 
     public function handle()
     {
-        $this->schema = SyncGraphQLSchema::run();
+        SyncGraphQLSchema::run($this->schema);
 
-        $operation = $this->storeOperationMetric();
-        $this->storeFieldsOperationMetric($operation);
+        $this->storeOperationMetrics();
     }
 
-    private function storeOperationMetric()
+    private function storeOperationMetrics()
     {
-        $operationName = $this->getOperationName();
-
-        $operation = Operation::firstOrCreate([
+        $this->operation = Operation::firstOrCreate([
             'schema_id' => $this->schema->id,
-            'name' => $operationName
+            'name' => $this->getOperationName()
         ]);
 
+        $this->storeTracing();
+        $this->storeFieldMetrics();
+    }
+
+    private function storeTracing()
+    {
         Tracing::create([
-            'operation_id' => $operation->id,
+            'operation_id' => $this->operation->id,
             'request' => $this->request,
             'execution' => $this->tracing,
             'start_time' => $this->tracing['startTime'],
             'end_time' => $this->tracing['endTime'],
             'duration' => $this->tracing['duration'],
         ]);
-
-        return $operation;
     }
 
-    private function storeFieldsOperationMetric(Operation $operation)
+    private function storeFieldMetrics()
     {
-        $resolvers = $this->getResolvers();
-        $paths = $resolvers->groupBy(fn ($item) => $item['parentType'] . '.' . $item['fieldName'])->keys();
+        $this->getFields()
+            ->each(function ($requestedField) {
+                [$parentType, $name] = explode('.', $requestedField);
 
-        $paths->each(function ($path) use ($operation) {
-            [$parentType, $name] = explode('.', $path);
-            $type = Type::firstOrNew(['name' => $parentType]);
+                $field = Field::where([
+                    'type_id' => $this->getFieldType($parentType)->id,
+                    'name' => $name,
+                ])->first();
 
-            $field = Field::firstOrNew([
-                'type_id' => $type->id,
-                'name' => $name,
-            ]);
+                FieldsOperations::create([
+                    'field_id' => $field->id,
+                    'operation_id' => $this->operation->id,
+                    'requested_at' => now()
+                ]);
+            });
+    }
 
-            if ($field->id == null) {
-                return;
-            }
+    private function getFieldType(string $parentType)
+    {
+        return Type::where('name', $parentType)->first();
+    }
 
-            FieldsOperations::create([
-                'field_id' => $field->id,
-                'operation_id' => $operation->id,
-                'requested_at' => now()
-            ]);
-        });
+    private function getFields()
+    {
+        return $this->getResolvers()
+            ->groupBy(fn ($item) => $item['parentType'] . '.' . $item['fieldName'])
+            ->keys();
     }
 
     private function getResolvers()

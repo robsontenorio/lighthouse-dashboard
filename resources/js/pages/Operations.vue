@@ -27,25 +27,42 @@
       </v-row>
     </v-app-bar>
 
+    <div
+      v-if="topOperations.length === 0 && slowlestOperations.length === 0"
+      class="text-center grey--text"
+    >
+      <v-icon color="grey" x-large>mdi-weather-windy</v-icon>
+      <h3 class="mt-3">Oops! Nothing here.</h3>
+      <p class="text-caption mt-3">Make your first request to this Schema.</p>
+    </div>
+
     <v-data-table
+      v-if="topOperations.length"
       :headers="table_top_operations.headers"
       :items="topOperations"
       hide-default-footer
       class="elevation-1 mb-8"
     >
       <template #top>
-        <div class="title pa-3">Top requested</div>
+        <div class="pa-3">
+          <div class="title">Top</div>
+          <div class="text-caption grey--text">Most requested operations in period.</div>
+        </div>
       </template>
     </v-data-table>
 
     <v-data-table
+      v-if="slowlestOperations.length"
       :headers="table_slowlest_operations.headers"
       :items="slowlestOperations"
       hide-default-footer
       class="elevation-1"
     >
       <template #top>
-        <div class="title pa-3">Slow response (ms)</div>
+        <div class="pa-3">
+          <div class="title">Slow</div>
+          <div class="text-caption grey--text">Most slowlest operations in period (ms).</div>
+        </div>
       </template>
     </v-data-table>
 

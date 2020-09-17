@@ -14,6 +14,7 @@ class CreateFieldsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('type_def')->nullable();
+            $table->text('args')->nullable();
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('ld_types');
@@ -22,7 +23,7 @@ class CreateFieldsTable extends Migration
         });
     }
 
-      public function down()
+    public function down()
     {
         Schema::dropIfExists('ld_fields');
     }
