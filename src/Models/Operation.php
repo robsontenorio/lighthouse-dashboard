@@ -57,4 +57,15 @@ class Operation extends Model
             ->sortByDesc('average_duration')
             ->values();
     }
+
+    public function sumary(array $range)
+    {
+        return self::query()
+            ->where('id', $this->id)
+            ->with('field')
+            ->withCount(['tracings' => function ($query) use ($range) {
+                return $query->whereBetween('created_at', $range);
+            }])
+            ->get();
+    }
 }

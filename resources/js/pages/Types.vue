@@ -178,8 +178,3 @@ export default {
   },
 };
 </script>
-<style lang="css" scoped>
-.row-pointer >>> tbody tr :hover {
-  cursor: pointer;
-}
-</style>

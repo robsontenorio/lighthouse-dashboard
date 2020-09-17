@@ -42,4 +42,11 @@ class OperationController
             'range' => $request->input('range')
         ]);
     }
+
+    public function sumary(Operation $operation, Request $request)
+    {
+        $range = $this->parseRange($request);
+
+        return $operation->sumary($range);
+    }
 }

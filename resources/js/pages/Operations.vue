@@ -40,8 +40,9 @@
       v-if="topOperations.length"
       :headers="table_top_operations.headers"
       :items="topOperations"
+      @click:row="selectOperation"
       hide-default-footer
-      class="elevation-1 mb-8"
+      class="elevation-1 row-pointer mb-8"
     >
       <template #top>
         <div class="pa-3">
@@ -58,8 +59,9 @@
       v-if="slowlestOperations.length"
       :headers="table_slowlest_operations.headers"
       :items="slowlestOperations"
+      @click:row="selectOperation"
       hide-default-footer
-      class="elevation-1"
+      class="elevation-1 row-pointer"
     >
       <template #top>
         <div class="pa-3">
@@ -81,6 +83,15 @@
     >
       <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
     </v-navigation-drawer>
+    <v-navigation-drawer
+      v-model="display.sumary"
+      right
+      :app="display.sumary"
+      width="380"
+      class="pa-5"
+    >
+      <operation-sumary :operation="selectedOperation" :filters="filters" @close="hideSumary()" />
+    </v-navigation-drawer>
     <v-overlay :value="loading">
       <v-progress-circular indeterminate />
     </v-overlay>
@@ -90,22 +101,20 @@
 <script>
 import Filters from "../components/Filters";
 import Field from "../components/Field";
+import OperationSumary from "../components/OperationSumary";
 
 export default {
-  props: [
-    "schema",
-    "operations",
-    "topOperations",
-    "slowlestOperations",
-    "start_date",
-    "range",
-  ],
-  components: { Filters, Field },
+  props: ["topOperations", "slowlestOperations", "start_date", "range"],
+  components: { Filters, Field, OperationSumary },
   data() {
     return {
       loading: false,
+      selectedOperation: {
+        field: {},
+      },
       display: {
         filters: false,
+        sumary: false,
       },
       filters: {
         form: {
@@ -200,6 +209,10 @@ export default {
 
       return this.options;
     },
+    selectOperation(operation) {
+      this.selectedOperation = operation;
+      this.displaySumary();
+    },
     async filter() {
       this.loading = true;
 
@@ -211,7 +224,15 @@ export default {
 
       this.loading = false;
     },
+    displaySumary() {
+      this.hideFilters();
+      this.display.sumary = true;
+    },
+    hideSumary() {
+      this.display.sumary = false;
+    },
     displayFilters() {
+      this.hideSumary();
       this.display.filters = true;
     },
     hideFilters() {
