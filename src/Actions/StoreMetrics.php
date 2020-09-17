@@ -13,7 +13,11 @@ use App\Models\Schema;
 use App\Models\Tracing;
 use App\Models\Type;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
+/**
+ * Parses current operation and store related metrics.
+ */
 class StoreMetrics implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -37,18 +41,17 @@ class StoreMetrics implements ShouldQueue
         $this->storeOperationMetrics();
     }
 
-    private function storeOperationMetrics()
+    private function storeOperationMetrics(): void
     {
         $this->operation = Operation::firstOrCreate([
-            'schema_id' => $this->schema->id,
-            'name' => $this->getOperationName()
+            'field_id' => $this->getFieldAsOperation()->id,
         ]);
 
         $this->storeTracing();
         $this->storeFieldMetrics();
     }
 
-    private function storeTracing()
+    private function storeTracing(): void
     {
         Tracing::create([
             'operation_id' => $this->operation->id,
@@ -60,16 +63,11 @@ class StoreMetrics implements ShouldQueue
         ]);
     }
 
-    private function storeFieldMetrics()
+    private function storeFieldMetrics(): void
     {
-        $this->getFields()
-            ->each(function ($requestedField) {
-                [$parentType, $name] = explode('.', $requestedField);
-
-                $field = Field::where([
-                    'type_id' => $this->getFieldType($parentType)->id,
-                    'name' => $name,
-                ])->first();
+        $this->getResolvers()
+            ->each(function ($path) {
+                $field = $this->getfieldByPath($path);
 
                 FieldsOperations::create([
                     'field_id' => $field->id,
@@ -79,25 +77,20 @@ class StoreMetrics implements ShouldQueue
             });
     }
 
-    private function getFieldType(string $parentType)
-    {
-        return Type::where('name', $parentType)->first();
-    }
-
-    private function getFields()
-    {
-        return $this->getResolvers()
-            ->groupBy(fn ($item) => $item['parentType'] . '.' . $item['fieldName'])
-            ->keys();
-    }
-
-    private function getResolvers()
+    private function getResolvers(): Collection
     {
         return collect($this->tracing['execution']['resolvers']);
     }
 
-    private function getOperationName()
+    private function getfieldByPath(array $path)
     {
-        return $this->getResolvers()[0]['path'][0];
+        $type = Type::where('name', $path['parentType'])->first();
+
+        return Field::query()->where(['type_id' => $type->id, 'name' => $path['fieldName']])->first();
+    }
+
+    private function getFieldAsOperation(): Field
+    {
+        return $this->getfieldByPath($this->getResolvers()[0]);
     }
 }

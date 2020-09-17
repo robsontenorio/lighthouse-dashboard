@@ -46,8 +46,11 @@
       <template #top>
         <div class="pa-3">
           <div class="title">Top</div>
-          <div class="text-caption grey--text">Most requested operations in period.</div>
+          <div class="text-caption grey--text">Most requested operations in selected period.</div>
         </div>
+      </template>
+      <template #item.field="{item}">
+        <field :field="item.field" class="py-4" />
       </template>
     </v-data-table>
 
@@ -61,8 +64,11 @@
       <template #top>
         <div class="pa-3">
           <div class="title">Slow</div>
-          <div class="text-caption grey--text">Most slowlest operations in period (ms).</div>
+          <div class="text-caption grey--text">Most slowlest operations in selected period.</div>
         </div>
+      </template>
+      <template #item.field="{item}">
+        <field :field="item.field" class="py-4" />
       </template>
     </v-data-table>
 
@@ -83,6 +89,7 @@
 
 <script>
 import Filters from "../components/Filters";
+import Field from "../components/Field";
 
 export default {
   props: [
@@ -93,7 +100,7 @@ export default {
     "start_date",
     "range",
   ],
-  components: { Filters },
+  components: { Filters, Field },
   data() {
     return {
       loading: false,
@@ -108,7 +115,7 @@ export default {
       },
       table_top_operations: {
         headers: [
-          { text: "Operation", value: "name", sortable: false },
+          { text: "Operation", value: "field", sortable: false },
           {
             text: "Requests",
             value: "tracings_count",
@@ -119,15 +126,15 @@ export default {
       },
       table_slowlest_operations: {
         headers: [
-          { text: "Operation", value: "name", sortable: false },
+          { text: "Operation", value: "field", sortable: false },
           {
-            text: "Average",
+            text: "Average (ms)",
             value: "average_duration",
             sortable: false,
             align: "end",
           },
           {
-            text: "Latest",
+            text: "Latest (ms)",
             value: "latest_duration",
             sortable: false,
             align: "end",

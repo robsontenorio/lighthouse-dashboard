@@ -16,9 +16,11 @@ class FieldController
     {
         $range = $this->parseRange($request);
 
-        $sumary = Operation::whereHas('statistics', function ($query) use ($field, $range) {
-            $query->where('field_id', $field->id)->whereBetween('requested_at', $range);
-        })
+        $sumary = Operation::query()
+            ->with('field')
+            ->whereHas('statistics', function ($query) use ($field, $range) {
+                $query->where('field_id', $field->id)->whereBetween('requested_at', $range);
+            })
             ->withCount(['statistics' => function (Builder $query) use ($field, $range) {
                 $query->where('field_id', $field->id)->whereBetween('requested_at', $range);
             }])

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Operation extends Model
@@ -12,6 +13,11 @@ class Operation extends Model
 
     protected $table = 'ld_operations';
     protected $guarded = ['id'];
+
+    public function field(): BelongsTo
+    {
+        return $this->belongsTo(Field::class);
+    }
 
     public function tracings(): HasMany
     {
@@ -26,6 +32,7 @@ class Operation extends Model
     public static function top(array $range)
     {
         return self::query()
+            ->with('field')
             ->withCount(['tracings' => function ($query) use ($range) {
                 return $query->whereBetween('created_at', $range);
             }])
@@ -36,6 +43,7 @@ class Operation extends Model
     public static function slow(array $range)
     {
         return self::query()
+            ->with('field')
             ->whereHas('tracings', function ($query) use ($range) {
                 return $query->whereBetween('created_at', $range);
             })

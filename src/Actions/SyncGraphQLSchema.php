@@ -91,18 +91,18 @@ class SyncGraphQLSchema
         }
     }
 
+    // TODO: make it work from Lighthouse, not from Webonyx
     private function getIntrospectedSchemaTypes()
     {
-        // TODO: make it work from Lighthouse, not from Webonyx
         $internalTypes = DefinitionType::getStandardTypes() + Introspection::getTypes();
         $allTypes = collect($this->graphQLSchema->getTypeMap())->reject(fn ($type) => !$type instanceof ObjectType);
 
         return Arr::except($allTypes, collect($internalTypes)->keys()->toArray());
     }
 
+    // TODO: use json payload, then format it on frontend 
     private function formatFieldArgs(array $args = [])
     {
-        // TODO: use json, then format it on frontend 
         return collect($args)
             ->transform(function ($arg) {
                 return '<div><span class="arg-name">' . $arg->name . '</span>: <span class="arg-type">' . (string) $arg->getType() . '</span></div>';

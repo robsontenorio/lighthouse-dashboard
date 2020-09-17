@@ -183,6 +183,7 @@ WIP.
 - [ ] Add option to select database connection to store metrics.
 - [ ] Add option to guard dashboard.
 - [ ] Add option for retention period.
+- [ ] Add option for username attribute from authenticated user.
 
 # Credits
 

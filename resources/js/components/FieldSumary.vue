@@ -46,7 +46,7 @@ export default {
       sumary: [],
       table: {
         headers: [
-          { text: "Operation", value: "name", sortable: false },
+          { text: "Operation", value: "field.name", sortable: false },
           {
             text: "Requests",
             value: "statistics_count",

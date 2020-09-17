@@ -44,9 +44,7 @@
         </div>
       </template>
       <template #item.name="{item}">
-        <div class="py-4">
-          <field :field="item" :highlight="search" />
-        </div>
+        <field :field="item" :highlight="search" class="py-4" />
       </template>
       <!-- <template #item.statistics_count="{item}">
           <div class="text-right">{{ item.statistics_count }}</div>
