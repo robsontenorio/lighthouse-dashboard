@@ -6,11 +6,16 @@
     <img src="https://img.shields.io/packagist/dt/robsontenorio/lighthouse-dashboard.svg" />
 </p>
 
-# Analytics dashboard for Laravel Lighthouse GraphQL
+# Dashboard for Laravel Lighthouse GraphQL
 
 **WARNING: WORK IN PROGRESS!**
 
 This package adds a standalone analytics dasbhoard with metrics collected from  [Laravel Lighthouse GraphQL Server](https://lighthouse-php.com/).
+
+Requirements:
+
+- Laravel 8.x
+- Laravel Lighthouse 5.x
 
 <kbd>
     <img src="readme.png">

@@ -1,7 +1,7 @@
 {
   "name": "lighthouse-dashboard",
   "version": "0.0.1",
-  "description": "Analytics dashboard for Laravel Lighthouse GraphQL Server.",
+  "description": "Dashboard for Laravel Lighthouse GraphQL Server.",
   "author": "Robson Tenorio",
   "license": "MIT",
   "private": true,
