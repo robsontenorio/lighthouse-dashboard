@@ -8,7 +8,7 @@
 
 # Dashboard for Laravel Lighthouse GraphQL
 
-**WARNING: WORK IN PROGRESS!**
+**:warning: WORK IN PROGRESS!**
 
 This package adds a standalone analytics dasbhoard with metrics collected from  [Laravel Lighthouse GraphQL Server](https://lighthouse-php.com/).
 
@@ -23,7 +23,7 @@ Requirements:
 
 # Install 
 
-Enable the `Tracing` extension, by adding the service provider to your `config/app.php`, as described on oficial Laravel Lighthouse documentation. Note this is not a feature from this package.
+Enable the `Tracing` extension, by adding the service provider to your `config/app.php`, as described on oficial Lighthouse GraphQL documentation. Note this is not a feature from this package.
 
 ```php
 'providers' => [
@@ -49,8 +49,6 @@ Open the dashboard.
 http://your-app/lighthouse-dashboard
 ```
 
-Optional, but important.
-
 To keep the assets up-to-date and avoid issues in future updates, we highly recommend adding the command to the post-autoload-dump section in your `composer.json` file:
 
 ```json
@@ -69,18 +67,25 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 
 By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
 
+<details><summary>See more ...</summary>
+
 - GraphQL request is made.
 - Dashboard listen to `ManipulateResult` event and collect metrics from current operation.
 - Metrics are stored on dashboard.
+
+The GraphQL server performance is not affected by this package, once metrics are collect after response is sent by server.
+
+By default, metrics are stored on same target app database. But if you want to keep things separated you can select a different database connection to store metrics.
+</details>
 
 
 # Local development
 
 Once this package includes UI, the only way to test it is by running it through target app.
 
-While developing locally this approach allows you to get UI instant refresh if you need to modify it.
+<details><summary>See more ...</summary>
 
-## Uninstall  
+### Uninstall  
 
 If you previous installed this package, first uninstall it **from target app**.
 
@@ -116,7 +121,7 @@ Then package public assets from target app.
 rm -rf /path/to/app/public/vendor/lighthouse-dashboard
 ```
 
-## Install locally
+### Install locally
 
 On target app add to `composer.json`
 
@@ -159,6 +164,32 @@ Install frontend dependencies and start it on dev mode.
 yarn dev
 ```
 
-Then point to http://127.0.0.1:3000/lighthouse-dashboard/
+Then point to http://localhost:3000/lighthouse-dashboard/
 
-## Tests
+</details>
+
+# Tests
+
+WIP.
+
+# Roadmap
+
+- [ ] Welcome page with sumary.
+- [ ] Cool charts for operations.
+- [ ] Real time charts. Pooling is ok for now.
+- [ ] Sumary for operations per clients.
+- [ ] UI navigation on anchor href on click type return.
+- [ ] Add option to select database connection to store metrics.
+- [ ] Add option to guard dashboard.
+- [ ] Add option for retention period.
+
+# Credits
+
+Developed by [Robson Tenório](https://twitter.com/robsontenorio) and [contributors](https://github.com/robsontenorio/lighthouse-dashboard/graphs/contributors).
+
+This work is highly inspired in [Apollo Studio](https://studio.apollographql.com/) and powered by:
+
+- Laravel.
+- Lighthouse GraphQL.
+- InertiaJS.
+- Vuetify.
