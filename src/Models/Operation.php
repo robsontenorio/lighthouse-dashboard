@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Operation extends Model
 {
@@ -24,6 +25,11 @@ class Operation extends Model
         return $this->hasMany(Request::class);
     }
 
+    public function tracings(): HasManyThrough
+    {
+        return $this->hasManyThrough(Tracing::class, Request::class);
+    }
+
     public static function top(array $range)
     {
         return self::query()
@@ -32,6 +38,7 @@ class Operation extends Model
                 return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
             }])
             ->orderByDesc('total_requests')
+            ->take(10)
             ->get();
     }
 
@@ -42,15 +49,17 @@ class Operation extends Model
             ->whereHas('requests', function ($query) use ($range) {
                 return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
             })
-            ->get();
-        // ->map(function ($operation) use ($range) {
-        //     $operation->average_duration =  floor($operation->tracings()->whereBetween('created_at', $range)->avg('duration') / 1000000);
-        //     $operation->latest_duration = floor($operation->tracings()->latest()->first()->duration / 1000000);
+            ->get()
+            ->map(function ($operation) use ($range) {
+                // TODO
+                $operation->average_duration = $operation->getOperationAverageDuration($range);
+                $operation->latest_duration = $operation->getOperationLatestDuration($range);
 
-        //     return $operation;
-        // })
-        // ->sortByDesc('average_duration')
-        // ->values();
+                return $operation;
+            })
+            ->sortByDesc('average_duration')
+            ->take(10)
+            ->values();
     }
 
     public function sumary(Operation $operation, array $range)
@@ -63,5 +72,26 @@ class Operation extends Model
                 $query->where('operation_id', $operation->id)->whereBetween('requested_at', $range)->whereNotNull('duration');
             }])
             ->get();
+    }
+
+    private function getOperationAverageDuration(array $range)
+    {
+        $average = $this->requests()
+            ->whereBetween('requested_at', $range)
+            ->whereNotNull('duration')
+            ->avg('duration');
+
+        return floor($average / 1000000);
+    }
+
+    private function getOperationLatestDuration(array $range)
+    {
+        $latest = $this->requests()
+            ->whereNotNull('duration')
+            ->latest('requested_at')
+            ->first()
+            ->duration;
+
+        return floor($latest / 1000000);
     }
 }
