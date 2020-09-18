@@ -14,6 +14,11 @@ class Field extends Model
     protected $table = 'ld_fields';
     protected $guarded = ['id'];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function type(): BelongsTo
     {
         return $this->belongsTo(Type::class);

@@ -14,6 +14,11 @@ class Request extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);

@@ -15,6 +15,11 @@ class Operation extends Model
     protected $table = 'ld_operations';
     protected $guarded = ['id'];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function field(): BelongsTo
     {
         return $this->belongsTo(Field::class);

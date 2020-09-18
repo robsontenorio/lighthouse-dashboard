@@ -14,6 +14,11 @@ class Type extends Model
     protected $table = 'ld_types';
     protected $guarded = ['id'];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function schema(): BelongsTo
     {
         return $this->belongsTo(Schema::class);

@@ -9,13 +9,14 @@ class CreateSchemasTable extends Migration
 {
     public function up()
     {
-        Schema::create('ld_schemas', function (Blueprint $table) {
-            $table->id();
-            $table->string("name");
-            $table->string("hash")->nullable();
-            $table->text("schema")->nullable();
-            $table->timestamps();
-        });
+        Schema::connection($this->connection())
+            ->create('ld_schemas', function (Blueprint $table) {
+                $table->id();
+                $table->string("name");
+                $table->string("hash")->nullable();
+                $table->text("schema")->nullable();
+                $table->timestamps();
+            });
 
         AppSchema::create([
             'name' => config('app.name')
@@ -25,5 +26,10 @@ class CreateSchemasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('ld_schemas');
+    }
+
+    public function connection()
+    {
+        return config('lighthouse-dashboard.connection');
     }
 }

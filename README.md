@@ -37,10 +37,43 @@ Require the package.
 composer require robsontenorio/lighthouse-dashboard
 ```
 
-Run install command.
+
+Publish package assets.
 
 ```
-php artisan lighthouse-dashboard:install
+php artisan lighthouse-dashboard:publish
+```
+
+Configure the package.
+
+```php
+// config/lighthouse-dashboard.php
+
+return [
+    /**
+     * Authenticated user attribute for identify the current client.
+     * 
+     * If there is no authenticated user a `anonymous_client` will be used.
+     * Default is `Auth::user()->username`
+     */
+
+    'client_identifier' => 'username',
+
+    /**
+     * Database connection name for the dashboard.
+     * 
+     * By default it uses different connection. You must create it.
+     * Or set it to `null` if want to use same connection from target app.
+     */
+
+    'connection' => 'dashboard',
+];
+```
+
+Run package migrations.
+
+```
+php lighthouse-dashboard:migrate
 ```
 
 Open the dashboard.
@@ -57,7 +90,7 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
     "scripts": {
         "post-autoload-dump": [
             ...
-            "@php artisan lighthouse-dashboard:install --ansi"
+            "@php artisan lighthouse-dashboard:publish"
         ]
     }
 }
@@ -65,10 +98,10 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 
 # How does it works?
 
-By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
-
 <details>
 <summary>See more ...<br><br></summary>
+
+By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
 
 - GraphQL request is made.
 - Dashboard listen to `ManipulateResult` event and collect metrics from current operation.
@@ -81,27 +114,38 @@ By default, metrics are stored on same target app database. But if you want to k
 
 # Configuration
 
-/config/lighthouse-dashboard.php
 
+<details>
+<summary>See more ...<br><br></summary>
+
+/config/lighthouse-dashboard.php
 ```php
 return [
     /**
      * Authenticated user attribute for identify the current client.
-     * If there is no authenticated user an `anonymous_client` will be used.
+     * If there is no authenticated user a `anonymous_client` will be used.
      * 
      * Default is `Auth::user()->username`
      */
 
-    'client_identifier' => 'username'
+    'client_identifier' => 'username',
+
+    /**
+     * Select database connection name for the dashboard.
+     * 
+     * If you want to use same database from target app set it to `null`.
+     */
+
+    'connection' => 'dashboard',
 ];
 ```
-
+</details>
 
 # Local development
 
-Once this package includes UI, the only way to test it is by running it through target app.
+<details><summary>See more ...<br><br></summary>
 
-<details><summary>See more ...</summary>
+Once this package includes UI, the only way to test it is by running it through target app.
 
 ### Uninstall  
 
@@ -115,7 +159,7 @@ Remove this entry from `composer.json`.
     "scripts": {
         "post-autoload-dump": [
             ...
-            "@php artisan lighthouse-dashboard:install --ansi"
+            "@php artisan lighthouse-dashboard:publish"
         ]
     }
 }
@@ -196,8 +240,7 @@ WIP.
 - [ ] Cool charts for operations.
 - [ ] Real time charts. Pooling is ok for now.
 - [ ] Sumary for operations per clients.
-- [ ] UI navigation on anchor href on click type return.
-- [ ] Add option to select database connection to store metrics.
+- [ ] UI navigation with anchor href on click type return.
 - [ ] Add option to guard dashboard.
 - [ ] Add option for retention period.
 

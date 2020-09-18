@@ -13,6 +13,11 @@ class Client extends Model
     protected $table = 'ld_clients';
     protected $guarded = ['id'];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function requests(): HasMany
     {
         return $this->hasMany(Request::class);

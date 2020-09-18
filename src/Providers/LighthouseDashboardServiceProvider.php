@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
-use App\Console\Commands\InstallCommand;
+use App\Console\Commands\MigrateCommand;
+use App\Console\Commands\PublishCommand;
 use App\LighthouseDashboard;
 use App\Listeners\ManipulateResultListener;
 use Illuminate\Support\Facades\Event;
@@ -18,7 +19,6 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'lighthouse-dashboard');
         $this->loadFactoriesFrom(__DIR__ . '/../../database/factories');
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
 
         // Publishing is only necessary when using the CLI.
@@ -59,7 +59,8 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
 
         // Registering package commands.
         $this->commands([
-            InstallCommand::class
+            PublishCommand::class,
+            MigrateCommand::class
         ]);
     }
 

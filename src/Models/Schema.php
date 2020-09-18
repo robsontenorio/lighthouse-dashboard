@@ -13,6 +13,11 @@ class Schema extends Model
     protected $table = 'ld_schemas';
     protected $guarded = ['id'];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function operations(): HasMany
     {
         return $this->hasMany(Operation::class);

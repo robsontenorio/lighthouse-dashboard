@@ -17,6 +17,11 @@ class Tracing extends Model
         'execution' => 'array'
     ];
 
+    public function getConnectionName()
+    {
+        return config('lighthouse-dashboard.connection');
+    }
+
     public function request(): BelongsTo
     {
         return $this->belongsTo(Request::class);
