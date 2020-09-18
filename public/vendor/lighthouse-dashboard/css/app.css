@@ -1,9 +1,2 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);@import url(https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css);.v-application,
-.v-application .title {
-  font-family: "Source Sans Pro" !important;
-}
-
-.row-pointer tbody tr:hover {
-  cursor: pointer;
-}
-
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);@import url(https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css);.v-application,.v-application .title{font-family:Source Sans Pro!important}.row-pointer tbody tr:hover{cursor:pointer}
+/*# sourceMappingURL=app.css.map*/
