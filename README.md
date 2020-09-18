@@ -73,7 +73,7 @@ return [
 Run package migrations.
 
 ```
-php lighthouse-dashboard:migrate
+php artisan lighthouse-dashboard:migrate
 ```
 
 Open the dashboard.
