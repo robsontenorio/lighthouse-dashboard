@@ -120,7 +120,7 @@ export default {
           },
           {
             text: "Requests",
-            value: "statistics_count",
+            value: "total_requests",
             sortable: false,
             align: "end",
           },

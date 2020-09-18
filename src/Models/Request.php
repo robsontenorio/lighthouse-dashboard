@@ -6,13 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class FieldsOperations extends Model
+class Request extends Model
 {
     use HasFactory;
 
-    protected $table = 'ld_fields_operations';
+    protected $table = 'ld_requests';
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
 
     public function field(): BelongsTo
     {

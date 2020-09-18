@@ -19,8 +19,8 @@ class Field extends Model
         return $this->belongsTo(Type::class);
     }
 
-    public function statistics(): HasMany
+    public function requests(): HasMany
     {
-        return $this->hasMany(FieldsOperations::class);
+        return $this->hasMany(Request::class);
     }
 }

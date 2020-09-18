@@ -17,8 +17,8 @@ class Tracing extends Model
         'execution' => 'array'
     ];
 
-    public function operation(): BelongsTo
+    public function request(): BelongsTo
     {
-        return $this->belongsTo(Operation::class);
+        return $this->belongsTo(Request::class);
     }
 }

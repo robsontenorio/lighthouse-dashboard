@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Field;
@@ -16,15 +17,25 @@ class FieldController
     {
         $range = $this->parseRange($request);
 
-        $sumary = Operation::query()
-            ->with('field')
-            ->whereHas('statistics', function ($query) use ($field, $range) {
-                $query->where('field_id', $field->id)->whereBetween('requested_at', $range);
-            })
-            ->withCount(['statistics' => function (Builder $query) use ($field, $range) {
-                $query->where('field_id', $field->id)->whereBetween('requested_at', $range);
-            }])
-            ->get();
+        $clients = Client::all();
+
+        $sumary = $clients->map(function ($client) use ($field, $range) {
+            $client->metrics =  Operation::query()
+                ->with('field')
+                ->whereHas('requests', function ($query) use ($client, $field, $range) {
+                    $query->where('client_id', $client->id)->where('field_id', $field->id)->whereBetween('requested_at', $range);
+                })
+                ->withCount(['requests as total_requests' => function (Builder $query) use ($client, $field, $range) {
+                    $query->where('client_id', $client->id)->where('field_id', $field->id)->whereBetween('requested_at', $range);
+                }])
+                ->get();
+
+            return $client;
+        })
+            ->reject(fn ($client) => count($client->metrics) == 0)
+            ->values();
+
+
 
         return $sumary;
     }

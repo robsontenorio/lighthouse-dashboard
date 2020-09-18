@@ -10,7 +10,7 @@ class CreateTracingSTable extends Migration
     {
         Schema::create('ld_tracings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('operation_id');
+            $table->unsignedBigInteger('request_id');
             $table->json('request');
             $table->timestampTz('start_time');
             $table->timestampTz('end_time');
@@ -18,7 +18,7 @@ class CreateTracingSTable extends Migration
             $table->json('execution');
             $table->timestamps();
 
-            $table->foreign('operation_id')->references('id')->on('ld_operations');
+            $table->foreign('request_id')->references('id')->on('ld_requests');
         });
     }
 

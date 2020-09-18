@@ -19,24 +19,19 @@ class Operation extends Model
         return $this->belongsTo(Field::class);
     }
 
-    public function tracings(): HasMany
+    public function requests(): HasMany
     {
-        return $this->hasMany(Tracing::class);
-    }
-
-    public function statistics(): HasMany
-    {
-        return $this->hasMany(FieldsOperations::class);
+        return $this->hasMany(Request::class);
     }
 
     public static function top(array $range)
     {
         return self::query()
             ->with('field')
-            ->withCount(['tracings' => function ($query) use ($range) {
-                return $query->whereBetween('created_at', $range);
+            ->withCount(['requests as total_requests' => function ($query) use ($range) {
+                return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
             }])
-            ->orderByDesc('tracings_count')
+            ->orderByDesc('total_requests')
             ->get();
     }
 
@@ -44,27 +39,28 @@ class Operation extends Model
     {
         return self::query()
             ->with('field')
-            ->whereHas('tracings', function ($query) use ($range) {
-                return $query->whereBetween('created_at', $range);
+            ->whereHas('requests', function ($query) use ($range) {
+                return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
             })
-            ->get()
-            ->map(function ($operation) use ($range) {
-                $operation->average_duration =  floor($operation->tracings()->whereBetween('created_at', $range)->avg('duration') / 1000000);
-                $operation->latest_duration = floor($operation->tracings()->latest()->first()->duration / 1000000);
+            ->get();
+        // ->map(function ($operation) use ($range) {
+        //     $operation->average_duration =  floor($operation->tracings()->whereBetween('created_at', $range)->avg('duration') / 1000000);
+        //     $operation->latest_duration = floor($operation->tracings()->latest()->first()->duration / 1000000);
 
-                return $operation;
-            })
-            ->sortByDesc('average_duration')
-            ->values();
+        //     return $operation;
+        // })
+        // ->sortByDesc('average_duration')
+        // ->values();
     }
 
-    public function sumary(array $range)
+    public function sumary(Operation $operation, array $range)
     {
-        return self::query()
-            ->where('id', $this->id)
-            ->with('field')
-            ->withCount(['tracings' => function ($query) use ($range) {
-                return $query->whereBetween('created_at', $range);
+        return Client::query()
+            ->whereHas('requests', function ($query) use ($operation, $range) {
+                $query->where('operation_id', $operation->id)->whereBetween('requested_at', $range)->whereNotNull('duration');
+            })
+            ->withCount(['requests as total_requests' => function ($query) use ($operation, $range) {
+                $query->where('operation_id', $operation->id)->whereBetween('requested_at', $range)->whereNotNull('duration');
             }])
             ->get();
     }

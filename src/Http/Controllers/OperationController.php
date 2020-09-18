@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Operation;
 use App\Traits\ParsesRangeFilter;
@@ -47,6 +48,6 @@ class OperationController
     {
         $range = $this->parseRange($request);
 
-        return $operation->sumary($range);
+        return $operation->sumary($operation, $range);
     }
 }

@@ -46,10 +46,10 @@ export default {
       sumary: [],
       table: {
         headers: [
-          { text: "Operation", value: "field.name", sortable: false },
+          { text: "Client", value: "username", sortable: false },
           {
             text: "Requests",
-            value: "tracings_count",
+            value: "total_requests",
             sortable: false,
             align: "end",
           },

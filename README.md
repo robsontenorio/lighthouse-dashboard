@@ -79,6 +79,23 @@ The GraphQL server performance is not affected by this package, once metrics are
 By default, metrics are stored on same target app database. But if you want to keep things separated you can select a different database connection to store metrics.
 </details>
 
+# Configuration
+
+/config/lighthouse-dashboard.php
+
+```php
+return [
+    /**
+     * Authenticated user attribute for identify the current client.
+     * If there is no authenticated user an `anonymous_client` will be used.
+     * 
+     * Default is `Auth::user()->username`
+     */
+
+    'client_identifier' => 'username'
+];
+```
+
 
 # Local development
 
@@ -183,7 +200,6 @@ WIP.
 - [ ] Add option to select database connection to store metrics.
 - [ ] Add option to guard dashboard.
 - [ ] Add option for retention period.
-- [ ] Add option for username attribute from authenticated user.
 
 # Credits
 

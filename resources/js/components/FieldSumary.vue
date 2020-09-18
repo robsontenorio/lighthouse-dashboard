@@ -12,21 +12,26 @@
       <v-divider class="my-5" />
     </v-card-subtitle>
     <v-card-text>
-      <h3 class="mb-5 black--text">Clients & Operations</h3>
+      <h3 class="black--text">Clients & Operations</h3>
 
       <div v-if="loading" class="text-center mt-8">
         <v-progress-circular indeterminate />
       </div>
 
-      <v-data-table
-        v-if="sumary.length && !loading"
-        :headers="table.headers"
-        :items="sumary"
-        :loading="loading"
-        hide-default-footer
-      />
+      <div v-for="client in sumary" :key="client.id">
+        <div v-if="client.metrics.length && !loading">
+          <div class="text-caption font-weight-bold black--text pt-8">{{ client.username }}</div>
 
-      <div v-if="!sumary.length && !loading">
+          <v-data-table
+            :headers="table.headers"
+            :items="client.metrics"
+            :loading="loading"
+            hide-default-footer
+          />
+        </div>
+      </div>
+
+      <div v-if="!sumary.length && !loading" class="mt-8">
         <v-alert icon="mdi-alert" text dense>No operations on selected range.</v-alert>
       </div>
     </v-card-text>
@@ -49,7 +54,7 @@ export default {
           { text: "Operation", value: "field.name", sortable: false },
           {
             text: "Requests",
-            value: "statistics_count",
+            value: "total_requests",
             sortable: false,
             align: "end",
           },
@@ -85,4 +90,10 @@ export default {
 </script>
 
 <style>
+.more {
+  cursor: pointer;
+  color: black;
+  text-align: right;
+  margin-top: 10px;
+}
 </style>

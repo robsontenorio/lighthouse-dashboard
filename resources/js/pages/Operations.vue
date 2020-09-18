@@ -127,7 +127,7 @@ export default {
           { text: "Operation", value: "field", sortable: false },
           {
             text: "Requests",
-            value: "tracings_count",
+            value: "total_requests",
             sortable: false,
             align: "end",
           },
