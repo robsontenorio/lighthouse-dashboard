@@ -222,6 +222,11 @@ yarn dev
 
 Then point to http://localhost:3000/lighthouse-dashboard/
 
+
+## Reference model
+
+<img src="dashboard-model.png" />
+
 </details>
 
 # Tests
