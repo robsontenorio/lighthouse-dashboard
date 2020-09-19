@@ -9,12 +9,11 @@ class CreateClientsTable extends Migration
 {
     public function up()
     {
-        Schema::connection($this->connection())
-            ->create('ld_clients', function (Blueprint $table) {
-                $table->id();
-                $table->string("username");
-                $table->timestamps();
-            });
+        Schema::create('ld_clients', function (Blueprint $table) {
+            $table->id();
+            $table->string("username");
+            $table->timestamps();
+        });
 
         Client::create([
             'username' => 'anonymous_client'
@@ -26,7 +25,7 @@ class CreateClientsTable extends Migration
         Schema::dropIfExists('ld_clients');
     }
 
-    public function connection()
+    public function getConnection()
     {
         return config('lighthouse-dashboard.connection');
     }

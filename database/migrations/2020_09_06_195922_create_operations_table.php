@@ -8,14 +8,13 @@ class CreateOperationsTable extends Migration
 {
     public function up()
     {
-        Schema::connection($this->connection())
-            ->create('ld_operations', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('field_id');
-                $table->timestamps();
+        Schema::create('ld_operations', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('field_id');
+            $table->timestamps();
 
-                $table->foreign('field_id')->references('id')->on('ld_fields');
-            });
+            $table->foreign('field_id')->references('id')->on('ld_fields');
+        });
     }
 
     public function down()
@@ -23,7 +22,7 @@ class CreateOperationsTable extends Migration
         Schema::dropIfExists('ld_operations');
     }
 
-    public function connection()
+    public function getConnection()
     {
         return config('lighthouse-dashboard.connection');
     }

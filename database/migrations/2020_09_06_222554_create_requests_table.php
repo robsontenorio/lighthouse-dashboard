@@ -8,21 +8,22 @@ class CreateRequestsTable extends Migration
 {
     public function up()
     {
-        Schema::connection($this->connection())
-            ->create('ld_requests', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('field_id');
-                $table->unsignedBigInteger('operation_id');
-                $table->unsignedBigInteger('client_id');
-                $table->dateTime('requested_at');
-                $table->unsignedBigInteger('duration')->nullable();
+        Schema::create('ld_requests', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('field_id');
+            $table->unsignedBigInteger('operation_id');
+            $table->unsignedBigInteger('client_id');
+            $table->dateTime('requested_at');
+            $table->unsignedBigInteger('duration')->nullable();
 
-                $table->foreign('field_id')->references('id')->on('ld_fields');
-                $table->foreign('operation_id')->references('id')->on('ld_operations');
-                $table->foreign('client_id')->references('id')->on('ld_clients');
+            $table->foreign('field_id')->references('id')->on('ld_fields');
+            $table->foreign('operation_id')->references('id')->on('ld_operations');
+            $table->foreign('client_id')->references('id')->on('ld_clients');
 
-                $table->index(['field_id', 'requested_at']);
-            });
+            $table->index(['field_id', 'client_id', 'requested_at']);
+            $table->index(['duration', 'requested_at']);
+            $table->index(['operation_id', 'requested_at']);
+        });
     }
 
     public function down()
@@ -30,7 +31,7 @@ class CreateRequestsTable extends Migration
         Schema::dropIfExists('ld_requests');
     }
 
-    public function connection()
+    public function getConnection()
     {
         return config('lighthouse-dashboard.connection');
     }

@@ -8,18 +8,17 @@ class CreateTypesTable extends Migration
 {
     public function up()
     {
-        Schema::connection($this->connection())
-            ->create('ld_types', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('schema_id');
-                $table->string('name');
-                $table->string('description')->nullable();
-                $table->timestamps();
+        Schema::create('ld_types', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('schema_id');
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->timestamps();
 
-                $table->foreign('schema_id')->references('id')->on('ld_schemas');
-                $table->index(['name']);
-                $table->index(['schema_id', 'name']);
-            });
+            $table->foreign('schema_id')->references('id')->on('ld_schemas');
+            $table->index(['name']);
+            $table->index(['schema_id', 'name']);
+        });
     }
 
     public function down()
@@ -27,7 +26,7 @@ class CreateTypesTable extends Migration
         Schema::dropIfExists('ld_types');
     }
 
-    public function connection()
+    public function getConnection()
     {
         return config('lighthouse-dashboard.connection');
     }
