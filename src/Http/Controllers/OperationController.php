@@ -15,24 +15,6 @@ class OperationController
     {
         $range = $this->parseRange($request);
 
-        // $operations = $schema->operations()
-        //     ->get()
-        //     ->map(function (Operation $operation) use ($range) {
-        //         $metrics = $operation->tracings()
-        //             ->whereBetween('created_at', $range)
-        //             ->selectRaw('DATE(created_at) as date, count(id) as total')
-        //             ->groupByRaw('date')
-        //             ->orderBy('date')
-        //             ->get();
-
-        //         $operation->metrics = [
-        //             'totals' => $metrics->pluck('total'),
-        //             'dates' => $metrics->pluck('date'),
-        //         ];
-
-        //         return $operation;
-        //     });
-
         $topOperations = Operation::top($range);
         $slowlestOperations = Operation::slow($range);
 

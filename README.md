@@ -230,7 +230,6 @@ WIP.
 
 # Roadmap
 
-- [ ] Welcome page with sumary.
 - [ ] Cool charts for operations.
 - [ ] Real time charts. Pooling is ok for now.
 - [ ] Sumary for operations per clients.

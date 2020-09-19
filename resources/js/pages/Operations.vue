@@ -241,8 +241,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.bordered {
-  border-bottom: 1px solid #efefef;
-}
-</style>
