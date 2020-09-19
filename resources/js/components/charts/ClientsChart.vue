@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     height() {
-      return this.chart.series[0].data.length * 50;
+      return this.series.length > 1 ? this.series.length * 50 : 100;
     },
   },
 };
