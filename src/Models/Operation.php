@@ -35,30 +35,30 @@ class Operation extends Model
         return $this->hasManyThrough(Tracing::class, Request::class);
     }
 
-    public static function top(array $range)
+    public static function topIn(array $range)
     {
-        return self::query()
+        return Operation::query()
             ->with('field')
             ->withCount(['requests as total_requests' => function ($query) use ($range) {
-                return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
+                return $query->isOperation()->inRange($range);
             }])
             ->orderByDesc('total_requests')
             ->take(10)
             ->get();
     }
 
-    public static function slow(array $range)
+    public static function slowIn(array $range)
     {
-        return self::query()
+        return Operation::query()
             ->with('field')
             ->whereHas('requests', function ($query) use ($range) {
-                return $query->whereBetween('requested_at', $range)->whereNotNull('duration');
+                return $query->isOperation()->inRange($range);
             })
             ->get()
             ->map(function ($operation) use ($range) {
                 // TODO
-                $operation->average_duration = $operation->getOperationAverageDuration($range);
-                $operation->latest_duration = $operation->getOperationLatestDuration($range);
+                $operation->average_duration = $operation->getAverageDurationIn($range);
+                $operation->latest_duration = $operation->getLatestDurationIn($range);
 
                 return $operation;
             })
@@ -67,32 +67,32 @@ class Operation extends Model
             ->values();
     }
 
-    public function sumary(Operation $operation, array $range)
+    public function sumaryWithClients(Operation $operation, array $range)
     {
         return Client::query()
             ->whereHas('requests', function ($query) use ($operation, $range) {
-                $query->where('operation_id', $operation->id)->whereBetween('requested_at', $range)->whereNotNull('duration');
+                $query->forOperation($operation)->inRange($range);
             })
             ->withCount(['requests as total_requests' => function ($query) use ($operation, $range) {
-                $query->where('operation_id', $operation->id)->whereBetween('requested_at', $range)->whereNotNull('duration');
+                $query->forOperation($operation)->inRange($range);
             }])
             ->get();
     }
 
-    private function getOperationAverageDuration(array $range)
+    private function getAverageDurationIn(array $range)
     {
         $average = $this->requests()
-            ->whereBetween('requested_at', $range)
-            ->whereNotNull('duration')
+            ->inRange($range)
+            ->isOperation()
             ->avg('duration');
 
         return floor($average / 1000000);
     }
 
-    private function getOperationLatestDuration(array $range)
+    private function getLatestDurationIn(array $range)
     {
         $latest = $this->requests()
-            ->whereNotNull('duration')
+            ->isOperation()
             ->latest('requested_at')
             ->first()
             ->duration;

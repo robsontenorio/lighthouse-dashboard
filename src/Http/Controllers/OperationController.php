@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Operation;
 use App\Traits\ParsesRangeFilter;
@@ -15,8 +14,8 @@ class OperationController
     {
         $range = $this->parseRange($request);
 
-        $topOperations = Operation::top($range);
-        $slowlestOperations = Operation::slow($range);
+        $topOperations = Operation::topIn($range);
+        $slowlestOperations = Operation::slowIn($range);
 
         return inertia('Operations', [
             'topOperations' => $topOperations,
@@ -30,6 +29,6 @@ class OperationController
     {
         $range = $this->parseRange($request);
 
-        return $operation->sumary($operation, $range);
+        return $operation->sumaryWithClients($operation, $range);
     }
 }

@@ -16,9 +16,10 @@ class TypeController
     {
         $range = $this->parseRange($request);
 
-        $fields = Field::withCount(['requests as total_requests' => function (Builder $query) use ($range) {
-            return $query->whereBetween('requested_at', $range);
-        }])
+        $fields = Field::query()
+            ->withCount(['requests as total_requests' => function (Builder $query) use ($range) {
+                return $query->inRange($range);
+            }])
             ->get();
 
         $types = Type::all()

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,5 +34,60 @@ class Request extends Model
     public function operation(): BelongsTo
     {
         return $this->belongsTo(Operation::class);
+    }
+
+    public function scopeIsOperation(Builder $query): Builder
+    {
+        return $query->whereNotNull('duration');
+    }
+
+    public function scopeInRange(Builder $query, array $range): Builder
+    {
+        return $query->whereBetween('requested_at', $range);
+    }
+
+    public function scopeForOperation(Builder $query, Operation $operation): Builder
+    {
+        return $query->where('operation_id', $operation->id)->isOperation();
+    }
+
+    public function scopeForClient(Builder $query, Client $client): Builder
+    {
+        return $query->where('client_id', $client->id);
+    }
+
+    public function scopeForField(Builder $query, Field $field): Builder
+    {
+        return $query->where('field_id', $field->id);
+    }
+
+    public static function seriesIn(array $range)
+    {
+        $requests_series = Request::query()
+            ->selectRaw('DATE(requested_at) as x, count(*) as y')
+            ->isOperation()
+            ->inRange($range)
+            ->groupBy('x')
+            ->orderBy('x')
+            ->get();
+
+        if ($requests_series->count() == 0) {
+            return [];
+        }
+
+        // Fill empty dates in range
+        $period = CarbonPeriod::between($requests_series->first()->x, $range['end_date']);
+        $series = collect();
+
+        foreach ($period as $date) {
+            if ($item = $requests_series->firstWhere('x', $date->toDateString())) {
+                $series->add($item);
+                continue;
+            }
+
+            $series->add(['x' => $date->toDateString(), 'y' => null]);
+        }
+
+        return $series;
     }
 }

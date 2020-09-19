@@ -22,4 +22,17 @@ class Client extends Model
     {
         return $this->hasMany(Request::class);
     }
+
+    public static function seriesIn(array $range)
+    {
+        return Client::query()
+            ->withCount(['requests as total_requests' => function ($query) use ($range) {
+                $query->isOperation()->inRange($range);
+            }])
+            ->orderByDesc('total_requests')
+            ->get()
+            ->map(function ($item) {
+                return ['x' => $item->username, 'y' => $item['total_requests']];
+            });
+    }
 }
