@@ -166,12 +166,6 @@ Remove this entry from `composer.json`.
 }
 ```
 
-Remove installed package assets folder.
-
-```
-rm -rf /path/to/app/public/vendor/lighthouse-dashboard
-```
-
 Remove package.
 
 ```
