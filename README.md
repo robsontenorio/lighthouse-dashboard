@@ -85,11 +85,9 @@ http://your-app/lighthouse-dashboard
 To keep the assets up-to-date and avoid issues in future updates, we highly recommend adding the command to the post-autoload-dump section in your `composer.json` file:
 
 ```json
-{
-    ...
+{    
     "scripts": {
-        "post-autoload-dump": [
-            ...
+        "post-autoload-dump": [            
             "@php artisan lighthouse-dashboard:publish"
         ]
     }
@@ -155,11 +153,9 @@ If you previous installed this package, first uninstall it **from target app**.
 Remove this entry from `composer.json`.
 
 ```json
-{
-    ...
+{    
     "scripts": {
-        "post-autoload-dump": [
-            ...
+        "post-autoload-dump": [ 
             "@php artisan lighthouse-dashboard:publish"
         ]
     }
@@ -180,13 +176,16 @@ rm -rf /path/to/app/public/vendor/lighthouse-dashboard
 
 ### Install locally
 
-On target app add to `composer.json`
+First, clone the repository then on target app add to `composer.json`
 
 ```json
  "repositories": {
         "robsontenorio/lighthouse-dashboard": {
             "type": "path",
-            "url": "/local/path/to/package/lighthouse-dashboard"
+            "url": "/local/path/to/lighthouse-dashboard",
+            "options": {
+                "symlink": true
+            }
         }
     }
 ```
