@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Field;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Schema;
 
@@ -10,8 +11,7 @@ class OperationFactory extends Factory
     public function definition()
     {
         return [
-            'schema_id' => Schema::factory(),
-            'name' => $this->faker->userName
+            'field_id' => Field::factory()
         ];
     }
 }

@@ -11,7 +11,7 @@ class FieldFactory extends Factory
     {
         return [
             'type_id' => Type::factory(),
-            'name' => $this->faker->name,
+            'name' => $this->faker->word . $this->faker->randomNumber(3),
             'description' => $this->faker->sentence,
             'type_def' => $this->faker->name
         ];

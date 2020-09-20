@@ -11,8 +11,15 @@ class TypeFactory extends Factory
     {
         return [
             'schema_id' => Schema::factory(),
-            'name' => $this->faker->name,
+            'name' => $this->faker->unique()->firstName,
             'description' => $this->faker->sentence
         ];
+    }
+
+    public function ofQueryType()
+    {
+        return $this->state([
+            'name' => 'Query'
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use App\Console\Commands\MigrateCommand;
 use App\Console\Commands\PublishCommand;
+use App\Console\Commands\SeedCommand;
 use App\LighthouseDashboard;
 use App\Listeners\ManipulateResultListener;
 use Illuminate\Support\Facades\Event;
@@ -60,7 +61,8 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
         // Registering package commands.
         $this->commands([
             PublishCommand::class,
-            MigrateCommand::class
+            MigrateCommand::class,
+            SeedCommand::class
         ]);
     }
 
