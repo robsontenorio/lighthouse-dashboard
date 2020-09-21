@@ -22,6 +22,7 @@ class CreateRequestsTable extends Migration
 
             $table->index(['field_id', 'client_id', 'requested_at']);
             $table->index(['duration', 'requested_at']);
+            $table->index(['client_id', 'operation_id', 'duration', 'requested_at']);
             $table->index(['operation_id', 'requested_at']);
         });
     }

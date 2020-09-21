@@ -13,6 +13,8 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string("username");
             $table->timestamps();
+
+            $table->index(['username']);
         });
 
         Client::create([
