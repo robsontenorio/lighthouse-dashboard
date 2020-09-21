@@ -33,8 +33,11 @@ class OperationController
 
     public function sumary(Operation $operation, Request $request)
     {
-        $range = $this->parseRange($request);
+        $clients = Client::orderBy('username')->get();
 
-        return $operation->sumaryWithClients($operation, $range);
+        $range = $this->parseRange($request);
+        $selectedClients = $request->input('clients', $clients->pluck('id')->toArray());
+
+        return $operation->sumaryWithClients($operation, $range, $selectedClients);
     }
 }
