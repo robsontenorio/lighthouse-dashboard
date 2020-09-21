@@ -22,6 +22,9 @@ export default {
               show: false,
             },
           },
+          grid: {
+            show: false,
+          },
           plotOptions: {
             bar: {
               horizontal: true,
@@ -30,13 +33,29 @@ export default {
           dataLabels: {
             enabled: false,
           },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return new Intl.NumberFormat("pt-BR").format(val);
+              },
+            },
+          },
         },
       },
     };
   },
+  watch: {
+    series(value) {
+      this.chart.series = [
+        {
+          data: value,
+        },
+      ];
+    },
+  },
   computed: {
     height() {
-      return this.series.length > 1 ? this.series.length * 50 : 100;
+      return this.series.length > 1 ? this.series.length * 40 : 100;
     },
   },
 };

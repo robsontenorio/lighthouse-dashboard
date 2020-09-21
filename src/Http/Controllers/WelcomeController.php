@@ -14,15 +14,18 @@ class WelcomeController
 
     public function index(HttpRequest $request)
     {
+        $range = $this->parseRange($request);
+
         $schema = Schema::first();
-        $range = $this->parseRange($request, 'last month');
         $requests_series = Request::seriesIn($range);
         $client_series = Client::seriesIn($range);
 
         return inertia('Welcome', [
             'schema' => $schema,
             'requests_series' => $requests_series,
-            'client_series' => $client_series
+            'client_series' => $client_series,
+            'start_date' => $request->input('start_date', 'last month'),
+            'range' => $request->input('range')
         ]);
     }
 }

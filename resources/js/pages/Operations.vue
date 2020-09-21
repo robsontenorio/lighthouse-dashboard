@@ -53,6 +53,7 @@
       <template #item.field="{item}">
         <field :field="item.field" class="py-4" />
       </template>
+      <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
     </v-data-table>
 
     <v-data-table

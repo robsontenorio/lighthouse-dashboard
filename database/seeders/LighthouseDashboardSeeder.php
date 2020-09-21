@@ -17,7 +17,7 @@ class LighthouseDashboardSeeder extends Seeder
 {
     use WithFaker;
 
-    private $times = 1000000;
+    private $times = 100000;
 
     public function run()
     {

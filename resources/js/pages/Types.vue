@@ -46,9 +46,7 @@
       <template #item.name="{item}">
         <field :field="item" :highlight="search" class="py-4" />
       </template>
-      <!-- <template #item.statistics_count="{item}">
-          <div class="text-right">{{ item.statistics_count }}</div>
-      </template>-->
+      <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
     </v-data-table>
     <div v-if="filteredTypes.length === 0" class="text-center grey--text">
       <v-icon color="grey" x-large>mdi-weather-windy</v-icon>

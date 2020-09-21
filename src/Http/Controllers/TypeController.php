@@ -30,7 +30,7 @@ class TypeController
 
         return inertia('Types')->with([
             'types' => $types,
-            'start_date' => $request->input('start_date', 'today'),
+            'start_date' => $request->input('start_date', 'last month'),
             'range' => $request->input('range')
         ]);
     }

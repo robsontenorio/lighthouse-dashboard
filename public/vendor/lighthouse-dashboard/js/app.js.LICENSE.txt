@@ -965,6 +965,21 @@
 
 /*! ./zh-Hant */
 
+/*! @preserve
+ * numeral.js
+ * locales : 2.0.6
+ * license : MIT
+ * http://adamwdraper.github.com/Numeral-js/
+ */
+
+/*! @preserve
+ * numeral.js
+ * version : 2.0.6
+ * author : Adam Draper
+ * license : MIT
+ * http://adamwdraper.github.com/Numeral-js/
+ */
+
 /*! exports provided: Application */
 
 /*! exports provided: Application, Breakpoint, Goto, Icons, Lang, Presets, Theme */
@@ -3098,5 +3113,3 @@
 /*!******************************************************************************!*\
   !*** external {"commonjs":"vue","commonjs2":"vue","amd":"vue","root":"Vue"} ***!
   \******************************************************************************/
-
-//! moment.js

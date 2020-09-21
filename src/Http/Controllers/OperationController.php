@@ -20,7 +20,7 @@ class OperationController
         return inertia('Operations', [
             'topOperations' => $topOperations,
             'slowlestOperations' => $slowlestOperations,
-            'start_date' => $request->input('start_date', 'today'),
+            'start_date' => $request->input('start_date', 'last month'),
             'range' => $request->input('range')
         ]);
     }

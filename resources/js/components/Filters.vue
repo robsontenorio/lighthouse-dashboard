@@ -73,7 +73,7 @@ export default {
       this.$emit("filter");
     },
     reset() {
-      this.filters.form.start_date = "today";
+      this.filters.form.start_date = "last month";
       this.$emit("filter");
     },
   },

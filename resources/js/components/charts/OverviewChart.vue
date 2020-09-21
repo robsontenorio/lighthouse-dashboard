@@ -19,9 +19,6 @@ export default {
             zoom: {
               enabled: false,
             },
-            animations: {
-              enabled: false,
-            },
             toolbar: {
               show: false,
             },
@@ -41,9 +38,25 @@ export default {
           yaxis: {
             show: false,
           },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return new Intl.NumberFormat("pt-BR").format(val);
+              },
+            },
+          },
         },
       },
     };
+  },
+  watch: {
+    series(value) {
+      this.chart.series = [
+        {
+          data: value,
+        },
+      ];
+    },
   },
 };
 </script>

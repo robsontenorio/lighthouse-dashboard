@@ -24,7 +24,9 @@
         :items="sumary"
         :loading="loading"
         hide-default-footer
-      />
+      >
+        <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
+      </v-data-table>
 
       <div v-if="!sumary.length && !loading">
         <v-alert icon="mdi-alert" text dense>No operations on selected range.</v-alert>

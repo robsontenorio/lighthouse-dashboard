@@ -27,7 +27,9 @@
             :items="client.metrics"
             :loading="loading"
             hide-default-footer
-          />
+          >
+            <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
+          </v-data-table>
         </div>
       </div>
 

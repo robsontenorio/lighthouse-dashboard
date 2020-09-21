@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 trait ParsesRangeFilter
 {
-    public function parseRange(Request $request, $start_date = 'today')
+    public function parseRange(Request $request, $start_date = 'last month')
     {
         $start_date = $request->input('start_date', $start_date);
         $end_date = 'today';
