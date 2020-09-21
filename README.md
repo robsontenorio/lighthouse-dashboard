@@ -17,8 +17,13 @@ Requirements:
 - Laravel 8.x
 - Laravel Lighthouse 5.x
 
+
 <kbd>
-    <img src="readme.png">
+    <img src="readme2.png">
+</kbd>
+<br><br>
+<kbd>
+    <img src="readme1.png">
 </kbd>
 
 # Install 

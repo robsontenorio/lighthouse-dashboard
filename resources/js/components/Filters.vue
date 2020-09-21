@@ -34,6 +34,19 @@
           {{ dateRangeText }}
         </div>
       </div>
+
+      <div class="font-weight-black text-caption mt-5 mb-5">CLIENTS</div>
+      <v-btn small outlined @click="uncheckAll()">Clear selection</v-btn>
+      <v-checkbox
+        v-for="client in filters.options.clients"
+        v-model="filters.form.clients"
+        :label="client.username"
+        :value="client.id"
+        :key="client.id"
+        @change="filter()"
+        hide-details
+        multiple
+      />
     </v-card-text>
   </v-card>
 </template>
@@ -75,6 +88,13 @@ export default {
     reset() {
       this.filters.form.start_date = "last month";
       this.$emit("filter");
+    },
+    uncheckAll() {
+      if (this.filters.form.clients.length) {
+        this.filters.form.clients = [];
+      }
+
+      this.filter();
     },
   },
 };

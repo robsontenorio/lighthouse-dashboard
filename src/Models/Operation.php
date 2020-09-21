@@ -35,30 +35,30 @@ class Operation extends Model
         return $this->hasManyThrough(Tracing::class, Request::class);
     }
 
-    public static function topIn(array $range)
+    public static function topIn(array $range, array $clients = [])
     {
         return Operation::query()
             ->with('field')
-            ->withCount(['requests as total_requests' => function ($query) use ($range) {
-                return $query->isOperation()->inRange($range);
+            ->withCount(['requests as total_requests' => function ($query) use ($range, $clients) {
+                return $query->forClients($clients)->isOperation()->inRange($range);
             }])
             ->orderByDesc('total_requests')
             ->take(10)
             ->get();
     }
 
-    public static function slowIn(array $range)
+    public static function slowIn(array $range, array $clients = [])
     {
         return Operation::query()
             ->with('field')
-            ->whereHas('requests', function ($query) use ($range) {
-                return $query->isOperation()->inRange($range);
+            ->whereHas('requests', function ($query) use ($range, $clients) {
+                return $query->forClients($clients)->isOperation()->inRange($range);
             })
             ->get()
-            ->map(function ($operation) use ($range) {
+            ->map(function ($operation) use ($range, $clients) {
                 // TODO
-                $operation->average_duration = $operation->getAverageDurationIn($range);
-                $operation->latest_duration = $operation->getLatestDurationIn($range);
+                $operation->average_duration = $operation->getAverageDurationIn($range, $clients);
+                $operation->latest_duration = $operation->getLatestDurationIn($range, $clients);
 
                 return $operation;
             })
@@ -67,14 +67,14 @@ class Operation extends Model
             ->values();
     }
 
-    public function sumaryWithClients(Operation $operation, array $range)
+    public function sumaryWithClients(Operation $operation, array $range, array $clients = [])
     {
         return Client::query()
-            ->whereHas('requests', function ($query) use ($operation, $range) {
-                $query->forOperation($operation)->inRange($range);
+            ->whereHas('requests', function ($query) use ($operation, $range, $clients) {
+                $query->forClients($clients)->forOperation($operation)->inRange($range);
             })
-            ->withCount(['requests as total_requests' => function ($query) use ($operation, $range) {
-                $query->forOperation($operation)->inRange($range);
+            ->withCount(['requests as total_requests' => function ($query) use ($operation, $range, $clients) {
+                $query->forClients($clients)->forOperation($operation)->inRange($range);
             }])
             ->get();
     }

@@ -14,18 +14,23 @@ class WelcomeController
 
     public function index(HttpRequest $request)
     {
-        $range = $this->parseRange($request);
-
         $schema = Schema::first();
-        $requests_series = Request::seriesIn($range);
-        $client_series = Client::seriesIn($range);
+        $clients = Client::orderBy('username')->get();
+
+        $range = $this->parseRange($request);
+        $selectedClients = $request->input('clients', $clients->pluck('id')->toArray());
+
+        $requests_series = Request::seriesIn($range, $selectedClients);
+        $client_series = Client::seriesIn($range, $selectedClients);
 
         return inertia('Welcome', [
             'schema' => $schema,
+            'clients' => $clients,
             'requests_series' => $requests_series,
             'client_series' => $client_series,
             'start_date' => $request->input('start_date', 'last month'),
-            'range' => $request->input('range')
+            'range' => $request->input('range'),
+            'selectedClients' => $selectedClients
         ]);
     }
 }

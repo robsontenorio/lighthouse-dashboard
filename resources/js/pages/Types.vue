@@ -92,7 +92,7 @@ import Field from "../components/Field";
 import FieldSumary from "../components/FieldSumary";
 
 export default {
-  props: ["types", "start_date", "range"],
+  props: ["types", "start_date", "range", "clients", "selectedClients"],
   components: { TextHighlight, FieldSumary, Field, Filters },
   data() {
     return {
@@ -107,6 +107,10 @@ export default {
         form: {
           start_date: this.start_date || "today",
           range: this.range || [],
+          clients: this.selectedClients || [],
+        },
+        options: {
+          clients: this.clients || [],
         },
       },
       table: {

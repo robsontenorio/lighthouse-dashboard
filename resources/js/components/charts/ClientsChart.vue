@@ -48,6 +48,7 @@ export default {
     series(value) {
       this.chart.series = [
         {
+          name: "Requests",
           data: value,
         },
       ];
@@ -55,7 +56,7 @@ export default {
   },
   computed: {
     height() {
-      return this.series.length > 1 ? this.series.length * 40 : 100;
+      return this.series.length > 2 ? this.series.length * 40 : 140;
     },
   },
 };

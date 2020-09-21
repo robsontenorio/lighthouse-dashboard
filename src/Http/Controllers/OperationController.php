@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Operation;
 use App\Traits\ParsesRangeFilter;
@@ -12,16 +13,21 @@ class OperationController
 
     public function index(Request $request)
     {
-        $range = $this->parseRange($request);
+        $clients = Client::orderBy('username')->get();
 
-        $topOperations = Operation::topIn($range);
-        $slowlestOperations = Operation::slowIn($range);
+        $range = $this->parseRange($request);
+        $selectedClients = $request->input('clients', $clients->pluck('id')->toArray());
+
+        $topOperations = Operation::topIn($range, $selectedClients);
+        $slowlestOperations = Operation::slowIn($range, $selectedClients);
 
         return inertia('Operations', [
             'topOperations' => $topOperations,
             'slowlestOperations' => $slowlestOperations,
             'start_date' => $request->input('start_date', 'last month'),
-            'range' => $request->input('range')
+            'range' => $request->input('range'),
+            'clients' => $clients,
+            'selectedClients' => $selectedClients
         ]);
     }
 

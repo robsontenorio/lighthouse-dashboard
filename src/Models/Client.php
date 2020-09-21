@@ -23,9 +23,10 @@ class Client extends Model
         return $this->hasMany(Request::class);
     }
 
-    public static function seriesIn(array $range)
+    public static function seriesIn(array $range, array $clients)
     {
         return Client::query()
+            ->whereIn('id', $clients)
             ->withCount(['requests as total_requests' => function ($query) use ($range) {
                 $query->isOperation()->inRange($range);
             }])

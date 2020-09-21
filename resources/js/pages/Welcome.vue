@@ -50,13 +50,7 @@
       <p class="text-caption mt-3">Make your first request to this Schema.</p>
     </div>
 
-    <v-navigation-drawer
-      v-model="display.filters"
-      right
-      :app="display.filters"
-      width="380"
-      class="pa-5"
-    >
+    <v-navigation-drawer v-model="display.filters" app stateless right width="380" class="pa-5">
       <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
     </v-navigation-drawer>
     <v-overlay :value="loading">
@@ -72,7 +66,15 @@ import Filters from "../components/Filters";
 import _ from "lodash";
 
 export default {
-  props: ["schema", "requests_series", "client_series", "start_date", "range"],
+  props: [
+    "schema",
+    "requests_series",
+    "client_series",
+    "clients",
+    "start_date",
+    "range",
+    "selectedClients",
+  ],
   components: { OverviewChart, ClientsChart, Filters },
   data() {
     return {
@@ -85,6 +87,10 @@ export default {
         form: {
           start_date: this.start_date || "today",
           range: this.range || [],
+          clients: this.selectedClients || [],
+        },
+        options: {
+          clients: this.clients || [],
         },
       },
     };

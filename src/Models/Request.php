@@ -62,17 +62,23 @@ class Request extends Model
         return $query->where('client_id', $client->id);
     }
 
+    public function scopeForClients(Builder $query, array $clients = []): Builder
+    {
+        return $query->whereIn('client_id', $clients);
+    }
+
     public function scopeForField(Builder $query, Field $field): Builder
     {
         return $query->where('field_id', $field->id);
     }
 
-    public static function seriesIn(array $range)
+    public static function seriesIn(array $range, array $clients = [])
     {
         $requests_series = Request::query()
             ->selectRaw('DATE(requested_at) as x, count(*) as y')
             ->isOperation()
             ->inRange($range)
+            ->forClients($clients)
             ->groupBy('x')
             ->orderBy('x')
             ->get();

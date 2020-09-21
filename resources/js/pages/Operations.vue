@@ -105,7 +105,14 @@ import Field from "../components/Field";
 import OperationSumary from "../components/OperationSumary";
 
 export default {
-  props: ["topOperations", "slowlestOperations", "start_date", "range"],
+  props: [
+    "topOperations",
+    "slowlestOperations",
+    "start_date",
+    "range",
+    "clients",
+    "selectedClients",
+  ],
   components: { Filters, Field, OperationSumary },
   data() {
     return {
@@ -121,6 +128,10 @@ export default {
         form: {
           start_date: this.start_date || "today",
           range: this.range || [],
+          clients: this.selectedClients || [],
+        },
+        options: {
+          clients: this.clients || [],
         },
       },
       table_top_operations: {
