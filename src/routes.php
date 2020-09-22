@@ -7,6 +7,7 @@ Route::group(['prefix' => 'lighthouse-dashboard', 'middleware' => 'bindings', 'n
     Route::get('/', 'WelcomeController@index');
 
     Route::get('/operations', 'OperationController@index');
+    Route::get('/operations/{operation}', 'OperationController@show');
     Route::get('/operations/{operation}/sumary', 'OperationController@sumary');
 
     Route::get('/types', 'TypeController@index');

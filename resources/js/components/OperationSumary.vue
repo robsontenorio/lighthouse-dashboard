@@ -9,9 +9,14 @@
     </v-card-title>
     <v-card-subtitle class="pt-5">
       <field :field="operation.field" :full="true" />
-      <v-divider class="my-5" />
+      <v-divider class="mt-5" />
     </v-card-subtitle>
     <v-card-text>
+      <v-btn small outlined @click="seeTracings()" class="mb-8">
+        See latest tracings
+        <v-icon small>mdi-arrow-right</v-icon>
+      </v-btn>
+
       <h3 class="mb-5 black--text">Clients & Operations</h3>
 
       <div v-if="loading" class="text-center mt-8">
@@ -81,6 +86,11 @@ export default {
     },
     close() {
       this.$emit("close");
+    },
+    seeTracings() {
+      this.$inertia.visit(
+        `/lighthouse-dashboard/operations/${this.operation.id}`
+      );
     },
   },
 };

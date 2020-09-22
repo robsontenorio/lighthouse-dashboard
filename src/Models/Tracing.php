@@ -13,8 +13,7 @@ class Tracing extends Model
     protected $table = 'ld_tracings';
     protected $guarded = ['id'];
     protected $casts = [
-        'request' => 'array',
-        'execution' => 'array'
+        'execution' => 'array',
     ];
 
     public function getConnectionName()

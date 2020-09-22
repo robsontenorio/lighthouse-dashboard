@@ -31,6 +31,17 @@ class OperationController
         ]);
     }
 
+    public function show(Operation $operation)
+    {
+        $operation->load(['field', 'tracings' => function ($query) {
+            return $query->with('request.client')->latest('requested_at')->take(50);
+        }]);
+
+        return inertia('Operation', [
+            'operation' => $operation
+        ]);
+    }
+
     public function sumary(Operation $operation, Request $request)
     {
         $clients = Client::orderBy('username')->get();

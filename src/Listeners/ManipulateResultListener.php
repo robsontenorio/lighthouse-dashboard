@@ -19,10 +19,10 @@ class ManipulateResultListener
 
         $client = $this->getClient();
         $schema = Schema::first();
-        $request = request()->json()->all();
+        $payload = request()->json('query');
         $tracing = $this->getTracing($result);
 
-        StoreMetrics::dispatchAfterResponse($client, $schema, $request, $tracing);
+        StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);
     }
 
     private function isIntrospectionRequest($result)

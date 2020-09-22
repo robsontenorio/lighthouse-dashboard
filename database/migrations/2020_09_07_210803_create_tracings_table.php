@@ -11,9 +11,9 @@ class CreateTracingSTable extends Migration
         Schema::create('ld_tracings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('request_id');
-            $table->json('request');
-            $table->timestampTz('start_time');
-            $table->timestampTz('end_time');
+            $table->text('payload');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->unsignedBigInteger('duration');
             $table->json('execution');
             $table->timestamps();

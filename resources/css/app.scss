@@ -16,6 +16,17 @@
 }
 
 
+.v-application code {
+  background: none !important;
+  color: #328c8c !important;
+}
+
+pre[class*="language-"]{
+  background: none !important;  
+}
+
+
+
 /* Make clicks pass-through */
 #nprogress {
     pointer-events: none;
@@ -90,3 +101,4 @@
     100% { transform: rotate(360deg); }
   }
   
+

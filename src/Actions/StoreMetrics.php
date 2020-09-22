@@ -25,16 +25,16 @@ class StoreMetrics implements ShouldQueue
 
     private Client $client;
     private Schema $schema;
-    private array $request;
+    private string $payload;
     private array $tracing;
     private Operation $operation;
     private $request_at;
 
-    public function __construct(Client $client, Schema $schema, array $request, array $tracing)
+    public function __construct(Client $client, Schema $schema, string $payload, array $tracing)
     {
         $this->client = $client;
         $this->schema = $schema;
-        $this->request = $request;
+        $this->payload = $payload;
         $this->tracing = $tracing;
         $this->requested_at = now();
     }
@@ -81,7 +81,7 @@ class StoreMetrics implements ShouldQueue
         Tracing::create([
             'request_id' => $request->id,
             'operation_id' => $this->operation->id,
-            'request' => $this->request,
+            'payload' => $this->payload,
             'execution' => $this->tracing,
             'start_time' => $this->tracing['startTime'],
             'end_time' => $this->tracing['endTime'],

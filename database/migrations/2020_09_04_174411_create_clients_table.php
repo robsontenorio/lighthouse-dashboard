@@ -18,7 +18,7 @@ class CreateClientsTable extends Migration
         });
 
         Client::create([
-            'username' => 'anonymous_client'
+            'username' => 'anonymous'
         ]);
     }
 
