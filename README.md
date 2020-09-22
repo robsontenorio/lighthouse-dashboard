@@ -25,6 +25,10 @@ Requirements:
 <kbd>
     <img src="readme1.png">
 </kbd>
+<br><br>
+<kbd>
+    <img src="readme3.png">
+</kbd>
 
 # Install 
 
