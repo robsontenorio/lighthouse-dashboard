@@ -241,7 +241,11 @@ Then point to http://localhost:3000/lighthouse-dashboard/
 # Tests
 
 ```bash
+# once
 composer test
+
+# watch
+composer test:watch
 ```
 
 # Roadmap
