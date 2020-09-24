@@ -4,6 +4,9 @@
 <p align="center">
     <img src="https://img.shields.io/packagist/v/robsontenorio/lighthouse-dashboard.svg" />
     <img src="https://img.shields.io/packagist/dt/robsontenorio/lighthouse-dashboard.svg" />
+    <a href="https://join.slack.com/t/lighthousedashboard/shared_invite/zt-hyqiy6fk-HHrxTH_nJH7VtfKfuCSv5Q">
+    <img src="https://img.shields.io/badge/slack-chat-blue.svg?logo=slack"/>
+    </a>
 </p>
 
 # Dashboard for Laravel Lighthouse GraphQL
@@ -14,8 +17,10 @@ This package adds a standalone analytics dasbhoard with metrics collected from  
 
 Requirements:
 
-- Laravel 8.x
-- Laravel Lighthouse 5.x
+- Laravel >= 8.x
+- Laravel Lighthouse >= 5.x
+
+Questions? Join us in [Slack Channel](https://join.slack.com/t/lighthousedashboard/shared_invite/zt-hyqiy6fk-HHrxTH_nJH7VtfKfuCSv5Q).
 
 
 <kbd>
@@ -250,6 +255,7 @@ composer test:watch
 
 # Roadmap
 
+- [ ] Silent Tracing. Collect metrics internally but does not output tracing extension in response.
 - [ ] Sumary for operations per clients.
 - [ ] UI navigation with anchor href on click type return.
 - [ ] Add option to guard dashboard.

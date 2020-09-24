@@ -13,12 +13,15 @@
     "keywords": [
         "laravel",
         "graphql",
-        "lighthouse"
+        "lighthouse",
+        "dashboard",
+        "analytics",
+        "metrics"
     ],
     "require": {
         "illuminate/support": "~8",
-        "inertiajs/inertia-laravel": "^0.2.11",
-        "nuwave/lighthouse": "v5.0-alpha.4"
+        "inertiajs/inertia-laravel": "^0.2.12",
+        "nuwave/lighthouse": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",
