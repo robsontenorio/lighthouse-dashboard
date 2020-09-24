@@ -240,12 +240,12 @@ Then point to http://localhost:3000/lighthouse-dashboard/
 
 # Tests
 
-WIP.
+```bash
+composer test
+```
 
 # Roadmap
 
-- [ ] Cool charts for operations.
-- [ ] Real time charts. Pooling is ok for now.
 - [ ] Sumary for operations per clients.
 - [ ] UI navigation with anchor href on click type return.
 - [ ] Add option to guard dashboard.
