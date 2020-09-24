@@ -9,29 +9,4 @@ services:
       - ../:/var/www/app:cached
     ports:
       - 8080:8080
-    depends_on:
-      - redis
-    links:
-      - redis
 
-  ######## MYSQL ########
-  dashboard-mysql:
-    image: mysql:8
-    environment:
-      - MYSQL_DATABASE=appdb_dev
-      - MYSQL_ROOT_PASSWORD=pasword
-
-    command:
-      - --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ~/.docker-storage/mysql:/var/lib/mysql
-    ports:
-      - 3306:3306
-
-  ######## REDIS ########
-  dashboard-redis:
-    image: redis:latest
-    volumes:
-      - ~/.docker-storage/redis:/data
-    ports:
-      - 6379:6379
