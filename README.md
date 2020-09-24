@@ -162,7 +162,7 @@ Once this package includes UI, the only way to test it is by running it through 
 
 ### Uninstall  
 
-If you previous installed this package, first uninstall it **from target app**.
+If you previous installed this package, **first uninstall it from target app**.
 
 Remove this entry from `composer.json`.
 
@@ -182,7 +182,7 @@ Remove package.
 composer remove robsontenorio/lighthouse-dashboard
 ```
 
-Then package public assets from target app.
+Remove package public assets from target app.
 
 ```
 rm -rf /path/to/app/public/vendor/lighthouse-dashboard
@@ -190,7 +190,7 @@ rm -rf /path/to/app/public/vendor/lighthouse-dashboard
 
 ### Install locally
 
-First, clone the repository then on target app add to `composer.json`
+Clone the repository, then on target app add to `composer.json`
 
 ```json
  "repositories": {
@@ -210,7 +210,7 @@ Require local package version.
 composer require robsontenorio/lighthouse-dashboard @dev
 ```
 
-Create symlink from target app `/public` assets to this package assets.
+Create symlink from target app `/public` assets to local package assets.
 
 ```sh
 ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor /path/to/app/public/vendor
@@ -253,13 +253,13 @@ composer test
 composer test:watch
 ```
 
-If you need tweak UI see "Local development" section.
+If you need to tweak UI see "Local development" section.
 
 # Roadmap
 
-- [ ] Silent Tracing. Collect metrics internally but does not output tracing extension in response.
+- [ ] Silent Tracing: enable tracing internally for collecting metrics, but do not return tracing metrics on server response.
 - [ ] Sumary for operations per clients.
-- [ ] UI navigation with anchor href on click type return.
+- [ ] UI navigation with anchor href when clicks on type return.
 - [ ] Add option to guard dashboard.
 - [ ] Add option for retention period.
 
