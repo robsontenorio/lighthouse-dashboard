@@ -38,6 +38,9 @@
             "Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
