@@ -12,7 +12,7 @@ trait TypeAssertions
     /**
      * Assert has a Type using a where condition.
      */
-    public function assertHasType(array $condition)
+    protected function assertHasType(array $condition)
     {
         $condition +=  ['schema_id' => 1];
 
@@ -28,7 +28,7 @@ trait TypeAssertions
      * 
      * @param string[] $match  Array of properties for each field to be compared.
      */
-    public function withFields(array $match)
+    protected function withFields(array $match)
     {
         $typeFieldsValues = $this->type->fields->map(fn ($field) => $field->only(['name', 'description', 'type_def']))->toArray();
 

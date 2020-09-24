@@ -2,12 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Operation;
-use App\Models\Request;
+use Database\Factories\ClientFactory;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
-use Tests\Utils\Database\Factories\ProductFactory;
 use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsTest extends TestCase
@@ -19,29 +16,31 @@ class OperationsTest extends TestCase
         parent::setUp();
 
         $this->schema = File::get(__DIR__ . '/../Utils/Schemas/schema-full.graphql');
-
-        ProductFactory::new()->create();
     }
 
     public function test_top_operations()
     {
-        $this->graphQLTimes(3, '
-            {
-                products{
-                    id
-                    name
+        $this->customGraphQLRequest()
+            ->times(3)
+            ->query('
+                {
+                    products{
+                        id
+                        name
+                    }
                 }
-            }
-        ');
+            ');
 
-        $this->graphQLTimes(5, '
-            {
-                categories{
-                    id
-                    name
+        $this->customGraphQLRequest()
+            ->times(5)
+            ->query('
+                {
+                    categories{
+                        id
+                        name
+                    }
                 }
-            }
-        ');
+            ');
 
         $this->get("/lighthouse-dashboard/operations")
             ->assertPropCount("topOperations", 2)
@@ -50,6 +49,43 @@ class OperationsTest extends TestCase
                 $this->assertEquals($data[0]['field']['name'], 'categories');
 
                 $this->assertEquals($data[1]['total_requests'], 3);
+                $this->assertEquals($data[1]['field']['name'], 'products');
+            });
+    }
+
+    public function test_slow_operations()
+    {
+        $this->customGraphQLRequest()
+            ->times(5)
+            ->query('
+                {
+                    products{
+                        id
+                        name
+                    }
+                }
+            ');
+
+        $this->customGraphQLRequest()
+            ->times(5)
+            ->query('
+                {
+                    categories{
+                        id
+                        name
+                    }
+                }
+            ');
+
+        // set "categories" operation slow
+        $this->getOperationByName('categories')->requests()->update([
+            'duration' => 999999999
+        ]);
+
+        $this->get("/lighthouse-dashboard/operations")
+            ->assertPropCount("slowlestOperations", 2)
+            ->assertPropValue("slowlestOperations", function ($data) {
+                $this->assertEquals($data[0]['field']['name'], 'categories');
                 $this->assertEquals($data[1]['field']['name'], 'products');
             });
     }

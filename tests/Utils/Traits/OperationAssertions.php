@@ -10,7 +10,7 @@ trait OperationAssertions
 {
     protected Operation $operation;
 
-    public function assertOperationStored(string $name): self
+    protected function assertOperationStored(string $name): self
     {
         $field = Field::where(['name' => $name, 'type_id' => 1])->first();
 
@@ -24,7 +24,7 @@ trait OperationAssertions
         return $this;
     }
 
-    public function withRequestsCount(int $total): self
+    protected function withRequestsCount(int $total): self
     {
         $requests = $this->operation->requests()->whereNotNull('duration')->get();
         $this->assertEquals($requests->count(), $total);
@@ -32,11 +32,18 @@ trait OperationAssertions
         return $this;
     }
 
-    public function withTracingsCount(int $total): self
+    protected function withTracingsCount(int $total): self
     {
         $tracingsCount = $this->operation->tracings()->count();
         $this->assertEquals($tracingsCount, $total);
 
         return $this;
+    }
+
+    protected function getOperationByName(string $name): Operation
+    {
+        $field = Field::where(['name' => $name, 'type_id' => 1])->first();
+
+        return Operation::where(['field_id' => $field->id])->first();
     }
 }

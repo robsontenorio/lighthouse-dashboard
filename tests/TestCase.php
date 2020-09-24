@@ -6,19 +6,19 @@ use App\Providers\LighthouseDashboardServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Nuwave\Lighthouse\Schema\Source\SchemaSourceProvider;
-use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Nuwave\Lighthouse\Testing\TestSchemaProvider;
 use Nuwave\Lighthouse\Testing\UsesTestSchema;
 use Nuwave\Lighthouse\Tracing\TracingServiceProvider;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use Tests\Utils\Traits\InertiaAssertions;
+use Tests\Utils\Traits\MakeCustomGraphQLRequests;
 
 /**
  * @method InertiaTestResponse get($uri, array $headers = [])
  */
 class TestCase extends TestbenchTestCase
 {
-    use RefreshDatabase, MakesGraphQLRequests, UsesTestSchema, InertiaAssertions;
+    use RefreshDatabase, MakeCustomGraphQLRequests, UsesTestSchema, InertiaAssertions;
 
     public function setUp(): void
     {
@@ -78,16 +78,6 @@ class TestCase extends TestbenchTestCase
         ]);
 
         $app['config']->set('database.default', 'dashboard');
-    }
-
-    /**
-     * Execute same request "N" times
-     */
-    protected function graphQLTimes(int $times, string $query)
-    {
-        for ($i = 1; $i <= $times; $i++) {
-            $this->graphQL($query);
-        }
     }
 
     /**
