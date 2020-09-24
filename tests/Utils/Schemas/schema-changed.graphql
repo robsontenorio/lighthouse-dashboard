@@ -1,0 +1,27 @@
+"A beautiful color"
+type Color {
+    id: ID!
+    name: String!
+}
+
+"A category"
+type Category{
+     id: ID!
+    name: String
+}
+                
+"Our new secret product"
+type Product {    
+    id: ID!
+    "The greate name of product"
+    name: String!
+    color: Color @belongsTo
+    category: Category @belongsTo
+}
+            
+type Query {
+    "List all products"
+    products: [Product] @all
+    "List all categories"
+    categories: [Category] @all
+}

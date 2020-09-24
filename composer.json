@@ -16,14 +16,15 @@
         "lighthouse"
     ],
     "require": {
-        "illuminate/support": "^8.3",
+        "illuminate/support": "~8",
         "inertiajs/inertia-laravel": "^0.2.11",
         "nuwave/lighthouse": "v5.0-alpha.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^6.0"
+        "orchestra/testbench": "^6.0",
+        "nunomaduro/collision": "^5.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
