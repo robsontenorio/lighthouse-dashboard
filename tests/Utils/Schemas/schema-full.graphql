@@ -6,8 +6,8 @@ type Color {
 
 "A category"
 type Category{
-     id: ID!
-    name: String
+    id: ID!
+    name: String!
 }
                 
 "Our new secret product"
@@ -15,8 +15,8 @@ type Product {
     id: ID!
     "The greate name of product"
     name: String!
-    color: Color @belongsTo
-    category: Category @belongsTo
+    color: Color! @belongsTo
+    category: Category! @belongsTo
 }
             
 type Query {

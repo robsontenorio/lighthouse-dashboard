@@ -253,6 +253,8 @@ composer test
 composer test:watch
 ```
 
+If you need tweak UI see "Local development" section.
+
 # Roadmap
 
 - [ ] Silent Tracing. Collect metrics internally but does not output tracing extension in response.

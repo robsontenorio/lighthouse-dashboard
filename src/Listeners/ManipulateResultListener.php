@@ -22,7 +22,12 @@ class ManipulateResultListener
         $payload = request()->json('query');
         $tracing = $this->getTracing($result);
 
-        StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);
+        // TODO
+        if (config('app.env') === 'testing') {
+            StoreMetrics::dispatchNow($client, $schema, $payload, $tracing);
+        } else {
+            StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);;
+        }
     }
 
     private function isIntrospectionRequest($result)

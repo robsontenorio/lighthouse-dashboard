@@ -23,12 +23,12 @@ class StoreMetrics implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Client $client;
-    private Schema $schema;
-    private string $payload;
-    private array $tracing;
-    private Operation $operation;
-    private $request_at;
+    public Client $client;
+    public Schema $schema;
+    public string $payload;
+    public array $tracing;
+    public Operation $operation;
+    public $request_at;
 
     public function __construct(Client $client, Schema $schema, string $payload, array $tracing)
     {
@@ -69,7 +69,7 @@ class StoreMetrics implements ShouldQueue
                 ]);
 
                 // Tracing only if field is the operation
-                if ($field->id === $this->operation->field_id) {
+                if ($field->is($this->operation->field)) {
                     $request->update(['duration' => $this->tracing['duration']]);
                     $this->storeTracing($request);
                 }
