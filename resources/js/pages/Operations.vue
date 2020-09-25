@@ -3,9 +3,7 @@
     <v-app-bar app color="white" elevation="1" class="pt-2">
       <v-row align="center" class="mb-5">
         <v-col>
-          <h2>
-            <v-icon left color="black">mdi-pulse</v-icon>Operations
-          </h2>
+          <h2><v-icon left color="black">mdi-pulse</v-icon>Operations</h2>
         </v-col>
         <v-col>
           <v-col cols="auto" class="text-right primary--text">
@@ -47,13 +45,17 @@
       <template #top>
         <div class="pa-3">
           <div class="title">Top</div>
-          <div class="text-caption grey--text">Most requested operations in selected period.</div>
+          <div class="text-caption grey--text">
+            Most requested operations in selected period.
+          </div>
         </div>
       </template>
-      <template #item.field="{item}">
+      <template #item.field="{ item }">
         <field :field="item.field" class="py-4" />
       </template>
-      <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
+      <template #item.total_requests="{ item }">{{
+        item.total_requests | numeral(0.0)
+      }}</template>
     </v-data-table>
 
     <v-data-table
@@ -67,11 +69,19 @@
       <template #top>
         <div class="pa-3">
           <div class="title">Slow</div>
-          <div class="text-caption grey--text">Most slowlest operations in selected period.</div>
+          <div class="text-caption grey--text">
+            Most slowlest operations in selected period.
+          </div>
         </div>
       </template>
-      <template #item.field="{item}">
+      <template #item.field="{ item }">
         <field :field="item.field" class="py-4" />
+      </template>
+      <template #item.average_duration="{ item }">
+        {{ item.average_duration | milliseconds }}
+      </template>
+      <template #item.latest_duration="{ item }">
+        {{ item.latest_duration | milliseconds }}
       </template>
     </v-data-table>
 
@@ -91,7 +101,11 @@
       width="380"
       class="pa-5"
     >
-      <operation-sumary :operation="selectedOperation" :filters="filters" @close="hideSumary()" />
+      <operation-sumary
+        :operation="selectedOperation"
+        :filters="filters"
+        @close="hideSumary()"
+      />
     </v-navigation-drawer>
     <v-overlay :value="loading">
       <v-progress-circular indeterminate />
