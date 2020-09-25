@@ -246,14 +246,14 @@ Then point to http://localhost:3000/lighthouse-dashboard/
 # Tests
 
 ```bash
-# once
+# run once
 composer test
 
-# once with coverage report
-# see ./coverage/html/index.html
+# run once with coverage report in terminal
+# see full report in ./coverage/html/index.html
 composer test:coverage
 
-# watch mode
+# run in watch mode
 composer test:watch
 ```
 
