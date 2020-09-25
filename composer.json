@@ -28,7 +28,8 @@
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5.0",
         "spatie/phpunit-watcher": "^1.22",
-        "orchestra/testbench": "^6.1"
+        "orchestra/testbench": "^6.1",
+        "pestphp/pest": "^0.3.6"
     },
     "autoload": {
         "psr-4": {
@@ -44,6 +45,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit",
+        "test:coverage": "php -dpcov.enabled=1 -dmemory_limit=2048M ./vendor/bin/pest --coverage --coverage-clover=.coverage/clover.xml --coverage-html=.coverage/html",
         "test:watch": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit-watcher watch < /dev/tty"

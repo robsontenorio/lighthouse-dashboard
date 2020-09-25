@@ -3,3 +3,5 @@
 /public/hot
 yarn-error.log
 .phpunit.result.cache
+.coverage
+core

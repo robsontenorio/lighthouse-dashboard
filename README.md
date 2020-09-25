@@ -249,7 +249,11 @@ Then point to http://localhost:3000/lighthouse-dashboard/
 # once
 composer test
 
-# watch
+# once with coverage report
+# see ./coverage/html/index.html
+composer test:coverage
+
+# watch mode
 composer test:watch
 ```
 

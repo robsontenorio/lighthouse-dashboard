@@ -96,8 +96,6 @@ class OperationsWithDateFilterTest extends TestCase
             ');
 
         // Must get these. Because it is "today".
-        $this->travelBack();
-
         $this->customGraphQLRequest()
             ->times(3)
             ->query('
