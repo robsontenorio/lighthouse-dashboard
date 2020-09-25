@@ -21,6 +21,9 @@ trait MakeCustomGraphQLRequests
         return new static;
     }
 
+    /**
+     * Parametrized graphQL request.
+     */
     protected function customGraphQLRequest()
     {
         self::new();
@@ -39,7 +42,9 @@ trait MakeCustomGraphQLRequests
     }
 
     /**
-     * Any valid string to be parsed by Carbon.
+     * Set when this request was made.
+     * 
+     *  @param string $string  Any valid string to be parsed by Carbon.
      */
     protected function withDateTime(string $string = null)
     {
@@ -54,11 +59,11 @@ trait MakeCustomGraphQLRequests
     }
 
     /**
-     * Make request as specific Client.
+     * Set request as specific Client.
      */
     protected function forClient(Client $client)
     {
-        // In practice a Client will be parsed from authenticated User.
+        // Actually a Client will be parsed from authenticated User.
         $user = new User();
         $user->username = $client->username;
 
@@ -68,7 +73,9 @@ trait MakeCustomGraphQLRequests
     }
 
     /**
-     * Make a graphQL query request
+     * Make a graphQL query request.
+     * 
+     * @param string $query  A graphQL query.
      */
     protected function query(string $query)
     {

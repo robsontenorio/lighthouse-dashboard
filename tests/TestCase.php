@@ -85,7 +85,7 @@ class TestCase extends TestbenchTestCase
      */
     protected function rebuildTestSchema()
     {
-        // TODO not working
+        // TODO not working. Why?
         $this->app->extend(SchemaSourceProvider::class, fn () => new TestSchemaProvider($this->schema));
     }
 }
