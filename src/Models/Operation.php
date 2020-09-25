@@ -25,6 +25,7 @@ class Operation extends Model
         return $this->belongsTo(Field::class);
     }
 
+    // TODO include "durationNotNull" because it will be always request for a operation
     public function requests(): HasMany
     {
         return $this->hasMany(Request::class);
@@ -55,7 +56,7 @@ class Operation extends Model
                 return $query->forClients($clients)->isOperation()->inRange($range);
             })
             ->get()
-            ->map(function ($operation) use ($range, $clients) {
+            ->map(function (Operation $operation) use ($range, $clients) {
                 // TODO
                 $operation->average_duration = $operation->getAverageDurationIn($range, $clients);
                 $operation->latest_duration = $operation->getLatestDurationIn($range, $clients);
@@ -81,22 +82,11 @@ class Operation extends Model
 
     private function getAverageDurationIn(array $range)
     {
-        $average = $this->requests()
-            ->inRange($range)
-            ->isOperation()
-            ->avg('duration');
-
-        return floor($average / 1000000);
+        return (int) $this->requests()->inRange($range)->isOperation()->avg('duration');
     }
 
     private function getLatestDurationIn(array $range)
     {
-        $latest = $this->requests()
-            ->isOperation()
-            ->latest('requested_at')
-            ->first()
-            ->duration;
-
-        return floor($latest / 1000000);
+        return (int) $this->requests()->inRange($range)->isOperation()->latest('requested_at')->first()->duration;
     }
 }

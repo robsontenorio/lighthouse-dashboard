@@ -3,7 +3,7 @@
 namespace Tests\Utils\Traits;
 
 use App\Models\Client;
-use App\Models\Type;
+use App\Models\Request;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
@@ -12,9 +12,14 @@ trait MakeCustomGraphQLRequests
 {
     use MakesGraphQLRequests;
 
+    // how many requests
     protected int $times = 1;
+
+    // graphQL query
     protected string $query;
-    protected string $travel;
+
+    // set specific duration for a operation
+    protected int $duration;
 
     private static function new()
     {
@@ -59,6 +64,18 @@ trait MakeCustomGraphQLRequests
     }
 
     /**
+     * Set specific duration for a operation.
+     * 
+     * @param int $nanoseconds 
+     */
+    protected function withDuration(int $nanoseconds)
+    {
+        $this->duration = $nanoseconds;
+
+        return $this;
+    }
+
+    /**
      * Set request as specific Client.
      */
     protected function forClient(Client $client)
@@ -79,11 +96,35 @@ trait MakeCustomGraphQLRequests
      */
     protected function query(string $query)
     {
+        // remember latest request before make new requests
+        $latestRequest = Request::isOperation()->latest('id')->first();
+
         for ($i = 1; $i <= $this->times; $i++) {
             $this->graphQL($query);
         }
 
+        if (isset($this->duration)) {
+            $this->updateDurationAfter($latestRequest);
+        }
+
         // Always travel back to "now" after requests
         $this->travelBack();
+    }
+
+    /**
+     * Update duration considering latest request mark point
+     */
+    protected function updateDurationAfter(?Request $latestRequest)
+    {
+        $operation = Request::isOperation()->latest('id')->first()->operation;
+
+        $operation->requests()
+            ->isOperation()
+            ->when($latestRequest, function ($query) use ($latestRequest) {
+                $query->where('id', '>', $latestRequest->id);
+            })
+            ->update([
+                'duration' => $this->duration
+            ]);
     }
 }

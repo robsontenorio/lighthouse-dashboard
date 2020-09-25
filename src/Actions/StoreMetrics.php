@@ -68,7 +68,7 @@ class StoreMetrics implements ShouldQueue
                     'requested_at' => $this->requested_at
                 ]);
 
-                // Tracing only if field is the operation
+                // Store tracing only if field is a operation
                 if ($field->is($this->operation->field)) {
                     $request->update(['duration' => $this->tracing['duration']]);
                     $this->storeTracing($request);
