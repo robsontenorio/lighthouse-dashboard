@@ -1,17 +1,15 @@
-name: Run tests
+name: Build package
 
 on: [push, pull_request]
 
 jobs:
-  tests:
+  php:
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [7.4]
         laravel: [8.*]
-
-    name: P${{ matrix.php }} - L${{ matrix.laravel }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -30,7 +28,7 @@ jobs:
           coverage: pcov
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-suggest --ansi
+        run: composer install --prefer-dist --no-suggest --ansi
 
       - name: Execute tests
         run: composer test:coverage
@@ -41,3 +39,27 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: .coverage/clover.xml
           fail_ci_if_error: true
+
+  js:
+    name: 'Install and build'
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build frontend production assets
+        run: yarn production
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:     
+          message: "Automated build for frontend assets"
+       
