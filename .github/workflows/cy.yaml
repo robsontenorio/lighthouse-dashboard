@@ -9,7 +9,6 @@ jobs:
       matrix:
         php: [7.4]
         laravel: [8.*]
-        dependency-version: [prefer-lowest, prefer-stable]
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
@@ -40,5 +39,5 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./clover.xml
+          file: ./coverage/clover.xml
           fail_ci_if_error: true
