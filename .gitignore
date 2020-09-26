@@ -5,3 +5,6 @@ yarn-error.log
 .phpunit.result.cache
 .coverage
 core
+/public/vendor/lighthouse-dashboard/js
+/public/vendor/lighthouse-dashboard/css
+/public/vendor/lighthouse-dashboard/mix-manifest.json
