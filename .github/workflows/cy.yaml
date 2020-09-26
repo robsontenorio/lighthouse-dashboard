@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [7.4, 7.3]
+        php: [7.4]
         laravel: [8.*]
         dependency-version: [prefer-lowest, prefer-stable]
 
