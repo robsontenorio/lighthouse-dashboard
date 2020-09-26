@@ -3,7 +3,7 @@ name: Build package
 on: [push, pull_request]
 
 jobs:
-  php:
+  php-build:
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-latest
     strategy:
@@ -40,8 +40,9 @@ jobs:
           file: .coverage/clover.xml
           fail_ci_if_error: true
 
-  js:
+  js-build:
     name: 'Install and build'
+    needs: php-build
     runs-on: ubuntu-latest    
     steps:
       - name: Checkout code

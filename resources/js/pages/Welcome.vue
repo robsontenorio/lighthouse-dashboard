@@ -29,7 +29,10 @@
 
     <v-card v-if="requests_series.length">
       <v-card-title>Requests</v-card-title>
-      <v-card-subtitle>{{ total_requests | numeral(0.0) }} requests in selected period.</v-card-subtitle>
+      <v-card-subtitle
+        >{{ total_requests | numeral(0.0) }} requests in selected
+        period.</v-card-subtitle
+      >
       <v-card-text>
         <overview-chart :series="requests_series" />
       </v-card-text>
@@ -37,7 +40,10 @@
 
     <v-card v-if="requests_series.length" class="mt-8">
       <v-card-title>Clients</v-card-title>
-      <v-card-subtitle>{{ total_clients | numeral(0.0) }} clients in selected period.</v-card-subtitle>
+      <v-card-subtitle
+        >{{ total_clients | numeral(0.0) }} clients in selected
+        period.</v-card-subtitle
+      >
 
       <v-card-text>
         <clients-chart :series="client_series" />
@@ -50,11 +56,18 @@
       <p class="text-caption mt-3">Make your first request to this Schema.</p>
     </div>
 
-    <v-navigation-drawer v-model="display.filters" app stateless right width="380" class="pa-5">
+    <v-navigation-drawer
+      v-model="display.filters"
+      app
+      stateless
+      right
+      width="380"
+      class="pa-5"
+    >
       <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
     </v-navigation-drawer>
     <v-overlay :value="loading">
-      <v-progress-circular indeterminate />
+      <v-progress-circular indeterminate /> Loading ...
     </v-overlay>
   </div>
 </template>
