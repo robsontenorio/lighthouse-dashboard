@@ -54,13 +54,18 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      # Remove any commited assert before building.
       - name: Build frontend production assets
-        run: yarn production
+        run: |           
+          rm -rf /public/vendor/lighthouse-dashboard/js
+          /public/vendor/lighthouse-dashboard/css
+          /public/vendor/lighthouse-dashboard/mix-manifest.json
+          yarn production
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:     
-          message: "Automated build for frontend assets"
+          message: "Automated fresh build for frontend assets"
        

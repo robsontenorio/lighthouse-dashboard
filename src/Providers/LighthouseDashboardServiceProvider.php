@@ -69,6 +69,11 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
     private function setupInertia()
     {
         Inertia::version(function () {
+            // TODO
+            if (config('app.env') == 'testing') {
+                return;
+            }
+
             return md5_file(public_path('vendor/lighthouse-dashboard/mix-manifest.json'));
         });
 

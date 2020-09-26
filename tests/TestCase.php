@@ -26,12 +26,10 @@ class TestCase extends TestbenchTestCase
 
         $this->withoutExceptionHandling();
         $this->setUpTestSchema();
+        $this->withoutMix();
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadMigrationsFrom(__DIR__ . '/Utils/Database/Migrations');
-
-        // Point public path to package dir, because Inertia/Laravel Mix
-        $this->app->instance('path.public', 'public');
     }
 
     protected function getPackageProviders($app)
