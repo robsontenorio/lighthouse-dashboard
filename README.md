@@ -2,6 +2,7 @@
   <img src="dashboard.png">  
 </p>
 <p align="center">
+    <img src="https://codecov.io/gh/robsontenorio/lighthouse-dashboard/branch/master/graph/badge.svg" />
     <img src="https://img.shields.io/packagist/v/robsontenorio/lighthouse-dashboard.svg" />
     <img src="https://img.shields.io/packagist/dt/robsontenorio/lighthouse-dashboard.svg" />
     <a href="https://join.slack.com/t/lighthousedashboard/shared_invite/zt-hyqiy6fk-HHrxTH_nJH7VtfKfuCSv5Q">
