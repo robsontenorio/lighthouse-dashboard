@@ -7,8 +7,6 @@ use Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
-use Tests\Utils\Database\Factories\ProductFactory;
-use Tests\Utils\Models\Product;
 use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsTopTest extends TestCase
@@ -23,48 +21,11 @@ class OperationsTopTest extends TestCase
 
         $this->schema = File::get(__DIR__ . '/../Utils/Schemas/schema-full.graphql');
 
-        ProductFactory::times(5)->create();
-
         $this->clients = new Collection();
         $this->clients->push(Client::first()); // anonymous
 
         $moreClients = ClientFactory::times(3)->create();
         $moreClients->each(fn ($client) => $this->clients->push($client));
-    }
-
-    public function test_top_operations()
-    {
-        $this->customGraphQLRequest()
-            ->times(3)
-            ->query('
-                {
-                    products{
-                        id
-                        name
-                    }
-                }
-            ');
-
-        $this->customGraphQLRequest()
-            ->times(5)
-            ->query('
-                {
-                    categories{
-                        id
-                        name
-                    }
-                }
-            ');
-
-        $this->get("/lighthouse-dashboard/operations")
-            ->assertPropCount("topOperations", 2)
-            ->assertPropValue("topOperations", function ($data) {
-                $this->assertEquals($data[0]['total_requests'], 5);
-                $this->assertEquals($data[0]['field']['name'], 'categories');
-
-                $this->assertEquals($data[1]['total_requests'], 3);
-                $this->assertEquals($data[1]['field']['name'], 'products');
-            });
     }
 
     /**
