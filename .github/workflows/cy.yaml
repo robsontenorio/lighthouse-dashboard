@@ -3,9 +3,9 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: 
-      image: lorisleiva/laravel-docker:7.4
+    runs:
+     using: 'docker'
+     image: '../../.docker/Dockerfile'
     steps:
     - uses: actions/checkout@v2
 
