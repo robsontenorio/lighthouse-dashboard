@@ -1,0 +1,16 @@
+name: Build and Test
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: robsontenorio/laravel
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Test
+      run: composer test:coverage
