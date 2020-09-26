@@ -4,7 +4,6 @@ services:
   ######## APP ########
   dashboard-app:
     image: robsontenorio/laravel
-    command: "/usr/local/bin/start"
     volumes:
       - ../:/var/www/app:cached
     ports:
