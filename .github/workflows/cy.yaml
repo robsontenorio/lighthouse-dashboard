@@ -3,14 +3,14 @@ on: push
 
 jobs:
   build:
-    runs:
-     using: 'docker'
-     image: '../../.docker/Dockerfile'
+    runs-on: "ubuntu-latest"
+    container:
+      image: "../../.docker/Dockerfile"
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Test
-      run: composer test:coverage
+      - name: Test
+        run: composer test:coverage
