@@ -275,7 +275,7 @@ If you need to tweak UI see "Local development" section.
 
 Developed by [Robson Tenório](https://twitter.com/robsontenorio) and [contributors](https://github.com/robsontenorio/lighthouse-dashboard/graphs/contributors).
 
-This work is highly inspired in [Apollo Studio](https://studio.apollographql.com/) and powered by:
+This work is highly inspired on [Apollo Studio](https://studio.apollographql.com/) and powered by:
 
 - Laravel.
 - Lighthouse GraphQL.
