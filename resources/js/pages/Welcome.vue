@@ -67,7 +67,7 @@
       <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
     </v-navigation-drawer>
     <v-overlay :value="loading">
-      <v-progress-circular indeterminate />
+      <v-progress-circular indeterminate /> Loading ...
     </v-overlay>
   </div>
 </template>

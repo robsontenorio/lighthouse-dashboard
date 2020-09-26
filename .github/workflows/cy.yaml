@@ -56,7 +56,10 @@ jobs:
 
       # Remove any commited assert before building.
       - name: Build frontend production assets
-        run: |                    
+        run: |           
+          rm -rf /public/vendor/lighthouse-dashboard/js
+          /public/vendor/lighthouse-dashboard/css
+          /public/vendor/lighthouse-dashboard/mix-manifest.json
           yarn production
 
       - name: Commit changes
