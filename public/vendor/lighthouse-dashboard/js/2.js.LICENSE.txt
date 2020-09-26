@@ -1,5 +1,0 @@
-/*!
- * @bitty/pipe v0.0.4
- * (c) Vitor Luiz Cavalcanti <vitorluizc@outlook.com> (https://vitorluizc.github.io/)
- * Released under the MIT License.
- */
