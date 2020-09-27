@@ -59,7 +59,7 @@ jobs:
         run: |           
           rm -rf /public/vendor/lighthouse-dashboard/js
           rm -rf /public/vendor/lighthouse-dashboard/css
-          rm /public/vendor/lighthouse-dashboard/mix-manifest.json
+          rm public/vendor/lighthouse-dashboard/mix-manifest.json
           yarn production
 
       - name: Commit changes
