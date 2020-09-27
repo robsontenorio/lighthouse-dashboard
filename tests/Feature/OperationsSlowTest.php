@@ -7,12 +7,9 @@ use Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
-use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsSlowTest extends TestCase
 {
-    use OperationAssertions;
-
     public function setUp(): void
     {
         parent::setUp();

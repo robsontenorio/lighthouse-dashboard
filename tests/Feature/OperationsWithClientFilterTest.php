@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use Database\Factories\ClientFactory;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
-use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsWithClientFilterTest extends TestCase
 {
-    use OperationAssertions;
-
     public function setUp(): void
     {
         parent::setUp();

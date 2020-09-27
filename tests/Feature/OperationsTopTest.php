@@ -7,12 +7,9 @@ use Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
-use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsTopTest extends TestCase
 {
-    use OperationAssertions;
-
     private Collection $clients;
 
     public function setUp(): void

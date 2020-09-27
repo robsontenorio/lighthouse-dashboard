@@ -121,8 +121,6 @@ By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every oper
 - Metrics are stored on dashboard.
 
 The GraphQL server performance is not affected by this package, once metrics are collect after response is sent by server.
-
-By default, metrics are stored on same target app database. But if you want to keep things separated you can select a different database connection to store metrics.
 </details>
 
 # Configuration
@@ -260,9 +258,10 @@ composer test:watch
 # see full report in ./coverage/html/index.html
 composer test:coverage
 ```
-</details>
 
 If you need to tweak UI see "Local development" section.
+</details>
+
 
 # Roadmap
 

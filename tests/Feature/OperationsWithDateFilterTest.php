@@ -3,15 +3,11 @@
 namespace Tests\Feature;
 
 use Carbon\Carbon;
-use Database\Factories\ClientFactory;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
-use Tests\Utils\Traits\OperationAssertions;
 
 class OperationsWithDateFilterTest extends TestCase
 {
-    use OperationAssertions;
-
     public function setUp(): void
     {
         parent::setUp();
