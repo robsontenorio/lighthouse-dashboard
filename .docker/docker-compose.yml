@@ -6,6 +6,4 @@ services:
     image: robsontenorio/laravel
     volumes:
       - ../:/var/www/app:cached
-    ports:
-      - 8080:8080
 

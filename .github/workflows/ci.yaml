@@ -54,7 +54,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # Remove any commited assert before building.
+      # Remove any commited assets before building.
       - name: Build frontend production assets
         run: |           
           rm -rf /public/vendor/lighthouse-dashboard/js

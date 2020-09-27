@@ -16,6 +16,9 @@ class Request extends Model
     protected $table = 'ld_requests';
     protected $guarded = ['id'];
     public $timestamps = false;
+    public $casts = [
+        'y' => 'int'
+    ];
 
     public function getConnectionName()
     {

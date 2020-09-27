@@ -33,7 +33,7 @@ class Client extends Model
             ->orderByDesc('total_requests')
             ->get()
             ->map(function ($item) {
-                return ['x' => $item->username, 'y' => $item['total_requests']];
+                return ['x' => $item->username, 'y' => (int) $item['total_requests']];
             });
     }
 }
