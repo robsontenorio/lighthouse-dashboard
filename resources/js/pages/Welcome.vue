@@ -27,33 +27,34 @@
       </v-row>
     </v-app-bar>
 
-    <v-card v-if="requests_series.length">
-      <v-card-title>Requests</v-card-title>
-      <v-card-subtitle
-        >{{ total_requests | numeral(0.0) }} requests in selected
-        period.</v-card-subtitle
-      >
-      <v-card-text>
-        <overview-chart :series="requests_series" />
-      </v-card-text>
-    </v-card>
-
-    <v-card v-if="requests_series.length" class="mt-8">
-      <v-card-title>Clients</v-card-title>
-      <v-card-subtitle
-        >{{ total_clients | numeral(0.0) }} clients in selected
-        period.</v-card-subtitle
-      >
-
-      <v-card-text>
-        <clients-chart :series="client_series" />
-      </v-card-text>
-    </v-card>
-
     <div v-if="requests_series.length === 0" class="text-center grey--text">
       <v-icon color="grey" x-large>mdi-weather-windy</v-icon>
       <h3 class="mt-3">Oops! Nothing here.</h3>
       <p class="text-caption mt-3">Make your first request to this Schema.</p>
+    </div>
+
+    <div v-if="requests_series.length">
+      <div class="title">Requests</div>
+      <div class="text-caption grey--text mb-3">
+        {{ total_requests | numeral(0.0) }} requests in selected period.
+      </div>
+      <v-card>
+        <v-card-text>
+          <overview-chart :series="requests_series" />
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <div v-if="requests_series.length">
+      <div class="title mt-8">Clients</div>
+      <div class="text-caption grey--text mb-3">
+        {{ total_clients | numeral(0.0) }} clients in selected period.
+      </div>
+      <v-card>
+        <v-card-text>
+          <clients-chart :series="client_series" />
+        </v-card-text>
+      </v-card>
     </div>
 
     <v-navigation-drawer

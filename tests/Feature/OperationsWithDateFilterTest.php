@@ -126,10 +126,9 @@ class OperationsWithDateFilterTest extends TestCase
                 }
             ');
 
-        // Must get these. Because it is "last week" range.
-        // The "last week" starts from  "monday of last week"
+        // Must get these. Because it is "last week" range.        
         $this->customGraphQLRequest()
-            ->withDateTime("-10 days")
+            ->withDateTime("-6 days")
             ->times(4)
             ->query('
                 {

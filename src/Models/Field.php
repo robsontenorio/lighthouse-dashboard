@@ -30,7 +30,7 @@ class Field extends Model
         return $this->hasMany(Request::class);
     }
 
-    public function sumaryWithClients($range)
+    public function sumaryWithClients(array $range)
     {
         return  Client::all()
             ->map(function ($client) use ($range) {

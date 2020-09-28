@@ -23,7 +23,7 @@ Requirements:
 
 Questions? Join us in [Slack Channel](https://join.slack.com/t/lighthousedashboard/shared_invite/zt-hyqiy6fk-HHrxTH_nJH7VtfKfuCSv5Q).
 
-
+<br>
 <kbd>
     <img src="readme2.png">
 </kbd>
@@ -34,6 +34,10 @@ Questions? Join us in [Slack Channel](https://join.slack.com/t/lighthousedashboa
 <br><br>
 <kbd>
     <img src="readme3.png">
+</kbd>
+<br><br>
+<kbd>
+    <img src="readme4.png">
 </kbd>
 
 # Install 
@@ -265,6 +269,7 @@ If you need to tweak UI see "Local development" section.
 
 # Roadmap
 
+- [ ] Error tracking.
 - [ ] Silent Tracing: enable tracing internally for collecting metrics, but do not return tracing metrics on server response.
 - [ ] Sumary for operations per clients.
 - [ ] UI navigation with anchor href when clicks on type return.

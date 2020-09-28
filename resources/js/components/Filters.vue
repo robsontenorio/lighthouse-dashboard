@@ -2,7 +2,6 @@
   <v-card flat>
     <v-card-title>
       <h3>Filters</h3>
-      <v-btn text small outlined color="primary" @click="reset()" class="ml-3">reset</v-btn>
       <v-spacer />
       <v-btn icon @click="$emit('close')">
         <v-icon>mdi-close</v-icon>
@@ -30,13 +29,15 @@
           class="elevation-2"
         />
         <div class="py-3 font-weight-bold">
-          <v-icon small class="mb-1" v-if="dateRangeText" left>mdi-selection-drag</v-icon>
+          <v-icon small class="mb-1" v-if="dateRangeText" left
+            >mdi-selection-drag</v-icon
+          >
           {{ dateRangeText }}
         </div>
       </div>
 
       <div class="font-weight-black text-caption mt-5 mb-5">CLIENTS</div>
-      <v-btn small outlined @click="uncheckAll()">Clear selection</v-btn>
+      <v-btn x-small outlined @click="uncheckAll()">uncheck all</v-btn>
       <v-checkbox
         v-for="client in filters.options.clients"
         v-model="filters.form.clients"
@@ -83,10 +84,6 @@ export default {
         this.filters.form.range = [];
       }
 
-      this.$emit("filter");
-    },
-    reset() {
-      this.filters.form.start_date = "last month";
       this.$emit("filter");
     },
     uncheckAll() {

@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-app-bar app color="white" elevation="1" class="pt-2">
-      <h2>
-        <v-icon left color="black">mdi-pulse</v-icon>Operations
-      </h2>
+      <h2><v-icon left color="black">mdi-pulse</v-icon>Operations</h2>
     </v-app-bar>
 
     <v-dialog :value="true" persistent>
@@ -11,14 +9,16 @@
         <v-card-title>
           <h3>
             <v-icon left color="black">mdi-pulse</v-icon>
-            {{operation.field.name}}
+            {{ operation.field.name }}
           </h3>
           <v-spacer />
           <v-btn icon @click="back()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-card-subtitle class="pt-3">Latest 50 tracings</v-card-subtitle>
+        <v-card-subtitle class="pt-3 pl-15">
+          Listing latest 50 tracings.
+        </v-card-subtitle>
         <v-card-text>
           <v-data-table
             :headers="table.headers"
@@ -28,18 +28,24 @@
             show-expand
             class="elevation-3"
           >
-            <template #item.arguments="{item}">
+            <template #item.arguments="{ item }">
               <div v-highlight>
-                <pre class="language-graphql ml-n5"><code>{{ payloadPreview(item.payload) }}</code></pre>
+                <pre
+                  class="language-graphql ml-n5"
+                ><code>{{ payloadPreview(item.payload) }}</code></pre>
               </div>
             </template>
-            <template #item.duration="{item}">{{ item.duration | milliseconds }}</template>
+            <template #item.duration="{ item }">{{
+              item.duration | milliseconds
+            }}</template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length">
                 <v-row>
                   <v-col>
                     <div v-highlight>
-                      <pre class="language-graphql"><code>{{ payloadPretty(item.payload) }}</code></pre>
+                      <pre
+                        class="language-graphql"
+                      ><code>{{ payloadPretty(item.payload) }}</code></pre>
                     </div>
                   </v-col>
                   <v-col>

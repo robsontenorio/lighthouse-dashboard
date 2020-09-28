@@ -12,29 +12,42 @@
       <v-divider class="my-5" />
     </v-card-subtitle>
     <v-card-text>
-      <h3 class="black--text">Clients & Operations</h3>
+      <h3 class="black--text">Clients & Fields</h3>
+      <p class="mt-3 mb-8">Where that field is used?</p>
 
-      <div v-if="loading" class="text-center mt-8">
+      <div v-if="loading" class="text-center">
         <v-progress-circular indeterminate />
       </div>
 
-      <div v-for="client in sumary" :key="client.id">
-        <div v-if="client.metrics.length && !loading">
-          <div class="text-caption font-weight-bold black--text pt-8">{{ client.username }}</div>
+      <v-expansion-panels v-if="!loading && sumary.length">
+        <v-expansion-panel v-for="client in sumary" :key="client.id">
+          <v-expansion-panel-header class="grey lighten-5">
+            <v-row no-gutters>
+              <v-col>{{ client.username }}</v-col>
+              <v-col class="text-right">
+                <v-chip x-small>{{ totalRequestByClient(client) }}</v-chip>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-data-table
+              :headers="table.headers"
+              :items="client.metrics"
+              :loading="loading"
+              hide-default-footer
+            >
+              <template #item.total_requests="{ item }">
+                {{ item.total_requests | numeral(0.0) }}
+              </template>
+            </v-data-table>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
-          <v-data-table
-            :headers="table.headers"
-            :items="client.metrics"
-            :loading="loading"
-            hide-default-footer
-          >
-            <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
-          </v-data-table>
-        </div>
-      </div>
-
-      <div v-if="!sumary.length && !loading" class="mt-8">
-        <v-alert icon="mdi-alert" text dense>No operations on selected range.</v-alert>
+      <div v-if="!sumary.length && !loading">
+        <v-alert icon="mdi-alert" text dense>
+          No operations on selected range.
+        </v-alert>
       </div>
     </v-card-text>
   </v-card>
@@ -42,6 +55,7 @@
 
 <script>
 import axios from "axios";
+import _ from "lodash";
 import Field from "../components/Field";
 
 export default {
@@ -70,6 +84,9 @@ export default {
     },
   },
   methods: {
+    totalRequestByClient(client) {
+      return _(client.metrics).sumBy("total_requests");
+    },
     async load() {
       this.loading = true;
 

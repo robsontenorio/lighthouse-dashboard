@@ -34,56 +34,50 @@
       <p class="text-caption mt-3">Make your first request to this Schema.</p>
     </div>
 
-    <v-data-table
-      v-if="topOperations.length"
-      :headers="table_top_operations.headers"
-      :items="topOperations"
-      @click:row="selectOperation"
-      hide-default-footer
-      class="elevation-1 row-pointer mb-8"
-    >
-      <template #top>
-        <div class="pa-3">
-          <div class="title">Top</div>
-          <div class="text-caption grey--text">
-            Most requested operations in selected period.
-          </div>
-        </div>
-      </template>
-      <template #item.field="{ item }">
-        <field :field="item.field" class="py-4" />
-      </template>
-      <template #item.total_requests="{ item }">{{
-        item.total_requests | numeral(0.0)
-      }}</template>
-    </v-data-table>
+    <div v-if="topOperations.length">
+      <div class="title">Top</div>
+      <div class="text-caption grey--text mb-3">
+        Most requested operations in selected period.
+      </div>
 
-    <v-data-table
-      v-if="slowlestOperations.length"
-      :headers="table_slowlest_operations.headers"
-      :items="slowlestOperations"
-      @click:row="selectOperation"
-      hide-default-footer
-      class="elevation-1 row-pointer"
-    >
-      <template #top>
-        <div class="pa-3">
-          <div class="title">Slow</div>
-          <div class="text-caption grey--text">
-            Most slowlest operations in selected period.
-          </div>
-        </div>
-      </template>
-      <template #item.field="{ item }">
-        <field :field="item.field" class="py-4" />
-      </template>
-      <template #item.average_duration="{ item }">
-        {{ item.average_duration | milliseconds }}
-      </template>
-      <template #item.latest_duration="{ item }">
-        {{ item.latest_duration | milliseconds }}
-      </template>
-    </v-data-table>
+      <v-data-table
+        :headers="table_top_operations.headers"
+        :items="topOperations"
+        @click:row="selectOperation"
+        hide-default-footer
+        class="elevation-1 row-pointer mb-8"
+      >
+        <template #item.field="{ item }">
+          <field :field="item.field" class="py-4" />
+        </template>
+        <template #item.total_requests="{ item }">{{
+          item.total_requests | numeral(0.0)
+        }}</template>
+      </v-data-table>
+    </div>
+    <div v-if="topOperations.length">
+      <div class="title">Slow</div>
+      <div class="text-caption grey--text mb-3">
+        Most slowlest operations in selected period.
+      </div>
+      <v-data-table
+        :headers="table_slowlest_operations.headers"
+        :items="slowlestOperations"
+        @click:row="selectOperation"
+        hide-default-footer
+        class="elevation-1 row-pointer"
+      >
+        <template #item.field="{ item }">
+          <field :field="item.field" class="py-4" />
+        </template>
+        <template #item.average_duration="{ item }">
+          {{ item.average_duration | milliseconds }}
+        </template>
+        <template #item.latest_duration="{ item }">
+          {{ item.latest_duration | milliseconds }}
+        </template>
+      </v-data-table>
+    </div>
 
     <v-navigation-drawer
       v-model="display.filters"

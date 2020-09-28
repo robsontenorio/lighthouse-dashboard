@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   php-build:
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,9 +41,9 @@ jobs:
           fail_ci_if_error: true
 
   js-build:
-    name: 'Install and build'
+    name: "Build frontend assets"
     needs: php-build
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -56,7 +56,7 @@ jobs:
 
       # Remove any commited assets before building.
       - name: Build frontend production assets
-        run: |           
+        run: |
           rm -rf /public/vendor/lighthouse-dashboard/js
           rm -rf /public/vendor/lighthouse-dashboard/css
           rm public/vendor/lighthouse-dashboard/mix-manifest.json
@@ -66,6 +66,5 @@ jobs:
         uses: EndBug/add-and-commit@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:     
+        with:
           message: "Automated fresh build for frontend assets"
-       
