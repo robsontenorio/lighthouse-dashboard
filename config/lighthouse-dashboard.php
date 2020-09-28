@@ -18,4 +18,15 @@ return [
      */
 
     'connection' => 'dashboard',
+
+    /**
+     * Silent tracing.
+     * 
+     * This package auto-register TracingServiceProvider from "nuwave/lighthouse".     
+     * This is a required feature to make this package working.     
+     * 
+     * But if you do not want including tracing output on server response just set it to `true`.
+     * 
+     */
+    'silent_tracing' => false
 ];

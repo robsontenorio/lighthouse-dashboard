@@ -11,6 +11,7 @@ use App\LighthouseDashboard;
 use App\Listeners\ManipulateResultListener;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Events\ManipulateResult;
+use Nuwave\Lighthouse\Tracing\TracingServiceProvider;
 
 class LighthouseDashboardServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,9 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
 
     public function register()
     {
+        // Register Tracing feature from "nuwave/lighthouse"
+        $this->app->register(TracingServiceProvider::class);
+
         $this->mergeConfigFrom(__DIR__ . '/../../config/lighthouse-dashboard.php', 'lighthouse-dashboard');
 
         // Register the service the package provides.

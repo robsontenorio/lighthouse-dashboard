@@ -42,14 +42,6 @@ Questions? Join us in [Slack Channel](https://join.slack.com/t/lighthousedashboa
 
 # Install 
 
-Enable the `Tracing` extension, by adding the service provider to your `config/app.php`, as described on oficial Lighthouse GraphQL documentation. Note this is not a feature from this package.
-
-```php
-'providers' => [
-    \Nuwave\Lighthouse\Tracing\TracingServiceProvider::class,
-],
-```
-
 Require the package.
 
 ```
@@ -127,8 +119,7 @@ By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every oper
 The GraphQL server performance is not affected by this package, once metrics are collect after response is sent by server.
 </details>
 
-# Configuration
-
+# Configurations
 
 <details>
 <summary>See more ...<br><br></summary>
@@ -139,7 +130,7 @@ return [
     /**
      * Authenticated user attribute for identify the current client.
      * 
-     * If there is no authenticated user a `anonymous` will be used.
+     * If there is no authenticated user an `anonymous` client will be used.
      * Default is `Auth::user()->username`
      */
 
@@ -153,6 +144,17 @@ return [
      */
 
     'connection' => 'dashboard',
+
+     /**
+     * Silent tracing.
+     * 
+     * This package auto-register TracingServiceProvider from "nuwave/lighthouse".     
+     * This is a required feature to make this package working.     
+     * 
+     * But if you do not want including tracing output on server response just set it to `true`.
+     * 
+     */
+    'silent_tracing' => false
 ];
 ```
 </details>
@@ -270,7 +272,6 @@ If you need to tweak UI see "Local development" section.
 # Roadmap
 
 - [ ] Error tracking.
-- [ ] Silent Tracing: enable tracing internally for collecting metrics, but do not return tracing metrics on server response.
 - [ ] Sumary for operations per clients.
 - [ ] UI navigation with anchor href when clicks on type return.
 - [ ] Add option to guard dashboard.

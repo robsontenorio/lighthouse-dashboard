@@ -26,7 +26,11 @@ class ManipulateResultListener
         if (config('app.env') === 'testing') {
             StoreMetrics::dispatchNow($client, $schema, $payload, $tracing);
         } else {
-            StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);;
+            StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);
+        }
+
+        if (config('lighthouse-dashboard.silent_tracing')) {
+            $this->muteTracingResponse($result);
         }
     }
 
@@ -54,5 +58,10 @@ class ManipulateResultListener
         $identifer = config('lighthouse-dashboard.client_identifier');
 
         return Client::firstOrCreate(['username' => $user->$identifer]);
+    }
+
+    private function muteTracingResponse($result)
+    {
+        unset($result->result->extensions['tracing']);
     }
 }
