@@ -3,9 +3,7 @@
     <v-app-bar app color="white" elevation="1" class="pt-2">
       <v-row align="center" class="mb-5">
         <v-col>
-          <h2>
-            <v-icon left color="black">mdi-shape-outline</v-icon>Types
-          </h2>
+          <h2><v-icon left color="black">mdi-shape-outline</v-icon>Types</h2>
         </v-col>
         <v-col cols="3" class="text-right">
           <v-text-field
@@ -22,7 +20,15 @@
         <v-col cols="auto" class="text-right primary--text">
           <v-icon class="mb-1 primary--text">mdi-clock-outline</v-icon>
           {{ filters.form.start_date }}
-          <v-btn color="primary" fab x-small depressed dark @click="displayFilters()" class="ml-3">
+          <v-btn
+            color="primary"
+            fab
+            x-small
+            depressed
+            dark
+            @click="setNavigationComponent('filters')"
+            class="ml-3"
+          >
             <v-icon>mdi-filter-variant</v-icon>
           </v-btn>
         </v-col>
@@ -39,43 +45,51 @@
     >
       <template #top>
         <div class="pa-3">
-          <text-highlight :queries="[search]" class="title">{{ type.name }}</text-highlight>
+          <text-highlight :queries="[search]" class="title">
+            {{ type.name }}
+          </text-highlight>
           <div class="text-caption grey--text">{{ type.description }}</div>
         </div>
       </template>
-      <template #item.name="{item}">
+      <template #item.name="{ item }">
         <field :field="item" :highlight="search" class="py-4" />
       </template>
-      <template #item.total_requests="{item}">{{ item.total_requests | numeral(0.0) }}</template>
+      <template #item.total_requests="{ item }">
+        {{ item.total_requests | numeral(0.0) }}
+      </template>
     </v-data-table>
     <div v-if="filteredTypes.length === 0" class="text-center grey--text">
       <v-icon color="grey" x-large>mdi-weather-windy</v-icon>
       <h3 class="mt-3">Oops! Nothing here.</h3>
-      <p class="text-caption mt-3" v-if="types.length === 0">Make your first request to this Schema.</p>
+      <p class="text-caption mt-3" v-if="types.length === 0">
+        Make your first request to this Schema.
+      </p>
       <p class="text-caption mt-3" v-else>
         It searchs only on
-        <strong>Types</strong> and
-        <strong>Fields</strong>.
+        <strong>Types</strong> and <strong>Fields</strong>.
       </p>
     </div>
 
     <v-navigation-drawer
-      v-model="display.filters"
+      v-model="display.navigation"
       right
-      :app="display.filters"
+      app
       width="380"
       class="pa-5"
     >
-      <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
-    </v-navigation-drawer>
-    <v-navigation-drawer
-      v-model="display.sumary"
-      right
-      :app="display.sumary"
-      width="380"
-      class="pa-5"
-    >
-      <field-sumary :field="selectedField" :filters="filters" @close="hideSumary()" />
+      <filters
+        v-show="display.component === 'filters'"
+        :filters="filters"
+        @filter="filter()"
+        @close="hideNavigation()"
+      />
+
+      <field-sumary
+        v-show="display.component === 'sumary'"
+        :field="selectedField"
+        :filters="filters"
+        @close="hideNavigation()"
+      />
     </v-navigation-drawer>
     <v-overlay :value="loading">
       <v-progress-circular indeterminate />
@@ -100,8 +114,8 @@ export default {
       search: "",
       selectedField: {},
       display: {
-        sumary: false,
-        filters: false,
+        navigation: false,
+        component: "filters",
       },
       filters: {
         form: {
@@ -153,7 +167,8 @@ export default {
     },
     selectField(field) {
       this.selectedField = field;
-      this.displaySumary();
+      this.setNavigationComponent("sumary");
+      this.displayNavigation();
     },
     containsText(item, text) {
       const fields = _(item.fields).map("name").join(" ");
@@ -163,19 +178,15 @@ export default {
         normalizeText(fields).includes(normalizeText(text))
       );
     },
-    displaySumary() {
-      this.hideFilters();
-      this.display.sumary = true;
+    setNavigationComponent(name) {
+      this.display.component = name;
+      this.displayNavigation();
     },
-    hideSumary() {
-      this.display.sumary = false;
+    hideNavigation() {
+      this.display.navigation = false;
     },
-    displayFilters() {
-      this.hideSumary();
-      this.display.filters = true;
-    },
-    hideFilters() {
-      this.display.filters = false;
+    displayNavigation() {
+      this.display.navigation = true;
     },
   },
 };

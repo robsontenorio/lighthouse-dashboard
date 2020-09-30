@@ -1,5 +1,10 @@
 <template>
-  <apexchart type="area" height="150" :options="chart.options" :series="chart.series" />
+  <apexchart
+    type="area"
+    height="150"
+    :options="chart.options"
+    :series="chart.series"
+  />
 </template>
 
 <script>
@@ -60,6 +65,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

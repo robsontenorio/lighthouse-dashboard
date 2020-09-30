@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-app-bar app color="white" elevation="1" class="pt-2">
+    <v-app-bar app color="white" elevation="1">
       <h2><v-icon left color="black">mdi-pulse</v-icon>Operations</h2>
     </v-app-bar>
 
-    <v-dialog :value="true" persistent>
+    <v-bottom-sheet :value="true" persistent fullscreen>
       <v-card tile class="px-5">
         <v-card-title>
           <h3>
@@ -16,7 +16,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-card-subtitle class="pt-3 pl-15">
+        <v-card-subtitle class="pt-3 mb-5 bordered">
           Listing latest 50 tracings.
         </v-card-subtitle>
         <v-card-text>
@@ -31,8 +31,8 @@
             <template #item.arguments="{ item }">
               <div v-highlight>
                 <pre
-                  class="language-graphql ml-n5"
-                ><code>{{ payloadPreview(item.payload) }}</code></pre>
+                  class="language-graphql ml-n5 text-truncate payload"
+                ><code>{{ extractPayloadArgs(item.payload) }}</code></pre>
               </div>
             </template>
             <template #item.duration="{ item }">{{
@@ -57,7 +57,7 @@
           </v-data-table>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-bottom-sheet>
   </div>
 </template>
 
@@ -83,7 +83,7 @@ export default {
     };
   },
   methods: {
-    payloadPreview(request) {
+    extractPayloadArgs(request) {
       const maxLength = 50;
       const regex = /\(([^)]+)\)/;
       const matches = regex.exec(request);
@@ -92,11 +92,7 @@ export default {
         return "-";
       }
 
-      const preview = "(" + matches[1] + ")";
-
-      return preview.length < maxLength
-        ? preview
-        : preview.substring(0, maxLength) + "...";
+      return "(" + matches[1] + ")";
     },
     payloadPretty(payload) {
       return prettier.format(payload, {
@@ -110,3 +106,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.payload {
+  max-width: 500px;
+}
+</style>
