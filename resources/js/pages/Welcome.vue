@@ -7,22 +7,20 @@
             <v-icon color="black" class="mb-1" left>mdi-graphql</v-icon>Schema
           </h2>
         </v-col>
-        <v-col>
-          <v-col cols="auto" class="text-right primary--text">
-            <v-icon class="mb-1 primary--text">mdi-clock-outline</v-icon>
-            {{ filters.form.start_date }}
-            <v-btn
-              color="primary"
-              fab
-              x-small
-              depressed
-              dark
-              @click="displayFilters()"
-              class="ml-3"
-            >
-              <v-icon>mdi-filter-variant</v-icon>
-            </v-btn>
-          </v-col>
+        <v-col cols="auto" class="text-right primary--text">
+          <v-icon class="mb-1 primary--text">mdi-clock-outline</v-icon>
+          {{ filters.form.start_date }}
+          <v-btn
+            color="primary"
+            fab
+            x-small
+            depressed
+            dark
+            @click="displayNavigation()"
+            class="ml-3"
+          >
+            <v-icon>mdi-filter-variant</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -40,7 +38,7 @@
       </div>
       <v-card>
         <v-card-text>
-          <overview-chart :series="requests_series" />
+          <requests-chart :series="requests_series" />
         </v-card-text>
       </v-card>
     </div>
@@ -58,14 +56,18 @@
     </div>
 
     <v-navigation-drawer
-      v-model="display.filters"
+      v-model="display.navigation"
       app
       stateless
       right
       width="380"
       class="pa-5"
     >
-      <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
+      <filters
+        :filters="filters"
+        @filter="filter()"
+        @close="hideNavigation()"
+      />
     </v-navigation-drawer>
     <v-overlay :value="loading">
       <v-progress-circular indeterminate />
@@ -74,7 +76,7 @@
 </template>
 
 <script>
-import OverviewChart from "../components/charts/OverviewChart";
+import RequestsChart from "../components/charts/RequestsChart";
 import ClientsChart from "../components/charts/ClientsChart";
 import Filters from "../components/Filters";
 import _ from "lodash";
@@ -89,7 +91,7 @@ export default {
     "range",
     "selectedClients",
   ],
-  components: { OverviewChart, ClientsChart, Filters },
+  components: { RequestsChart, ClientsChart, Filters },
   data() {
     return {
       loading: false,
@@ -118,11 +120,11 @@ export default {
     },
   },
   methods: {
-    displayFilters() {
-      this.display.filters = true;
+    displayNavigation() {
+      this.display.navigation = true;
     },
-    hideFilters() {
-      this.display.filters = false;
+    hideNavigation() {
+      this.display.navigation = false;
     },
     async filter() {
       this.loading = true;

@@ -1,0 +1,20 @@
+type Badge {
+    id: ID!
+    name: String!
+}
+
+type Person {
+    id: ID!
+    name: String!
+}
+                
+type Product {    
+    id: ID!    
+    name: String!
+    person: Person! @belongsTo  # The internal implementation will throw a error. See model "Product@person"
+    badges: [Badge] @hasMany    # The internal implementation will throw a error. See model "Product@badges"
+}
+            
+type Query {    
+    products: [Product] @all 
+}

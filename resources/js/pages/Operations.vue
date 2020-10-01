@@ -5,22 +5,20 @@
         <v-col>
           <h2><v-icon left color="black">mdi-pulse</v-icon>Operations</h2>
         </v-col>
-        <v-col>
-          <v-col cols="auto" class="text-right primary--text">
-            <v-icon class="mb-1 primary--text">mdi-clock-outline</v-icon>
-            {{ filters.form.start_date }}
-            <v-btn
-              color="primary"
-              fab
-              x-small
-              depressed
-              dark
-              @click="displayFilters()"
-              class="ml-3"
-            >
-              <v-icon>mdi-filter-variant</v-icon>
-            </v-btn>
-          </v-col>
+        <v-col cols="auto" class="text-right primary--text">
+          <v-icon class="mb-1 primary--text">mdi-clock-outline</v-icon>
+          {{ filters.form.start_date }}
+          <v-btn
+            color="primary"
+            fab
+            x-small
+            depressed
+            dark
+            @click="setNavigationComponent('filters')"
+            class="ml-3"
+          >
+            <v-icon>mdi-filter-variant</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -50,9 +48,12 @@
         <template #item.field="{ item }">
           <field :field="item.field" class="py-4" />
         </template>
-        <template #item.total_requests="{ item }">{{
-          item.total_requests | numeral(0.0)
-        }}</template>
+        <template #item.total_requests="{ item }">
+          {{ item.total_requests | numeral(0.0) }}
+        </template>
+        <template #item.total_errors="{ item }">
+          <span class="red--text">{{ item.total_errors }}</span>
+        </template>
       </v-data-table>
     </div>
     <div v-if="topOperations.length">
@@ -80,25 +81,24 @@
     </div>
 
     <v-navigation-drawer
-      v-model="display.filters"
+      v-model="display.navigation"
       right
-      :app="display.filters"
+      app
       width="380"
       class="pa-5"
     >
-      <filters :filters="filters" @filter="filter()" @close="hideFilters()" />
-    </v-navigation-drawer>
-    <v-navigation-drawer
-      v-model="display.sumary"
-      right
-      :app="display.sumary"
-      width="380"
-      class="pa-5"
-    >
+      <filters
+        v-show="display.component === 'filters'"
+        :filters="filters"
+        @filter="filter()"
+        @close="hideNavigation()"
+      />
+
       <operation-sumary
+        v-show="display.component === 'sumary'"
         :operation="selectedOperation"
         :filters="filters"
-        @close="hideSumary()"
+        @close="hideNavigation()"
       />
     </v-navigation-drawer>
     <v-overlay :value="loading">
@@ -129,8 +129,8 @@ export default {
         field: {},
       },
       display: {
-        filters: false,
-        sumary: false,
+        navigation: false,
+        component: "filters",
       },
       filters: {
         form: {
@@ -148,6 +148,12 @@ export default {
           {
             text: "Requests",
             value: "total_requests",
+            sortable: false,
+            align: "end",
+          },
+          {
+            text: "Errors",
+            value: "total_errors",
             sortable: false,
             align: "end",
           },
@@ -170,68 +176,13 @@ export default {
           },
         ],
       },
-      series: [
-        {
-          name: "Requests",
-          data: [],
-        },
-      ],
-      options: {
-        chart: {
-          type: "line",
-          width: "100%",
-          toolbar: {
-            show: false,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: "straight",
-          width: 1,
-        },
-        xaxis: {
-          categories: [],
-        },
-        yaxis: {
-          opposite: true,
-        },
-        grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      },
     };
   },
   methods: {
-    getSeries(operation) {
-      console.log(operation.metrics.totals);
-      return [
-        {
-          name: "Requests",
-          data: operation.metrics.totals,
-        },
-      ];
-    },
-    getOptions(operation) {
-      return {
-        ...this.options,
-        ...{
-          xaxis: { categories: operation.metrics.dates },
-        },
-      };
-      // Object.assign(this.options.xaxis.categories, operation.metrics.dates);
-      console.log(operation.metrics.dates);
-
-      return this.options;
-    },
     selectOperation(operation) {
       this.selectedOperation = operation;
-      this.displaySumary();
+      this.setNavigationComponent("sumary");
+      this.displayNavigation();
     },
     async filter() {
       this.loading = true;
@@ -244,19 +195,15 @@ export default {
 
       this.loading = false;
     },
-    displaySumary() {
-      this.hideFilters();
-      this.display.sumary = true;
+    setNavigationComponent(name) {
+      this.display.component = name;
+      this.displayNavigation();
     },
-    hideSumary() {
-      this.display.sumary = false;
+    hideNavigation() {
+      this.display.navigation = false;
     },
-    displayFilters() {
-      this.hideSumary();
-      this.display.filters = true;
-    },
-    hideFilters() {
-      this.display.filters = false;
+    displayNavigation() {
+      this.display.navigation = true;
     },
   },
 };

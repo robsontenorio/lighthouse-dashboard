@@ -107,12 +107,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.more {
-  cursor: pointer;
-  color: black;
-  text-align: right;
-  margin-top: 10px;
-}
-</style>
