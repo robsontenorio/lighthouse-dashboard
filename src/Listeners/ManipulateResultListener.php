@@ -13,20 +13,19 @@ class ManipulateResultListener
     public function handle(ManipulateResult $result)
     {
         // Ignore introspection requests.
-        if ($this->isIntrospectionRequest($result)) {
+        if ($this->isIntrospectionRequest()) {
             return;
         }
 
         $client = $this->getClient();
         $schema = Schema::first();
         $payload = request()->json('query');
-        $tracing = $this->getTracing($result);
 
         // TODO
         if (config('app.env') === 'testing') {
-            StoreMetrics::dispatchNow($client, $schema, $payload, $tracing);
+            StoreMetrics::dispatchNow($client, $schema, $payload, $result);
         } else {
-            StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $tracing);
+            StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $result);
         }
 
         if (config('lighthouse-dashboard.silent_tracing')) {
@@ -34,16 +33,12 @@ class ManipulateResultListener
         }
     }
 
-    private function isIntrospectionRequest($result)
+    private function isIntrospectionRequest()
     {
-        $resolvers = $this->getTracing($result)['execution']['resolvers'];
+        $requestContent = request()->getContent();
 
-        return count($resolvers) == 0;
-    }
-
-    private function getTracing($result)
-    {
-        return $result->result->extensions['tracing'];
+        // TODO 
+        return strstr($requestContent, '__schema');
     }
 
     private function getClient()

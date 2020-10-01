@@ -36,12 +36,20 @@ class Operation extends Model
         return $this->hasManyThrough(Tracing::class, Request::class);
     }
 
+    public function errors(): HasManyThrough
+    {
+        return $this->hasManyThrough(Error::class, Request::class);
+    }
+
     public static function topIn(array $range, array $clients = [])
     {
         return Operation::query()
             ->with('field')
             ->withCount(['requests as total_requests' => function ($query) use ($range, $clients) {
                 return $query->forClients($clients)->isOperation()->inRange($range);
+            }])
+            ->withCount(['requests as total_errors' => function ($query) use ($range, $clients) {
+                return $query->forClients($clients)->isOperation()->inRange($range)->whereHas('errors');
             }])
             ->orderByDesc('total_requests')
             ->take(10)

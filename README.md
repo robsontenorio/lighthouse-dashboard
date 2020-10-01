@@ -18,6 +18,7 @@ This package adds a standalone analytics dasbhoard with metrics collected from  
 
 Requirements:
 
+- PHP >= 7.4
 - Laravel >= 8.x
 - Laravel Lighthouse >= 5.x
 
@@ -38,6 +39,10 @@ Questions? Join us in [Slack Channel](https://join.slack.com/t/lighthousedashboa
 <br><br>
 <kbd>
     <img src="readme4.png">
+</kbd>
+<br><br>
+<kbd>
+    <img src="readme5.png">
 </kbd>
 
 # Install 
@@ -110,13 +115,13 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 <details>
 <summary>See more ...<br><br></summary>
 
-By enabling `Tracing` extension on Laravel Lighthouse GraphQL Server, every operation automatically is profiled with its execution metrics.
+This package enables built-in `Tracing` extension from Laravel Lighthouse GraphQL Server. So, every operation automatically is profiled with its execution metrics.
 
 - GraphQL request is made.
 - Dashboard listen to `ManipulateResult` event and collect metrics from current operation.
 - Metrics are stored on dashboard.
 
-The GraphQL server performance is not affected by this package, once metrics are collect after response is sent by server.
+The GraphQL server performance is not affected by this package, once metrics are collect after response is sent by server. You can also disable tracing output from server response. See "Configurations" section.
 </details>
 
 # Configurations
@@ -159,11 +164,31 @@ return [
 ```
 </details>
 
+# Tests
+
+<details>
+<summary>See more ...<br><br></summary>
+
+```bash
+# run once
+composer test
+
+# run in watch mode
+composer test:watch
+
+# run once with coverage report in terminal
+# see full report in ./coverage/html/index.html
+composer test:coverage
+```
+
+If you need to tweak UI see "Local development" section.
+</details>
+
 # Local development
 
 <details><summary>See more ...<br><br></summary>
 
-Once this package includes UI, the only way to test it is by running it through target app.
+Once this package includes UI, the only way to see it is by running it through target app.
 
 ### Uninstall  
 
@@ -227,12 +252,6 @@ From target app enter to package vendor folder.
 cd vendor/robsontenorio/lighthouse-dashboard
 ```
 
-Install composer dependencies.
-
-```sh
-composer install
-```
-
 Install frontend dependencies and start it on dev mode.
 
 ```sh
@@ -248,30 +267,8 @@ Then point to http://localhost:3000/lighthouse-dashboard/
 
 </details>
 
-# Tests
-
-<details>
-<summary>See more ...<br><br></summary>
-
-```bash
-# run once
-composer test
-
-# run in watch mode
-composer test:watch
-
-# run once with coverage report in terminal
-# see full report in ./coverage/html/index.html
-composer test:coverage
-```
-
-If you need to tweak UI see "Local development" section.
-</details>
-
-
 # Roadmap
 
-- [ ] Error tracking.
 - [ ] Sumary for operations per clients.
 - [ ] UI navigation with anchor href when clicks on type return.
 - [ ] Add option to guard dashboard.

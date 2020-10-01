@@ -48,9 +48,12 @@
         <template #item.field="{ item }">
           <field :field="item.field" class="py-4" />
         </template>
-        <template #item.total_requests="{ item }">{{
-          item.total_requests | numeral(0.0)
-        }}</template>
+        <template #item.total_requests="{ item }">
+          {{ item.total_requests | numeral(0.0) }}
+        </template>
+        <template #item.total_errors="{ item }">
+          <span class="red--text">{{ item.total_errors }}</span>
+        </template>
       </v-data-table>
     </div>
     <div v-if="topOperations.length">

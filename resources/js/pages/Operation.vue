@@ -4,7 +4,7 @@
       <h2><v-icon left color="black">mdi-pulse</v-icon>Operations</h2>
     </v-app-bar>
 
-    <v-bottom-sheet :value="true" persistent fullscreen>
+    <v-bottom-sheet :value="true" persistent fullscreen scrollable>
       <v-card tile class="px-5">
         <v-card-title>
           <h3>

@@ -102,8 +102,6 @@ class SyncGraphQLSchemaTest extends TestCase
             }
         ');
 
-        dd($response->json());
-
         $this->assertEquals(Type::count(), 4);
 
         $this->assertHasType([
