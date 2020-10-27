@@ -23,9 +23,9 @@ class SlientTracingTest extends TestCase
                     name
                 }
             }
-        ')->assertJsonStructure(['data' => [], 'extensions' => ['tracing']]);
+        ')->assertJsonPath('extensions.tracing', null);
 
-        config(['lighthouse-dashboard.silent_tracing' => true]);
+        config(['lighthouse-dashboard.silent_tracing' => false]);
 
         $this->graphQL('
             {
@@ -34,6 +34,6 @@ class SlientTracingTest extends TestCase
                     name
                 }
             }
-        ')->assertJsonPath('extensions.tracing', null);
+        ')->assertJsonStructure(['data' => [], 'extensions' => ['tracing']]);
     }
 }
