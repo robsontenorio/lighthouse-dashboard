@@ -18,6 +18,7 @@ class MigrateCommand extends Command
     public function handle()
     {
         $this->call('migrate', [
+            '--force' => true,
             '--path' => 'vendor/robsontenorio/lighthouse-dashboard/database/migrations',
             '--database' => config('lighthouse-dashboard.connection'),
         ]);
