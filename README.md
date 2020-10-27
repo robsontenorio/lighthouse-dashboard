@@ -110,6 +110,25 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 }
 ```
 
+### Note about phpunit tests
+
+This dashboard collects metrics by listening  `Nuwave\Lighthouse\Events\ManipulateResult` . Make sure to fake this event on your parent `TestCase`, in order to prevent metrics collecting while testing your app.
+
+```php
+use Nuwave\Lighthouse\Events\ManipulateResult;
+
+abstract class TestCase extends BaseTestCase
+{    
+    public  function setUp(): void
+    {
+        parent::setUp();
+
+        // Disable metrics while testing
+        Event::fake(ManipulateResult::class);
+    }
+}
+```
+
 # How does it works?
 
 <details>
@@ -156,10 +175,10 @@ return [
      * This package auto-register TracingServiceProvider from "nuwave/lighthouse".     
      * This is a required feature to make this package working.     
      * 
-     * But if you do not want including tracing output on server response just set it to `true`.
+     * If you want including tracing output on server response just set it to `false`.
      * 
      */
-    'silent_tracing' => false
+    'silent_tracing' => true
 ];
 ```
 </details>
