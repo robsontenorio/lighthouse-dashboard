@@ -240,10 +240,10 @@ Require local package version.
 composer require robsontenorio/lighthouse-dashboard @dev
 ```
 
-Create symlink from target app `/public` assets to local package assets.
+On target app create and ant to folder `/public/vendor/lighthouse-dashboard/`. So create a symlink inside it:
 
 ```sh
-ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor /path/to/app/public/vendor
+ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard /path/to/app/public/vendor/lighthouse-dashboard
 ```
 
 From target app enter to package vendor folder.
