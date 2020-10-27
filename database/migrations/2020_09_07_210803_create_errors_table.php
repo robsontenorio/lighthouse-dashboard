@@ -12,7 +12,7 @@ class CreateErrorsTable extends Migration
             $table->id();
             $table->foreignId('request_id')->constrained('ld_requests');
             $table->string('category');
-            $table->string('message');
+            $table->text('message');
             $table->text('original_exception')->nullable();
             $table->text('body');
 
