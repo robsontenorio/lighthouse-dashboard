@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use App\Console\Commands\MigrateCommand;
+use App\Console\Commands\PublishAssetsCommand;
 use App\Console\Commands\PublishCommand;
 use App\Console\Commands\SeedCommand;
 use App\LighthouseDashboard;
@@ -60,11 +61,12 @@ class LighthouseDashboardServiceProvider extends ServiceProvider
         // Publishing assets.
         $this->publishes([
             __DIR__ . '/../../public/vendor/lighthouse-dashboard' => public_path('vendor/lighthouse-dashboard'),
-        ], 'lighthouse-dashboard');
+        ], ['lighthouse-dashboard', 'lighthouse-dashboard-assets']);
 
         // Registering package commands.
         $this->commands([
             PublishCommand::class,
+            PublishAssetsCommand::class,
             MigrateCommand::class,
             SeedCommand::class
         ]);

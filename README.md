@@ -54,7 +54,7 @@ composer require robsontenorio/lighthouse-dashboard
 ```
 
 
-Publish package assets.
+Publish package assets and config file.
 
 ```
 php artisan lighthouse-dashboard:publish
@@ -104,7 +104,7 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 {    
     "scripts": {
         "post-autoload-dump": [            
-            "@php artisan lighthouse-dashboard:publish"
+            "@php artisan lighthouse-dashboard:publish-assets"
         ]
     }
 }
@@ -219,7 +219,7 @@ Remove this entry from `composer.json`.
 {    
     "scripts": {
         "post-autoload-dump": [ 
-            "@php artisan lighthouse-dashboard:publish"
+            "@php artisan lighthouse-dashboard:publish-assets"
         ]
     }
 }
@@ -259,10 +259,10 @@ Require local package version.
 composer require robsontenorio/lighthouse-dashboard @dev
 ```
 
-On target app create and ant to folder `/public/vendor/lighthouse-dashboard/`. So create a symlink inside it:
+On target app create `mkdir -p public/vendor/lighthouse-dashboard/`. Then, create a symlink from package vendor folder to app public assets folder.
 
 ```sh
-ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard /path/to/app/public/vendor/lighthouse-dashboard
+ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard /path/to/app/public/vendor
 ```
 
 From target app enter to package vendor folder.
@@ -276,6 +276,8 @@ Install frontend dependencies and start it on dev mode.
 ```sh
 yarn dev
 ```
+
+Now all assets built inside package vendor folder will be symlinked to target app public vendor folder.
 
 Then point to http://localhost:3000/lighthouse-dashboard/
 
