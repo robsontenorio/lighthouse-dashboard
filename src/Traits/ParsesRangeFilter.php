@@ -18,6 +18,10 @@ trait ParsesRangeFilter
             $end_date = $range[1];
         }
 
+        if (!$range && $start_date === 'in custom range') {
+            $start_date = 'last month';
+        }
+
         $start_date = Carbon::parse($start_date);
         $end_date = Carbon::parse($end_date);
 

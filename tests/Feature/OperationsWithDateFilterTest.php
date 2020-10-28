@@ -234,4 +234,41 @@ class OperationsWithDateFilterTest extends TestCase
                 $this->assertEquals($data[0]['field']['name'], 'products');
             });
     }
+
+    public function test_empty_custom_range_date_defaults_to_last_month()
+    {
+        // Must ignore this.
+        $this->customGraphQLRequest()
+            ->withDateTime("-60 days")
+            ->times(4)
+            ->query('
+            {
+                products{
+                    id
+                    name
+                }
+            }
+        ');
+
+        // Must get this.
+        $this->customGraphQLRequest()
+            ->withDateTime("-10 days")
+            ->times(3)
+            ->query('
+                {
+                    products{
+                        id
+                        name
+                    }
+                }
+            ');
+
+        // When custom range does not contain dates, defaults to last month.
+        $this->get("/lighthouse-dashboard/operations?start_date=in custom range")
+            ->assertPropCount("topOperations", 1)
+            ->assertPropValue("topOperations", function ($data) {
+                $this->assertEquals($data[0]['total_requests'], 3);
+                $this->assertEquals($data[0]['field']['name'], 'products');
+            });
+    }
 }
