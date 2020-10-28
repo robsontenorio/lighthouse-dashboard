@@ -259,7 +259,7 @@ Require local package version.
 composer require robsontenorio/lighthouse-dashboard @dev
 ```
 
-On target app create `mkdir -p public/vendor/lighthouse-dashboard/`. Then, create a symlink from package vendor folder to app public assets folder.
+Then, create a symlink from package vendor folder to app public assets folder.
 
 ```sh
 ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard /path/to/app/public/vendor
