@@ -50,7 +50,6 @@ class StoreMetrics implements ShouldQueue
 
     public function handle()
     {
-
         try {
             DB::beginTransaction();
             SyncGraphQLSchema::run($this->schema);
@@ -64,11 +63,18 @@ class StoreMetrics implements ShouldQueue
 
     private function storeOperationMetrics(): void
     {
+        $field = $this->getFieldForOperation();
+
+        // If cant parse operation field just returns. Sorry :(
+        if ($field == null) {
+            return;
+        }
+
         $this->operation = Operation::firstOrCreate([
-            'field_id' => $this->getFieldForOperation()->id,
+            'field_id' => $field->id,
         ]);
 
-        // Log only if this operation has errors
+        // If operation has errors, log the error then return.
         if (count($this->errors)) {
             $this->storeErrors();
             return;
@@ -154,7 +160,7 @@ class StoreMetrics implements ShouldQueue
     }
 
     // TODO better away? Cant get operation name from execution context. 
-    private function getFieldForOperation(): Field
+    private function getFieldForOperation(): ?Field
     {
         $path = $this->getOperationPathFromResolvers();
 
