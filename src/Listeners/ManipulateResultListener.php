@@ -17,6 +17,7 @@ class ManipulateResultListener
             return;
         }
 
+        // Silent database failure when bootstraping, but report it.
         try {
             $client = $this->getClient();
             $schema = Schema::first();
@@ -26,6 +27,7 @@ class ManipulateResultListener
             return;
         }
 
+        // Ignore clients
         if ($this->isIgnoredClient($client)) {
             return;
         }
