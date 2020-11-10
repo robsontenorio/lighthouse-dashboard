@@ -4,9 +4,12 @@ namespace Tests\Unit;
 
 use App\Actions\StoreMetrics;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Exceptions\ReportableHandler;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
+use Throwable;
 
 class ManipulateResultListenerTest extends TestCase
 {
@@ -94,5 +97,22 @@ class ManipulateResultListenerTest extends TestCase
         Bus::assertDispatched(function (StoreMetrics $job) {
             return $job->client->username == 'amanda';
         });
+    }
+
+    public function test_silent_database_failure_when_bootstraping()
+    {
+        // Force dashboard settings to a not configured connection
+        config(['lighthouse-dashboard.connection' => 'mysql']);
+
+        $this->graphQL('
+            {
+                products{
+                    id                    
+                    name
+                }
+            }
+        ')->assertJsonPath('errors', null);
+
+        Bus::assertNotDispatched(StoreMetrics::class);
     }
 }

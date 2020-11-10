@@ -17,9 +17,14 @@ class ManipulateResultListener
             return;
         }
 
-        $client = $this->getClient();
-        $schema = Schema::first();
-        $payload = request()->json('query');
+        try {
+            $client = $this->getClient();
+            $schema = Schema::first();
+            $payload = request()->json('query');
+        } catch (\Throwable $th) {
+            report($th);
+            return;
+        }
 
         // TODO
         if (config('app.env') === 'testing') {
