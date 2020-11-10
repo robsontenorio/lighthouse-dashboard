@@ -26,6 +26,10 @@ class ManipulateResultListener
             return;
         }
 
+        if ($this->isIgnoredClient($client)) {
+            return;
+        }
+
         // TODO
         if (config('app.env') === 'testing') {
             StoreMetrics::dispatchNow($client, $schema, $payload, $result);
@@ -58,6 +62,13 @@ class ManipulateResultListener
         $identifer = config('lighthouse-dashboard.client_identifier');
 
         return Client::firstOrCreate(['username' => $user->$identifer]);
+    }
+
+    private function isIgnoredClient(Client $client)
+    {
+        $ignoredClients = config('lighthouse-dashboard.ignore_clients');
+
+        return in_array($client->username, $ignoredClients);
     }
 
     private function muteTracingResponse($result)

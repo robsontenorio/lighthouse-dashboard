@@ -154,7 +154,7 @@ return [
     /**
      * Authenticated user attribute for identify the current client.
      * 
-     * If there is no authenticated user an `anonymous` client will be used.
+     * If there is no authenticated user a `anonymous` will be used.
      * Default is `Auth::user()->username`
      */
 
@@ -169,7 +169,7 @@ return [
 
     'connection' => 'dashboard',
 
-     /**
+    /**
      * Silent tracing.
      * 
      * This package auto-register TracingServiceProvider from "nuwave/lighthouse".     
@@ -178,7 +178,17 @@ return [
      * If you want including tracing output on server response just set it to `false`.
      * 
      */
-    'silent_tracing' => true
+
+    'silent_tracing' => true,
+
+    /**
+     * Ignore clients.
+     * 
+     * Ignore all request from these clients based on `client_identifier`.     
+     * 
+     */
+
+    'ignore_clients' => []
 ];
 ```
 </details>

@@ -28,5 +28,15 @@ return [
      * If you want including tracing output on server response just set it to `false`.
      * 
      */
-    'silent_tracing' => true
+
+    'silent_tracing' => true,
+
+    /**
+     * Ignore clients.
+     * 
+     * Ignore all request from these clients based on `client_identifier`.     
+     * 
+     */
+
+    'ignore_clients' => []
 ];
