@@ -10,8 +10,19 @@ use Nuwave\Lighthouse\Events\ManipulateResult;
 
 class ManipulateResultListener
 {
+    private $result;
+
+    public function __destruct()
+    {
+        if (config('lighthouse-dashboard.silent_tracing')) {
+            $this->muteTracingResponse($this->result);
+        }
+    }
+
     public function handle(ManipulateResult $result)
     {
+        $this->result = $result;
+
         // Ignore introspection requests.
         if ($this->isIntrospectionRequest()) {
             return;
@@ -37,10 +48,6 @@ class ManipulateResultListener
             StoreMetrics::dispatchNow($client, $schema, $payload, $result);
         } else {
             StoreMetrics::dispatchAfterResponse($client, $schema, $payload, $result);
-        }
-
-        if (config('lighthouse-dashboard.silent_tracing')) {
-            $this->muteTracingResponse($result);
         }
     }
 

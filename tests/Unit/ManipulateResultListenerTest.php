@@ -4,12 +4,9 @@ namespace Tests\Unit;
 
 use App\Actions\StoreMetrics;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Foundation\Exceptions\ReportableHandler;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
-use Throwable;
 
 class ManipulateResultListenerTest extends TestCase
 {
