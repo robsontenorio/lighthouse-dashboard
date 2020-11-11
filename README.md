@@ -112,19 +112,22 @@ To keep the assets up-to-date and avoid issues in future updates, we highly reco
 
 ### Note about phpunit tests
 
-This dashboard collects metrics by listening  `Nuwave\Lighthouse\Events\ManipulateResult` . Make sure to fake this event on your parent `TestCase`, in order to prevent metrics collecting while testing your app.
+This dashboard collects metrics by listening  `Nuwave\Lighthouse\Events\ManipulateResult` . Make sure to disable this on your parent `TestCase`, in order to prevent metrics collecting while testing your app.
 
 ```php
 use Nuwave\Lighthouse\Events\ManipulateResult;
 
 abstract class TestCase extends BaseTestCase
 {    
+    // use this Trait
+    use DisableDashboardMetrics;
+
     public  function setUp(): void
     {
         parent::setUp();
 
-        // Disable metrics while testing
-        Event::fake(ManipulateResult::class);
+        // Then, disable metrics while testing
+        $this->withoutDashboardMetrics();
     }
 }
 ```
