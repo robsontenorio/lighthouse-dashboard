@@ -12,7 +12,7 @@
 
 # Dashboard for Laravel Lighthouse GraphQL
 
-**:warning: WORK IN PROGRESS!**
+**:warning: WORK IN PROGRESS! BREAKING CHANGES ARE EXPECTED!**
 
 This package adds a standalone analytics dasbhoard with metrics collected from  [Laravel Lighthouse GraphQL Server](https://lighthouse-php.com/).
 
