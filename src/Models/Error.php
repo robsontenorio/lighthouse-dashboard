@@ -11,6 +11,7 @@ class Error extends Model
     use HasFactory;
 
     protected $table = 'ld_errors';
+    public $timestamps = false;
     protected $guarded = ['id'];
 
     public function getConnectionName()
@@ -18,18 +19,22 @@ class Error extends Model
         return config('lighthouse-dashboard.connection');
     }
 
-    public function request(): BelongsTo
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(Request::class);
+        return $this->belongsTo(Client::class);
+    }
+
+    public function operation(): BelongsTo
+    {
+        return $this->belongsTo(Operation::class);
     }
 
     public static function latestIn(array $range, array $selectedClients)
     {
         return Error::query()
-            ->with(['request.client', 'request.operation.field'])
-            ->whereHas('request', function ($query) use ($range, $selectedClients) {
-                $query->inRange($range)->forClients($selectedClients);
-            })
+            ->with(['client', 'operation.field'])
+            ->whereBetween('requested_at', $range)
+            ->whereIn('client_id', $selectedClients)
             ->latest()
             ->take(100)
             ->get();

@@ -93,40 +93,33 @@ class StoreMetrics implements ShouldQueue
                     'field_id' => $field->id,
                     'client_id' => $this->client->id,
                     'operation_id' => $this->operation->id,
-                    'requested_at' => $this->requested_at
+                    'duration' =>  $field->is($this->operation->field) ? $this->tracing['duration'] : null, // set duration only if is operation it self
+                    'requested_at' => $this->requested_at,
                 ]);
 
                 // Store tracing only if this field is a operation itself
                 if ($field->is($this->operation->field)) {
-                    $request->update(['duration' => $this->tracing['duration']]);
-                    $this->storeTracing($request);
+                    $this->storeTracing();
                 }
             });
     }
 
-    private function storeTracing(Request $request): void
+    private function storeTracing(): void
     {
         Tracing::create([
-            'request_id' => $request->id,
+            'client_id' => $this->client->id,
             'operation_id' => $this->operation->id,
             'payload' => $this->payload,
             'execution' => $this->tracing,
             'start_time' => $this->tracing['startTime'],
             'end_time' => $this->tracing['endTime'],
             'duration' => $this->tracing['duration'],
+            'requested_at' => $this->requested_at
         ]);
     }
 
     private function storeErrors()
     {
-        $request = Request::create([
-            'field_id' => $this->operation->field_id,
-            'client_id' => $this->client->id,
-            'operation_id' => $this->operation->id,
-            'requested_at' => $this->requested_at,
-            'duration' => $this->tracing['duration']
-        ]);
-
         /**
          * Prevent log same message multiples times.
          * Usually when error is on node with multiples items (hasMany).
@@ -136,11 +129,13 @@ class StoreMetrics implements ShouldQueue
 
         foreach ($errors as $error) {
             Error::create([
-                'request_id' => $request->id,
+                'client_id' => $this->client->id,
+                'operation_id' => $this->operation->id,
                 'category' => $error->getCategory(),
                 'message' => $error->getMessage(),
                 'original_exception' => $error->getPrevious(),
-                'body' => $error
+                'body' => $error,
+                'requested_at' => $this->requested_at
             ]);
         }
     }

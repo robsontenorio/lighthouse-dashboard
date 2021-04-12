@@ -2,8 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Operation;
+use App\Models\Request;
 use Database\Factories\ClientFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Nuwave\Lighthouse\WhereConditions\Operator;
 use Tests\TestCase;
 
 class OperationsWithClientFilterTest extends TestCase
@@ -55,6 +59,8 @@ class OperationsWithClientFilterTest extends TestCase
                     }
                 }
             ');
+
+        // dd(Operation::first()->requests->toArray());
 
         $this->get("/lighthouse-dashboard/operations")
             ->assertPropCount("topOperations", 1)
