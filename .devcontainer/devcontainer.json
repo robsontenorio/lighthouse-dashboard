@@ -3,15 +3,24 @@
 	"dockerComposeFile": "../.docker/docker-compose.yml",
 	"service": "dashboard-app",
 	"workspaceFolder": "/var/www/app",
+	// Comment out if you want to use root
+	"remoteUser": "appuser",
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.defaultProfile.linux": "zsh",
+		"[php]": {
+			"editor.defaultFormatter": "junstyle.php-cs-fixer",
+		},
+		"php-cs-fixer.executablePath": "/var/www/app/vendor/bin/php-cs-fixer",
+		"php-cs-fixer.config": "/var/www/app/.php-cs-fixer.php",
+		"php-cs-fixer.onsave": true,
+	},
+	"remoteEnv": {
+		"PHP_CS_FIXER_IGNORE_ENV": "1",
 	},
 	// Add the IDs of extensions you want installed when the container is created in the array below.
 	"extensions": [
 		"bmewburn.vscode-intelephense-client",
-		"octref.vetur",
-		"prisma.vscode-graphql"
-	],
-	// Comment out if you want to use root
-	"remoteUser": "appuser"
+		"octref.vetur",	
+		"junstyle.php-cs-fixer"
+	],	
 }

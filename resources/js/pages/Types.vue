@@ -40,6 +40,7 @@
       :headers="table.headers"
       :items="type.fields"
       @click:row="selectField"
+      items-per-page="999"
       hide-default-footer
       class="elevation-1 row-pointer mb-8"
     >
@@ -101,9 +102,9 @@
 import _ from "lodash";
 import { normalizeText } from "normalize-text";
 import TextHighlight from "vue-text-highlight";
-import Filters from "../components/Filters";
-import Field from "../components/Field";
-import FieldSumary from "../components/FieldSumary";
+import Filters from "../components/Filters.vue";
+import Field from "../components/Field.vue";
+import FieldSumary from "../components/FieldSumary.vue";
 
 export default {
   props: ["types", "start_date", "range", "clients", "selectedClients"],

@@ -1,20 +1,17 @@
 let mix = require('laravel-mix');
+require('vuetifyjs-mix-extension');
 
 mix.setPublicPath('public/vendor/lighthouse-dashboard')
+    .setResourceRoot('/vendor/lighthouse-dashboard')
     .js('resources/js/app.js', 'js/')
-    .sass('resources/css/app.scss', 'css/')
-    .browserSync('localhost:8080')   // change this while developing in different host/port
+    .sass('resources/css/app.scss', 'css/')                                 
     .webpackConfig({
         output: {
             publicPath: '/vendor/lighthouse-dashboard/',
             chunkFilename: 'js/[name].js?id=[chunkhash]'
-        },
-        resolve: {
-            alias: {
-                'vue$': 'vue/dist/vue.runtime.esm.js',
-                '@': path.resolve('resources/js'),
-            },
-        },
+        }       
     })
+    .vue({ version: 2 })
+    .vuetify()
     .sourceMaps()
     .version()

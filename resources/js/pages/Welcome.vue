@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import RequestsChart from "../components/charts/RequestsChart";
-import ClientsChart from "../components/charts/ClientsChart";
-import Filters from "../components/Filters";
+import RequestsChart from "../components/charts/RequestsChart.vue";
+import ClientsChart from "../components/charts/ClientsChart.vue";
+import Filters from "../components/Filters.vue";
 import _ from "lodash";
 
 export default {

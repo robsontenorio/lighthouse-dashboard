@@ -3,7 +3,11 @@ version: "3"
 services:
   ######## APP ########
   dashboard-app:
-    image: robsontenorio/laravel
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile
     volumes:
       - ../:/var/www/app:cached
+    ports:
+      - 8088:8080
 

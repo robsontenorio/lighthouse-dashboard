@@ -63,7 +63,7 @@
 
 <script>
 import { component as VueCodeHighlight } from "vue-code-highlight";
-import TracingExecution from "../components/tracing/TracingExecution";
+import TracingExecution from "../components/tracing/TracingExecution.vue";
 import * as prettier from "prettier/standalone";
 import * as graphql from "prettier/parser-graphql";
 

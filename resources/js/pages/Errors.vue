@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import Filters from "../components/Filters";
+import Filters from "../components/Filters.vue";
 
 export default {
   props: ["errors", "clients", "start_date", "range", "selectedClients"],

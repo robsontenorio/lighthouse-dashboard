@@ -53,7 +53,7 @@
 
 <script>
 import axios from "axios";
-import Field from "../components/Field";
+import Field from "../components/Field.vue";
 
 export default {
   props: ["operation", "filters"],

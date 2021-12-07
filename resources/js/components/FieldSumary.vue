@@ -56,7 +56,7 @@
 <script>
 import axios from "axios";
 import _ from "lodash";
-import Field from "../components/Field";
+import Field from "../components/Field.vue";
 
 export default {
   props: ["field", "filters"],

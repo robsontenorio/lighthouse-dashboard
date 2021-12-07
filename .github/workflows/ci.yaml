@@ -59,6 +59,7 @@ jobs:
         run: |
           rm -rf /public/vendor/lighthouse-dashboard/js
           rm -rf /public/vendor/lighthouse-dashboard/css
+          rm -rf /public/vendor/lighthouse-dashboard/fonts
           rm public/vendor/lighthouse-dashboard/mix-manifest.json
           yarn production
 

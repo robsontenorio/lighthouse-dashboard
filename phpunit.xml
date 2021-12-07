@@ -27,7 +27,7 @@
   </testsuites>
   <php>
     <server name="APP_ENV" value="testing"/>
-        <server name="APP_DEBUG" value="TRUE"/>
+    <server name="APP_DEBUG" value="TRUE"/>
     <server name="DB_DATABASE" value=":memory:"/>
   </php>
 </phpunit>
