@@ -12,6 +12,7 @@ class Tracing extends Model
 
     protected $table = 'ld_tracings';
     protected $guarded = ['id'];
+    public $timestamps = false;
     protected $casts = [
         'execution' => 'array',
     ];

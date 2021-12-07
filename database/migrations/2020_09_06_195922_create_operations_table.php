@@ -10,10 +10,8 @@ class CreateOperationsTable extends Migration
     {
         Schema::create('ld_operations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('field_id');
+            $table->foreignId('field_id')->constrained('ld_fields');
             $table->timestamps();
-
-            $table->foreign('field_id')->references('id')->on('ld_fields');
         });
     }
 

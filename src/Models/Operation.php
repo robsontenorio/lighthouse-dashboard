@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Operation extends Model
 {
@@ -31,14 +30,14 @@ class Operation extends Model
         return $this->hasMany(Request::class);
     }
 
-    public function tracings(): HasManyThrough
+    public function tracings(): HasMany
     {
-        return $this->hasManyThrough(Tracing::class, Request::class);
+        return $this->hasMany(Tracing::class);
     }
 
-    public function errors(): HasManyThrough
+    public function errors(): HasMany
     {
-        return $this->hasManyThrough(Error::class, Request::class);
+        return $this->hasMany(Error::class);
     }
 
     public static function topIn(array $range, array $clients = [])
@@ -48,9 +47,9 @@ class Operation extends Model
             ->withCount(['requests as total_requests' => function ($query) use ($range, $clients) {
                 return $query->forClients($clients)->isOperation()->inRange($range);
             }])
-            ->withCount(['requests as total_errors' => function ($query) use ($range, $clients) {
-                return $query->forClients($clients)->isOperation()->inRange($range)->whereHas('errors');
-            }])
+            // ->withCount(['requests as total_errors' => function ($query) use ($range, $clients) {
+            //     return $query->forClients($clients)->isOperation()->inRange($range)->whereHas('errors');
+            // }])
             ->orderByDesc('total_requests')
             ->take(10)
             ->get();

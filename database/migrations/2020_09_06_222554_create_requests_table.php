@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateRequestsTable extends Migration
@@ -9,22 +10,36 @@ class CreateRequestsTable extends Migration
     public function up()
     {
         Schema::create('ld_requests', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('field_id');
-            $table->unsignedBigInteger('operation_id');
-            $table->unsignedBigInteger('client_id');
-            $table->dateTime('requested_at');
+            $table->foreignId('field_id')->constrained('ld_fields');
+            $table->foreignId('client_id')->constrained('ld_clients');
+            $table->foreignId('operation_id')->constrained('ld_operations');
             $table->unsignedBigInteger('duration')->nullable();
+            $table->timestampTz('requested_at');
 
-            $table->foreign('field_id')->references('id')->on('ld_fields');
-            $table->foreign('operation_id')->references('id')->on('ld_operations');
-            $table->foreign('client_id')->references('id')->on('ld_clients');
-
+            $table->index(['client_id', 'duration', DB::raw('requested_at DESC')]);
             $table->index(['field_id', 'client_id', 'requested_at']);
-            $table->index(['duration', 'requested_at']);
-            $table->index(['client_id', 'operation_id', 'duration', 'requested_at']);
-            $table->index(['operation_id', 'requested_at']);
+            $table->index(['operation_id', 'client_id', 'duration', DB::raw('requested_at DESC')]);
         });
+
+        // When testing ignore hypertable settings
+        if (config('app.env') === 'testing') {
+            return;
+        }
+
+        // Crate hyper table
+        DB::statement("SELECT create_hypertable('ld_requests', 'requested_at')");
+
+        // Set compress configuration
+        DB::statement("
+                ALTER TABLE ld_requests  set (
+                    timescaledb.compress,
+                    timescaledb.compress_segmentby = 'client_id,field_id,operation_id',
+                        timescaledb.compress_orderby = 'requested_at DESC'
+                )
+        ");
+
+        // Apply compress policy
+        DB::statement("SELECT add_compression_policy('ld_requests', INTERVAL '30 days')");
     }
 
     public function down()
