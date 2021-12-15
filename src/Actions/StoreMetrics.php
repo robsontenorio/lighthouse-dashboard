@@ -4,16 +4,16 @@ namespace App\Actions;
 
 use App\Models\Client;
 use App\Models\Error;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Field;
 use App\Models\Operation;
 use App\Models\Request;
 use App\Models\Schema;
 use App\Models\Tracing;
 use App\Models\Type;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +24,10 @@ use Nuwave\Lighthouse\Events\ManipulateResult;
  */
 class StoreMetrics implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public Client $client;
     public Schema $schema;
@@ -77,6 +80,7 @@ class StoreMetrics implements ShouldQueue
         // If operation has errors, log the error then return.
         if (count($this->errors)) {
             $this->storeErrors();
+
             return;
         }
 
@@ -93,22 +97,22 @@ class StoreMetrics implements ShouldQueue
                     'field_id' => $field->id,
                     'client_id' => $this->client->id,
                     'operation_id' => $this->operation->id,
-                    'duration' =>  $field->is($this->operation->field) ? $this->tracing['duration'] : null, // set duration only if is operation it self
-                    'requested_at' => $this->requested_at,
+                    'requested_at' => $this->requested_at
                 ]);
 
                 // Store tracing only if this field is a operation itself
                 if ($field->is($this->operation->field)) {
-                    $this->storeTracing();
+                    // dump($request->id, $this->tracing['duration']);
+                    $request->update(['duration' => $this->tracing['duration']]);
+                    $this->storeTracing($request);
                 }
             });
     }
 
-    private function storeTracing(): void
+    private function storeTracing(Request $request): void
     {
         Tracing::create([
-            'client_id' => $this->client->id,
-            'operation_id' => $this->operation->id,
+            'request_id' => $request->id,
             'payload' => $this->payload,
             'execution' => $this->tracing,
             'start_time' => $this->tracing['startTime'],
@@ -120,6 +124,14 @@ class StoreMetrics implements ShouldQueue
 
     private function storeErrors()
     {
+        $request = Request::create([
+            'field_id' => $this->operation->field_id,
+            'client_id' => $this->client->id,
+            'operation_id' => $this->operation->id,
+            'requested_at' => $this->requested_at,
+            'duration' => $this->tracing['duration']
+        ]);
+
         /**
          * Prevent log same message multiples times.
          * Usually when error is on node with multiples items (hasMany).
@@ -129,13 +141,12 @@ class StoreMetrics implements ShouldQueue
 
         foreach ($errors as $error) {
             Error::create([
-                'client_id' => $this->client->id,
-                'operation_id' => $this->operation->id,
+                'request_id' => $request->id,
                 'category' => $error->getCategory(),
                 'message' => $error->getMessage(),
                 'original_exception' => $error->getPrevious(),
                 'body' => $error,
-                'requested_at' => $this->requested_at
+                'created_at' => $this->requested_at,
             ]);
         }
     }
@@ -154,7 +165,7 @@ class StoreMetrics implements ShouldQueue
         return Field::query()->where(['type_id' => $type->id, 'name' => $path['fieldName']])->first();
     }
 
-    // TODO better away? Cant get operation name from execution context. 
+    // TODO better away? Cant get operation name from execution context.
     private function getFieldForOperation(): ?Field
     {
         $path = $this->getOperationPathFromResolvers();

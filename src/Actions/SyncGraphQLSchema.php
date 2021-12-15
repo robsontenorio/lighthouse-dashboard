@@ -2,20 +2,20 @@
 
 namespace App\Actions;
 
-use App\Models\Schema;
 use App\Models\Field;
+use App\Models\Schema;
 use App\Models\Type;
-use Nuwave\Lighthouse\GraphQL;
-use GraphQL\Type\Schema as GraphQLSchema;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as DefinitionType;
 use GraphQL\Type\Introspection;
+use GraphQL\Type\Schema as GraphQLSchema;
 use GraphQL\Utils\SchemaPrinter;
 use Illuminate\Support\Arr;
+use Nuwave\Lighthouse\GraphQL;
 
 /**
  * Sync between current introspected GraphQL schema and previous stored.
- *  
+ *
  */
 class SyncGraphQLSchema
 {
@@ -100,12 +100,12 @@ class SyncGraphQLSchema
         return Arr::except($allTypes, collect($internalTypes)->keys()->toArray());
     }
 
-    // TODO: use json payload, then format it on frontend 
+    // TODO: use json payload, then format it on frontend
     private function formatFieldArgs(array $args = [])
     {
         return collect($args)
             ->transform(function ($arg) {
-                return '<div><span class="arg-name">' . $arg->name . '</span>: <span class="arg-type">' . (string) $arg->getType() . '</span></div>';
+                return '<div><span class="arg-name">'.$arg->name.'</span>: <span class="arg-type">'.(string) $arg->getType().'</span></div>';
             })
             ->implode(' ');
     }

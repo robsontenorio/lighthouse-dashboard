@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Error;
-use Illuminate\Http\Request;
 use App\Traits\ParsesRangeFilter;
+use Illuminate\Http\Request;
 
 class ErrorsController
 {

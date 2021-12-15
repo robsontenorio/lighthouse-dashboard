@@ -28,7 +28,7 @@
     <div v-if="requests_series.length === 0" class="text-center grey--text">
       <v-icon color="grey" x-large>mdi-weather-windy</v-icon>
       <h3 class="mt-3">Oops! Nothing here.</h3>
-      <p class="text-caption mt-3">Make your first request to this Schema.</p>
+      <p class="text-caption mt-3">Try an another filter.</p>
     </div>
 
     <div v-if="requests_series.length">

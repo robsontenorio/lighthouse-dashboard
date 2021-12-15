@@ -35,6 +35,7 @@ class ManipulateResultListener
             $payload = request()->json('query');
         } catch (\Throwable $th) {
             report($th);
+
             return;
         }
 
@@ -55,7 +56,7 @@ class ManipulateResultListener
     {
         $requestContent = request()->getContent();
 
-        // TODO 
+        // TODO
         return strstr($requestContent, '__schema');
     }
 

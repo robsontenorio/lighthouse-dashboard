@@ -10,13 +10,13 @@ class CreateTypesTable extends Migration
     {
         Schema::create('ld_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('schema_id');
+            $table->foreignId('schema_id')->constrained('ld_schemas');
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('schema_id')->references('id')->on('ld_schemas');
             $table->index(['name']);
+            $table->index(['schema_id']);
             $table->index(['schema_id', 'name']);
         });
     }

@@ -278,13 +278,7 @@ Then, create a symlink from package vendor folder to app public assets folder.
 ln -s /path/to/app/vendor/robsontenorio/lighthouse-dashboard/public/vendor/lighthouse-dashboard /path/to/app/public/vendor
 ```
 
-From target app enter to package vendor folder.
-
-```sh
-cd vendor/robsontenorio/lighthouse-dashboard
-```
-
-Install frontend dependencies and start it on dev mode.
+From this package project folder, install frontend dependencies and start it on dev mode.
 
 ```sh
 yarn dev

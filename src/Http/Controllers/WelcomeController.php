@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Request;
-use Illuminate\Http\Request as HttpRequest;
 use App\Models\Schema;
 use App\Traits\ParsesRangeFilter;
+use Illuminate\Http\Request as HttpRequest;
 
 class WelcomeController
 {

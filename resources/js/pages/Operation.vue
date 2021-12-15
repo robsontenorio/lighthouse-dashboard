@@ -43,14 +43,9 @@
                 <v-row>
                   <v-col>
                     <div v-highlight>
-                      <pre
-                        class="language-graphql"
-                      ><code>{{ payloadPretty(item.payload) }}</code></pre>
+                      <pre class="language-graphql"><code>{{ payloadPretty(item.payload) }}</code></pre>
                     </div>
-                  </v-col>
-                  <v-col>
-                    <tracing-execution :execution="item.execution.execution" />
-                  </v-col>
+                  </v-col>               
                 </v-row>
               </td>
             </template>
@@ -63,13 +58,12 @@
 
 <script>
 import { component as VueCodeHighlight } from "vue-code-highlight";
-import TracingExecution from "../components/tracing/TracingExecution.vue";
 import * as prettier from "prettier/standalone";
 import * as graphql from "prettier/parser-graphql";
 
 export default {
   props: ["operation"],
-  components: { VueCodeHighlight, TracingExecution },
+  components: { VueCodeHighlight },
   data() {
     return {
       table: {

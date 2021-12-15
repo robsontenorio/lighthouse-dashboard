@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Traits\ParsesRangeFilter;
+use Illuminate\Http\Request;
 
 class FieldController
 {

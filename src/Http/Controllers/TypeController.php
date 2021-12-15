@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Models\Type;
 use App\Traits\ParsesRangeFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class TypeController
 {
@@ -29,6 +29,7 @@ class TypeController
         $types = Type::all()
             ->map(function ($type) use ($fields) {
                 $type->fields = $fields->where('type_id', $type->id)->values();
+
                 return $type;
             });
 

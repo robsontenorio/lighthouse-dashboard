@@ -1,5 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);@import url(https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css);.v-application,
-.v-application .title {
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+@import url(https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css);
+.v-application, .v-application .title {
   font-family: "Source Sans Pro" !important;
 }
 
@@ -21,7 +22,6 @@ pre[class*=language-] {
 }
 
 /* Make clicks pass-through */
-
 #nprogress {
   pointer-events: none;
 }
@@ -37,7 +37,6 @@ pre[class*=language-] {
 }
 
 /* Fancy blur effect */
-
 #nprogress .peg {
   display: block;
   position: absolute;
@@ -50,7 +49,6 @@ pre[class*=language-] {
 }
 
 /* Remove these to get rid of the spinner */
-
 #nprogress .spinner {
   display: block;
   position: fixed;
@@ -85,19 +83,15 @@ pre[class*=language-] {
   0% {
     -webkit-transform: rotate(0deg);
   }
-
   100% {
     -webkit-transform: rotate(360deg);
   }
 }
-
 @keyframes nprogress-spinner {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
-

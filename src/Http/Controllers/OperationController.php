@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use Illuminate\Http\Request;
 use App\Models\Operation;
 use App\Traits\ParsesRangeFilter;
+use Illuminate\Http\Request;
 
 class OperationController
 {

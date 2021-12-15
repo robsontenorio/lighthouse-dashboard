@@ -3,14 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
-use Illuminate\Database\Seeder;
+use App\Models\Error;
 use App\Models\Field;
-use App\Models\FieldsOperations;
 use App\Models\Operation;
 use App\Models\Request;
 use App\Models\Schema;
 use App\Models\Tracing;
 use App\Models\Type;
+use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class LighthouseDashboardSeeder extends Seeder
@@ -48,7 +48,6 @@ class LighthouseDashboardSeeder extends Seeder
         $operations = Operation::all();
         $fields = Field::all();
 
-
         $this->command->info("Preparing chunk with {$this->times} requests ...\n");
         $bar = $this->command->getOutput()->createProgressBar($this->times);
         $bar->start();
@@ -57,7 +56,7 @@ class LighthouseDashboardSeeder extends Seeder
             $operation = $operations->random();
             $client = $clients->random();
             $field = $fields->random();
-            $requested_at = $this->makeFaker()->dateTimeBetween('last month');
+            $requested_at = $this->makeFaker()->dateTimeBetween('last year');
             $duration = $this->makeFaker()->randomNumber(8);
 
             $operation_requests[] = [
@@ -69,28 +68,6 @@ class LighthouseDashboardSeeder extends Seeder
             ];
 
             $bar->advance();
-
-            // Log operation
-            // Request::factory()
-            //     ->has(Tracing::factory())
-            //     ->create([
-            //         'field_id' => $operation->field_id,
-            //         'operation_id' => $operation,
-            //         'client_id' => $client,
-            //         'requested_at' => $requested_at,
-            //     ]);
-
-            // // Log fields of operation
-            // $operation->field->type
-            //     ->fields()
-            //     ->each(fn ($field) => Request::factory()->times(3)->create([
-            //         'field_id' => $field,
-            //         'operation_id' => $operation,
-            //         'client_id' => $client,
-            //         'requested_at' => $requested_at,
-            //         'duration' => null
-            //     ]));
-
         }
 
         $bar->finish();
@@ -108,7 +85,31 @@ class LighthouseDashboardSeeder extends Seeder
             $bar->advance(10000);
         }
 
+        $this->command->info("\n\nSeeding some Tracings and Errors...\n");
+
+        $requests = Request::isOperation()->take(100)->inRandomOrder()->get();
+        foreach ($requests as $request) {
+            Tracing::create([
+                'request_id' => $request->id,
+                'payload' => $this->makeFaker()->shuffleString(),
+                'execution' => $this->makeFaker()->shuffleString(),
+                'start_time' => now(),
+                'end_time' => now(),
+                'duration' => $request->duration,
+                'requested_at' => $request->requested_at
+            ]);
+
+            Error::create([
+                'request_id' => $request->id,
+                'category' => $this->makeFaker()->randomElement(['internal', 'external']),
+                'message' => 'yyy',
+                'original_exception' => 'zzzz',
+                'body' => 'wwww',
+                'created_at' => now()
+            ]);
+        }
+
         $bar->finish();
-        $this->command->info("\n");
+        $this->command->info("\n\n Done!");
     }
 }

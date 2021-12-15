@@ -16,7 +16,7 @@ class TracingFactory extends Factory
             'duration' => $this->faker->randomNumber(),
             'request' => $this->faker->sentence(),
             'execution' => $this->faker->sentence(),
-            'created_at' => $this->faker->dateTimeBetween('last month')
+            'requested_at' => $this->faker->dateTimeBetween('last month')
         ];
     }
 }

@@ -23,16 +23,6 @@ class Client extends Model
         return $this->hasMany(Request::class);
     }
 
-    public function errors(): HasMany
-    {
-        return $this->hasMany(Error::class);
-    }
-
-    public function tracings(): HasMany
-    {
-        return $this->hasMany(Tracing::class);
-    }
-
     public static function seriesIn(array $range, array $clients)
     {
         return Client::query()

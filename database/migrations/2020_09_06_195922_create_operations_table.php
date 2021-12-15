@@ -12,6 +12,8 @@ class CreateOperationsTable extends Migration
             $table->id();
             $table->foreignId('field_id')->constrained('ld_fields');
             $table->timestamps();
+
+            $table->index(['field_id']);
         });
     }
 

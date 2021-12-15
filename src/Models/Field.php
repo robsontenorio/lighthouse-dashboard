@@ -34,7 +34,7 @@ class Field extends Model
     {
         return  Client::all()
             ->map(function ($client) use ($range) {
-                $client->metrics =  Operation::query()
+                $client->metrics = Operation::query()
                     ->with('field')
                     ->whereHas('requests', function ($query) use ($client, $range) {
                         $query->forClient($client)->forField($this)->inRange($range);

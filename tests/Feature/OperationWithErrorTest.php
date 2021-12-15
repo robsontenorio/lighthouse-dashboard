@@ -14,7 +14,7 @@ class OperationWithErrorTest extends TestCase
 
         ProductFactory::times(5)->create();
 
-        $this->schema = File::get(__DIR__ . '/../Utils/Schemas/schema-with-internal-error.graphql');
+        $this->schema = File::get(__DIR__.'/../Utils/Schemas/schema-with-internal-error.graphql');
     }
 
     public function test_node_with_internal_error()

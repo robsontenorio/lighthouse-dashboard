@@ -40,7 +40,7 @@
       :headers="table.headers"
       :items="type.fields"
       @click:row="selectField"
-      items-per-page="999"
+      :items-per-page="999"
       hide-default-footer
       class="elevation-1 row-pointer mb-8"
     >
