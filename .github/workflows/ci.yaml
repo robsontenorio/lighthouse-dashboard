@@ -3,14 +3,15 @@ name: Build package
 on: [push, pull_request]
 
 jobs:
-  php-build:
-    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
+  php-build:    
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [8.0,8.1]
         laravel: [8.*]
-        dependency-version: [prefer-lowest, prefer-stable]                
+        stability: [prefer-lowest, prefer-stable]                
+
+    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
 
     steps:
       - name: Checkout code
@@ -32,7 +33,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update --ansi
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --ansi
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
 
 
       - name: Execute tests
