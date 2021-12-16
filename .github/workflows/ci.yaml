@@ -10,6 +10,8 @@ jobs:
       matrix:
         php: [8.0,8.1]
         laravel: [8.*]
+        dependency-version: [prefer-lowest, prefer-stable]                
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,7 +30,10 @@ jobs:
           coverage: pcov
 
       - name: Install Composer dependencies
-        run: composer install --no-interaction --optimize-autoloader --no-progress --ansi
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update --ansi
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --ansi
+
 
       - name: Execute tests
         run: composer test:coverage
