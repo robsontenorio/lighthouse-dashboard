@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer install --prefer-dist --no-interaction --no-update --ansi
+          composer install --prefer-dist --no-interaction --optimize-autoloader --no-progress --ansi
 
       - name: Execute tests
         run: composer test:coverage
