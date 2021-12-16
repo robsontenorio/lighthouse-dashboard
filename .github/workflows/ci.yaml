@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [7.4]
+        php: [8.0,8.1]
         laravel: [8.*]
     steps:
       - name: Checkout code
@@ -28,7 +28,7 @@ jobs:
           coverage: pcov
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-suggest --ansi
+        run: composer install --no-interaction --optimize-autoloader --no-progress --ansi
 
       - name: Execute tests
         run: composer test:coverage
