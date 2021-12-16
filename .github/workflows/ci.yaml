@@ -8,14 +8,9 @@ jobs:
     strategy:
       matrix:
         php: [8.0,8.1]
-        laravel: [8.*]
-        stability: [prefer-lowest, prefer-stable]     
-        include:
-          - laravel: 8.*
-            testbench: ^6.23           
-            safe: ^1.3            
+        laravel: [8.*]        
 
-    name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
+    name: Test P${{ matrix.php }} - L${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
@@ -36,9 +31,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "thecodingmachine/safe:${{ matrix.safe }}" "orchestra/testbench:${{ matrix.testbench }}"  --no-interaction --no-update --ansi
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
-
+          composer install --prefer-dist --no-interaction --no-update --ansi
 
       - name: Execute tests
         run: composer test:coverage
