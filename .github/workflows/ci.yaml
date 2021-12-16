@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   php-build:
-    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
