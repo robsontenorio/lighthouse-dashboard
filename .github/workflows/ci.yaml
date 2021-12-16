@@ -9,9 +9,12 @@ jobs:
       matrix:
         php: [8.0,8.1]
         laravel: [8.*]
-        stability: [prefer-lowest, prefer-stable]                
+        stability: [prefer-lowest, prefer-stable]            
+        include:
+          - stability: prefer-lowest
+            safe: ^1.3
 
-    name: Test with PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
+    name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
 
     steps:
       - name: Checkout code
@@ -32,7 +35,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update --ansi
+          composer require "laravel/framework:${{ matrix.laravel }}" "thecodingmachine/safe:${{ matrix.safe }}" --no-interaction --no-update --ansi
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
 
 
